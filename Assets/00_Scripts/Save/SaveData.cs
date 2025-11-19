@@ -3,7 +3,7 @@ namespace _00_Scripts.Save
     [System.Serializable]
     public class SaveData
     {
-        
+        // TODO : Define save data fields here
         
         public static SaveData CreateDefault()
         {
