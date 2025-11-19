@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46f449ffd5574ded8f97190dd98e3c97, type: 3}
+  m_Name: VoidTiles
+  m_EditorClassIdentifier: Assembly-CSharp::_00_Scripts.TileData
+  tiles:
+  - {fileID: 11400000, guid: 46a1f4358683e1c4c87ad2d71176f663, type: 2}
+  - {fileID: 11400000, guid: 1a79c6309e2ec564da7787e3890f629e, type: 2}
+  - {fileID: 11400000, guid: 4ec3f3bd4eb2eed4abd38c5b6333956d, type: 2}
+  - {fileID: 11400000, guid: 21e016f8773190c4db0638bb78a624e5, type: 2}
+  walkable: 1
+  tileType: 2
