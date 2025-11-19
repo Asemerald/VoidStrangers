@@ -123,3 +123,4 @@ fmod_editor.log
 
 # Ignore generated editor scripts at runtime 
 Assets/00_Scripts/Editor/Generated/
+.idea/.idea.Void Strangers/.idea/

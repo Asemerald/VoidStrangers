@@ -1,0 +1,60 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/PauseMenuStyle.uss?fileID=7433441132597879392&amp;guid=8e3948e02400f774485942d984926268&amp;type=3#PauseMenuStyle" />
+    <ui:VisualElement name="Main-Tab" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/01_Art/Sprites/VoidRod/spr_voidrod_icon/spr_voidrod_icon_0.png?fileID=2800000&amp;guid=f15936f753711114aacc4255d9844d31&amp;type=3#spr_voidrod_icon_0&quot;); background-color: rgb(34, 34, 34); justify-content: center; flex-direction: column; align-items: center; align-self: stretch; padding-right: 180px; padding-left: 180px; padding-top: 100px; padding-bottom: 20px; display: flex;">
+        <ui:VisualElement name="Middle" style="flex-grow: 1; width: 100%; height: 100%; flex-direction: row;">
+            <ui:VisualElement name="LeftSide" style="flex-grow: 1; flex-direction: column; width: 50%; height: 100%; justify-content: center; align-items: flex-end; align-self: auto; padding-right: 70px; padding-left: 150px; padding-top: 0; padding-bottom: 30px;">
+                <ui:Button text="RESUME" name="ResumeButton" class="button" style="align-items: center; align-self: flex-end; font-size: 100px;" />
+                <ui:Button text="SETTINGS" name="SettingsButton" class="button" style="align-items: center; align-self: flex-end; font-size: 100px;" />
+                <ui:Button text="QUIT GAME" name="QuitButton" class="button" style="align-items: center; align-self: flex-end; font-size: 100px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="RightSide" style="flex-grow: 1; position: relative; right: 0; align-self: center; height: 100%; width: 50%; padding-right: 0; padding-left: 40px; padding-top: 0; padding-bottom: 30px; flex-direction: row-reverse; align-items: center; justify-content: center;">
+                <ui:VisualElement name="Image" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/01_Art/Sprites/spr_mural_add_0.png?fileID=2800000&amp;guid=cd52f56fe0a43324cb4c116e9de09827&amp;type=3#spr_mural_add_0&quot;); width: auto; height: auto; background-size: cover; -unity-background-scale-mode: scale-to-fit; flex-direction: row; background-position-x: center; -unity-slice-type: sliced; align-items: center; justify-content: center; align-self: stretch;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="Settings-Tab" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/01_Art/Sprites/VoidRod/spr_voidrod_icon/spr_voidrod_icon_0.png?fileID=2800000&amp;guid=f15936f753711114aacc4255d9844d31&amp;type=3#spr_voidrod_icon_0&quot;); background-color: rgb(34, 34, 34); justify-content: center; flex-direction: column; align-items: center; align-self: stretch; padding-right: 180px; padding-left: 180px; padding-top: 100px; padding-bottom: 20px; display: none; visibility: visible;">
+        <ui:VisualElement name="Middle" style="flex-grow: 1; width: 100%; height: 100%; flex-direction: row;">
+            <ui:VisualElement name="LeftSide" style="flex-grow: 1; flex-direction: column; width: 50%; height: 100%; justify-content: center; align-items: flex-end; align-self: auto; padding-right: 70px; padding-left: 150px; padding-top: 0; padding-bottom: 30px;">
+                <ui:Button text="GRAPHICS" name="GraphicsButton" class="button" style="align-items: center; align-self: flex-end; font-size: 100px;" />
+                <ui:Button text="AUDIO" name="AudioButton" class="button" style="align-items: center; align-self: flex-end; font-size: 100px;" />
+                <ui:Button text="BACK" name="BackSettingsButton" class="button" style="align-items: center; align-self: flex-end; font-size: 100px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="RightSide" style="flex-grow: 1; position: relative; right: 0; align-self: center; height: 100%; width: 50%; padding-right: 0; padding-left: 40px; padding-top: 0; padding-bottom: 30px; flex-direction: row-reverse; align-items: center; justify-content: center;">
+                <ui:VisualElement name="Image" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/01_Art/Sprites/spr_mural_add_0.png?fileID=2800000&amp;guid=cd52f56fe0a43324cb4c116e9de09827&amp;type=3#spr_mural_add_0&quot;); width: auto; height: auto; background-size: cover; -unity-background-scale-mode: scale-to-fit; flex-direction: row; background-position-x: center; -unity-slice-type: sliced; align-items: center; justify-content: center; align-self: stretch;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="Audio-Tab" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/01_Art/Sprites/VoidRod/spr_voidrod_icon/spr_voidrod_icon_0.png?fileID=2800000&amp;guid=f15936f753711114aacc4255d9844d31&amp;type=3#spr_voidrod_icon_0&quot;); background-color: rgb(34, 34, 34); justify-content: center; flex-direction: column; align-items: center; align-self: stretch; padding-right: 180px; padding-left: 180px; padding-top: 100px; padding-bottom: 20px; display: none; visibility: visible;">
+        <ui:VisualElement name="Middle" style="flex-grow: 1; width: 100%; height: 100%; flex-direction: row;">
+            <ui:VisualElement name="LeftSide" style="flex-grow: 1; flex-direction: column; width: 50%; height: 100%; justify-content: center; align-items: flex-end; align-self: auto; padding-right: 70px; padding-left: 150px; padding-top: 0; padding-bottom: 30px;">
+                <ui:Label text="MASTER" class="button" />
+                <ui:Button text="BACK" name="BackButton" class="button" style="align-items: center; align-self: flex-end; font-size: 100px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="RightSide" style="flex-grow: 1; position: relative; right: 0; align-self: center; height: 100%; width: 50%; padding-right: 0; padding-left: 40px; padding-top: 0; padding-bottom: 30px; flex-direction: row; align-items: center; justify-content: center;">
+                <ui:SliderInt value="11" high-value="10" picking-mode="Ignore" enabled="true" show-input-field="true" fill="false" inverted="false" page-size="-0.04" name="SliderInt" style="background-color: rgba(255, 255, 255, 0); width: 530px; align-items: stretch; justify-content: space-evenly; align-self: center; align-content: center; flex-direction: column; height: auto; top: -60px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="Graphics-Tab" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/01_Art/Sprites/VoidRod/spr_voidrod_icon/spr_voidrod_icon_0.png?fileID=2800000&amp;guid=f15936f753711114aacc4255d9844d31&amp;type=3#spr_voidrod_icon_0&quot;); background-color: rgb(34, 34, 34); justify-content: center; flex-direction: column; align-items: center; align-self: stretch; padding-right: 180px; padding-left: 180px; padding-top: 100px; padding-bottom: 20px; display: none; visibility: visible;">
+        <ui:VisualElement name="Middle" style="flex-grow: 1; width: 100%; height: 100%; flex-direction: row;">
+            <ui:VisualElement name="LeftSide" style="flex-grow: 1; flex-direction: column; width: 50%; height: 100%; justify-content: center; align-items: flex-end; align-self: auto; padding-right: 70px; padding-left: 150px; padding-top: 0; padding-bottom: 30px;">
+                <ui:Label text="FULLSCREEN" class="button" />
+                <ui:Label text="RESOLUTION&#10;" class="button" />
+                <ui:Button text="BACK" name="BackButton" class="button" style="align-items: center; align-self: flex-end; font-size: 100px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="RightSide" style="flex-grow: 1; position: relative; right: 0; align-self: center; height: 100%; width: 50%; padding-right: 0; padding-left: 221px; padding-top: 0; padding-bottom: 30px; flex-direction: column; align-items: stretch; justify-content: space-evenly;">
+                <ui:Toggle name="FullScreenToggle" style="scale: 3 3 3; position: absolute; top: 325px; left: 120px;" />
+                <ui:Foldout text="1920x1080&#10;" name="Resolution" style="background-color: rgb(255, 255, 255); scale: 3 3 3; position: absolute; bottom: 480px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="BottomSide" style="flex-grow: 1; position: absolute; bottom: 0; height: 140px; justify-content: space-around; align-items: center; flex-direction: row; width: 100%; -unity-text-align: upper-center; align-self: center;">
+        <ui:VisualElement name="PageCounter" style="flex-grow: 1; flex-direction: row; height: 100%; width: 195px; -unity-background-image-tint-color: rgb(255, 255, 255); background-image: none; -unity-background-scale-mode: scale-and-crop; background-size: 97% 100%; align-self: center; justify-content: space-between; flex-basis: auto; background-position-x: center; position: absolute; left: 9%; background-color: rgba(0, 0, 0, 0);">
+            <ui:VisualElement name="Page1" style="flex-grow: 1; background-size: 50px 50px; background-color: rgba(255, 255, 255, 0); background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=4456449167576933126&amp;guid=1aebca986ebbbe74e9ca579f7b57cd3a&amp;type=3#console.erroricon&quot;); -unity-background-image-tint-color: rgb(255, 255, 255); display: flex; width: 0; height: auto;" />
+            <ui:VisualElement name="Page2" enabled="true" style="flex-grow: 1; background-size: 50px 50px; background-color: rgba(255, 255, 255, 0); background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=4456449167576933126&amp;guid=1aebca986ebbbe74e9ca579f7b57cd3a&amp;type=3#console.erroricon&quot;); display: flex; width: 0; position: relative; -unity-background-image-tint-color: rgb(255, 255, 255);" />
+            <ui:VisualElement name="Page3" style="flex-grow: 1; background-size: 50px 50px; background-color: rgba(255, 255, 255, 0); background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=4456449167576933126&amp;guid=1aebca986ebbbe74e9ca579f7b57cd3a&amp;type=3#console.erroricon&quot;); width: 0; -unity-background-image-tint-color: rgb(255, 255, 255);" />
+        </ui:VisualElement>
+        <ui:Label text="0" name="Crystals" style="width: 17%; height: 38%; -unity-text-align: middle-center; font-size: 86px; white-space: nowrap; -unity-font-definition: url(&quot;project://database/Library/unity%20default%20resources?fileID=10102&amp;guid=0000000000000000e000000000000000&amp;type=0#LegacyRuntime&quot;); color: rgb(255, 255, 255); -unity-font-style: bold; right: 50%; flex-direction: row; align-self: center; align-content: flex-start; left: 40%; position: absolute; align-items: center;" />
+        <ui:Label text="1.1.3" name="Version" style="width: 20%; height: 38%; -unity-text-align: middle-center; font-size: 86px; white-space: nowrap; -unity-font-definition: url(&quot;project://database/Library/unity%20default%20resources?fileID=10102&amp;guid=0000000000000000e000000000000000&amp;type=0#LegacyRuntime&quot;); color: rgb(255, 255, 255); -unity-font-style: bold; right: -35%; flex-direction: row; align-self: center; align-content: flex-start; left: auto;" />
+    </ui:VisualElement>
+</ui:UXML>

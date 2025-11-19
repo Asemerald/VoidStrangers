@@ -1,0 +1,22 @@
+:root {
+}
+
+.button {
+    -unity-font-definition: url("project://database/Assets/Fonts/Alkhemikal.ttf?fileID=12800000&guid=3cd2174e3648f4446b134463e7850713&type=3#Alkhemikal");
+    background-color: rgba(0, 0, 0, 0);
+    transition-property: all;
+    transition-duration: 0s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+    justify-content: center;
+    align-self: flex-end;
+    align-items: flex-end;
+    color: rgb(192, 90, 60);
+    right: auto;
+    visibility: visible;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    font-size: 100px;
+}
