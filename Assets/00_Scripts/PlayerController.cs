@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private State _state = State.None;
     [SerializeField] private bool _freeMove = true;
     private Vector3 _moveDirection;
+    private Vector2 _lookDirection;
     
     // Animation
     private SpriteResolver _spriteResolver;
@@ -61,6 +62,8 @@ public class PlayerController : MonoBehaviour
         _controls.Player.Move.started += OnMove;
         _controls.Player.Move.performed += OnMove;
         _controls.Player.Move.canceled += OnMove;
+
+        _controls.Player.Interact.started += OnInteract;
         
         AddHandler(_controls.Player.MoveLeft, Vector2.left);
         AddHandler(_controls.Player.MoveRight, Vector2.right);
@@ -80,6 +83,8 @@ public class PlayerController : MonoBehaviour
         _controls.Player.Move.started -= OnMove;
         _controls.Player.Move.performed -= OnMove;
         _controls.Player.Move.canceled -= OnMove;
+        
+        _controls.Player.Interact.started -= OnInteract;
         
         foreach (var kvp in _handlers)
             kvp.Key.started -= kvp.Value;
@@ -161,8 +166,10 @@ public class PlayerController : MonoBehaviour
                 _timer += Time.fixedDeltaTime;
                 _timer %= 0.5f;
                 _label = Mathf.FloorToInt(_timer * 4f).ToString();
+                _lookDirection = _moveDirection;
                 break;
             case State.Move:
+                _lookDirection = _moveDirection;
                 break;
         }
 
@@ -184,5 +191,19 @@ public class PlayerController : MonoBehaviour
         }
         
         _spriteResolver.SetCategoryAndLabel(_category, _label);
+    }
+
+    private void OnInteract(InputAction.CallbackContext ctx)
+    {
+        var objects = FindObjectsByType<Transform>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+        var position = new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
+        foreach (var obj in objects)
+        {
+            Vector2 objPosition = obj.transform.position;
+            if (objPosition != position + _lookDirection)
+                continue;
+            if (obj.TryGetComponent(out Interactable interactable))
+                interactable.Interact();
+        }
     }
 }
