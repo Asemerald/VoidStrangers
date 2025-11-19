@@ -148,9 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc5bc6424e42ad4478e03571c0f99add, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  speed: 0.5
+  speed: 3
   sprite: {fileID: 21300000, guid: 5282df80883dd27428b2106d57cff352, type: 3}
-  _freeMove: 0
+  _freeMove: 1
 --- !u!4 &32519882
 Transform:
   m_ObjectHideFlags: 0
@@ -254,7 +254,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -6.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -441,6 +441,8 @@ GameObject:
   m_Component:
   - component: {fileID: 532606810}
   - component: {fileID: 532606811}
+  - component: {fileID: 532606812}
+  - component: {fileID: 532606813}
   m_Layer: 0
   m_Name: PlayerSprite
   m_TagString: Untagged
@@ -521,6 +523,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &532606812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 532606809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 47d6a67a0e5e41f45b52d8d6e32d4565, type: 3}
+--- !u!114 &532606813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 532606809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
+  m_CategoryHash: 0.025054464
+  m_labelHash: 3.3788213e-23
+  m_SpriteKey: 0
+  m_SpriteHash: 949721038
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0

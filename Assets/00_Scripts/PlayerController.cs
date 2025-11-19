@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using UnityEngine.U2D.Animation;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,22 +14,28 @@ public class PlayerController : MonoBehaviour
         Move = 2,
     }
     
-    [SerializeField] private float speed = 0.5f;
+    [SerializeField] private float speed = 3f;
     [SerializeField] private Sprite sprite;
 
+    // Movement
     private State _state = State.None;
     [SerializeField] private bool _freeMove = true;
-
-    private Vector2 _moveDirection;
-    private Vector3 _targetPosition;
+    private Vector3 _moveDirection;
     
+    // Animation
+    private SpriteResolver _spriteResolver;
+    private string _category;
+    private string _label;
+    private float _timer;
+    
+    // Input
     private PlayerControls _controls;
-
     private readonly Dictionary<InputAction, Action<InputAction.CallbackContext>> _handlers = new();
     
     private void Awake()
     {
         _controls = new PlayerControls();
+        _spriteResolver = GetComponentInChildren<SpriteResolver>();
     }
 
     private void OnEnable()
@@ -43,15 +50,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        switch (_state)
-        {
-            case State.FreeMove:
-                var deltaPosition = _moveDirection * (speed * Time.fixedDeltaTime);
-                transform.position += new Vector3(deltaPosition.x, deltaPosition.y, 0);
-                break;
-            case State.Move:
-                break;
-        }
+        HandleSpriteChange();
+        HandleMovement();
     }
 
     public void EnableActionMap()
@@ -86,6 +86,12 @@ public class PlayerController : MonoBehaviour
         
         _controls.Disable();
     }
+
+    public void DisableFreeMove()
+    {
+        //TODO Add _freeMove = false; here once function to get the staff is implemented
+        transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), 0);
+    }
     
     private void OnMove(InputAction.CallbackContext ctx)
     {
@@ -113,6 +119,70 @@ public class PlayerController : MonoBehaviour
             return;
         
         if (ctx.started)
-            transform.position += new Vector3(direction.x, direction.y, 0) * sprite.bounds.size.x;
+            _moveDirection = new Vector3(direction.x, direction.y, 0);
+
+        _state = State.Move;
+    }
+
+    private void HandleMovement()
+    {
+        switch (_state)
+        {
+            case State.FreeMove:
+                var deltaPosition = _moveDirection * (speed * Time.fixedDeltaTime);
+                transform.position += new Vector3(deltaPosition.x, deltaPosition.y, 0);
+                break;
+            case State.Move:
+                transform.position += _moveDirection;
+                DisableFreeMove(); //TODO Remove this once this function is called from outside in a logical place
+                _state = State.None;
+                break;
+        }
+    }
+
+    private void HandleSpriteChange()
+    {
+        switch (_state)
+        {
+            case State.None:
+                if (!_freeMove)
+                {
+                    _timer += Time.fixedDeltaTime;
+                    _timer %= 1f;
+                    _label = Mathf.FloorToInt(_timer * 2f).ToString();
+                }
+                else
+                {
+                    _timer = 0f;
+                    _label = "0";
+                }
+                break;
+            case State.FreeMove:
+                _timer += Time.fixedDeltaTime;
+                _timer %= 0.5f;
+                _label = Mathf.FloorToInt(_timer * 4f).ToString();
+                break;
+            case State.Move:
+                break;
+        }
+
+        if (_moveDirection.x < 0)
+        {
+            _category = "Left";
+        }
+        else if (_moveDirection.x > 0)
+        {
+            _category = "Right";
+        }
+        else if (_moveDirection.y > 0)
+        {
+            _category = "Up";
+        }
+        else if (_moveDirection.y < 0)
+        {
+            _category = "Down";
+        }
+        
+        _spriteResolver.SetCategoryAndLabel(_category, _label);
     }
 }
