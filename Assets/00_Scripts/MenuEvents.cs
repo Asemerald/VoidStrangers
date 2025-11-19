@@ -79,11 +79,13 @@ public class ButtonManager : MonoBehaviour
 
     void UpdateButtonImage(string buttonName)
     {
-        Debug.Log("WIP : Devrait changer l'image de droite");
+        if(debug)
+            Debug.Log("WIP : Devrait changer l'image de droite");
     }
 
     void ClosePauseMenu()
     {
-        Debug.Log("WIP : Devrait fermer le menu pause");
+        if(debug)
+            Debug.Log("WIP : Devrait fermer le menu pause");
     }
 }
