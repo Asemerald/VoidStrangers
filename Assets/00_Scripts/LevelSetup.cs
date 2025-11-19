@@ -36,6 +36,14 @@ public class LevelSetup : MonoBehaviour {
         var cy = Mathf.CeilToInt(position.y);
         var cz = Mathf.CeilToInt(position.z);
 
+        if (IsVoid(new Vector3Int(fx,fy,fz))) {
+            //Do something
+        }
+
+        if (IsStairs(new Vector3Int(fx,fy,fz))) {
+            //Do something
+        }
+
         if (dataFromTiles[tileMap.GetTile(new Vector3Int(fx, fy, fz))].walkable) {
             if(!dataFromTiles[tileMap.GetTile(new Vector3Int(cx, cy, cz))].walkable) return false;
             
@@ -49,6 +57,14 @@ public class LevelSetup : MonoBehaviour {
         }
         
         return false;
+    }
+
+    private bool IsVoid(Vector3Int position) {
+        return dataFromTiles[tileMap.GetTile(position)].tileType is TilesData.TileType.Void;
+    }
+
+    private bool IsStairs(Vector3Int position) {
+        return dataFromTiles[tileMap.GetTile(position)].tileType is TilesData.TileType.Stair;
     }
     
 }
