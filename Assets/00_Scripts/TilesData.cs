@@ -12,6 +12,7 @@ namespace _00_Scripts {
             None,
             Stair,
             Void,
+            Paper,
         }
         
         public TileType tileType;

@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour
                 var deltaPosition = _moveDirection * (speed * Time.fixedDeltaTime);
                 if (LevelSetup.Instance.CanMove(transform.position + new Vector3(deltaPosition.x, deltaPosition.y, 0))) 
                     transform.position += new Vector3(deltaPosition.x, deltaPosition.y, 0);
-                else 
+                else
                     transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), 0);
                 break;
             case State.Move:

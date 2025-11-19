@@ -59,6 +59,22 @@ public class LevelSetup : MonoBehaviour {
         return false;
     }
 
+    public void Interact(Vector3 position)
+    {
+        var fx = Mathf.FloorToInt(position.x);
+        var fy = Mathf.FloorToInt(position.y);
+        var fz = Mathf.FloorToInt(position.z);
+        
+        var cx = Mathf.CeilToInt(position.x);
+        var cy = Mathf.CeilToInt(position.y);
+        var cz = Mathf.CeilToInt(position.z);
+
+        if (IsPaper(new Vector3Int(fx, fy, fz)))
+        {
+            //Do something
+        }
+    }
+
     private bool IsVoid(Vector3Int position) {
         return dataFromTiles[tileMap.GetTile(position)].tileType is TilesData.TileType.Void;
     }
@@ -66,5 +82,9 @@ public class LevelSetup : MonoBehaviour {
     private bool IsStairs(Vector3Int position) {
         return dataFromTiles[tileMap.GetTile(position)].tileType is TilesData.TileType.Stair;
     }
-    
+
+    private bool IsPaper(Vector3Int position)
+    {
+        return dataFromTiles[tileMap.GetTile(position)].tileType is TilesData.TileType.Paper;
+    }
 }
