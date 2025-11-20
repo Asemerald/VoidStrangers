@@ -59,6 +59,7 @@ public class LevelSetup : Interactable {
         #endregion
         
         currentLevel = level;
+        PlayerData.Instance.ResetPickedUpTile();
 
         var player = FindAnyObjectByType<PlayerController>();
         player.transform.position = levels[currentLevel].playerPosition;
