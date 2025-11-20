@@ -145,7 +145,7 @@ public class LevelSetup : Interactable {
         PlayerData.Instance.ResetPickedUpTile();
     }
     
-    public bool CanMove(Vector3 position, Vector3 dir) {
+    public bool CanMove(PlayerController player, Vector3 position, Vector3 dir) {
         var intPos = Vector3Int.zero;
         
         switch (dir) {
