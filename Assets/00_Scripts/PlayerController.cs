@@ -226,8 +226,14 @@ public class PlayerController : MonoBehaviour
             for (var i = 0; i < objSize.x; i++)
                 if (objPosition + Vector2.right * i == position + _lookDirection)
                     if (obj.TryGetComponent(out Interactable interactable))
+                    {
                         interactable.Interact(this, _lookDirection);
+                        return;
+                    }
         }
+        
+        if (PlayerData.Instance.hasScepter)
+            LevelSetup.Instance.Interact(this, _lookDirection);
     }
     
     private IEnumerator Wait()

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using _00_Scripts;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
@@ -81,6 +82,7 @@ public class Chest : Interactable
                 _animatedItem = Instantiate(items[(int)itemInside], transform).transform;
                 StartCoroutine(ItemAnimation());
                 itemInside = Item.None;
+                PlayerData.Instance.SetHasScepter(true);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
