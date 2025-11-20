@@ -77,6 +77,37 @@ MonoBehaviour:
       m_SpriteOverride: {fileID: 21300000, guid: abb3bec8023f79f4e83615dea51ae19e, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 2
+  - m_Name: Sweat
+    m_Hash: 720059435
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: 0
+      m_Hash: 886824737
+      m_Sprite: {fileID: 21300000, guid: d4bbb676b4f1139419cc20fd80d0be7b, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: d4bbb676b4f1139419cc20fd80d0be7b, type: 3}
+    - m_Name: 1
+      m_Hash: 64810935
+      m_Sprite: {fileID: 21300000, guid: f70d97b2572703147a512c92638d2cc0, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: f70d97b2572703147a512c92638d2cc0, type: 3}
+    - m_Name: 2
+      m_Hash: 450215437
+      m_Sprite: {fileID: 21300000, guid: 65af2d563f6ada44a9a31372ed01ac5d, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: 65af2d563f6ada44a9a31372ed01ac5d, type: 3}
+    - m_Name: 3
+      m_Hash: 768773787
+      m_Sprite: {fileID: 21300000, guid: d4eac7d393d7a0641abe66818d85d637, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: d4eac7d393d7a0641abe66818d85d637, type: 3}
+    - m_Name: 4
+      m_Hash: 867572536
+      m_Sprite: {fileID: 21300000, guid: 9e6438ad7696e4744950fff22df31f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: 9e6438ad7696e4744950fff22df31f08, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 5
   m_PrimaryLibraryGUID: 
-  m_ModificationHash: 638991598651533469
+  m_ModificationHash: 638992537743148763
   m_Version: 1
