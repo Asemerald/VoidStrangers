@@ -36,7 +36,7 @@ public class LevelSetup : Interactable {
             }
         }
         
-        LoadLevel(6);
+        LoadLevel(0);
     }
 
     private void LoadLevel(int level) {
