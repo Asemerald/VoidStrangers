@@ -10,12 +10,15 @@ using UnityEngine.U2D.Animation;
 [RequireComponent(typeof(PlayerData))]
 public class PlayerController : MonoBehaviour
 {
+    [Flags]
     public enum State
     {
         None = 0,
         FreeMove = 1,
         Move = 2,
         Cutscene = 4,
+        Blink = 8,
+        OpenChest = 16,
     }
     
     [SerializeField] private float speed = 3f;
@@ -23,7 +26,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool freeMove = true;
 
     // Movement
-    private State _state = State.None;
+    private State _state = State.Cutscene | State.Blink;
     private Vector3 _moveDirection;
     private Vector2 _lookDirection;
     
@@ -108,14 +111,28 @@ public class PlayerController : MonoBehaviour
         switch (_state)
         {
             case State.Cutscene:
-                StartCoroutine(Wait());
+                break;
+            case State.OpenChest:
+            case State.Blink:
+                _state |= State.Cutscene;
                 break;
         }
     }
     
+    private bool HasState(State flag)
+    {
+        return (_state & flag) != 0;
+    }
+    
+    private string GetCurrentFlagName(int index)
+    {
+        var stateNameArray = _state.ToString().Split(',');
+        return index > stateNameArray.Length - 1 ? stateNameArray[^1].Trim() : stateNameArray[index].Trim();
+    }
+    
     private void OnMove(InputAction.CallbackContext ctx)
     {
-        if (!freeMove)
+        if (!freeMove || HasState(State.Cutscene))
             return;
         
         var input = ctx.ReadValue<Vector2>();
@@ -135,7 +152,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnMoveTile(InputAction.CallbackContext ctx, Vector2 direction)
     {
-        if (freeMove)
+        if (freeMove || HasState(State.Cutscene))
             return;
         
         if (ctx.started)
@@ -172,8 +189,7 @@ public class PlayerController : MonoBehaviour
                 if (!freeMove)
                 {
                     _timer += Time.fixedDeltaTime;
-                    _timer %= 1f;
-                    _label = Mathf.FloorToInt(_timer * 2f).ToString();
+                    _label = GetFrameLabel(2f, 2f);
                 }
                 else
                 {
@@ -184,32 +200,62 @@ public class PlayerController : MonoBehaviour
             case State.FreeMove:
                 _timer += Time.fixedDeltaTime;
                 _timer %= 0.5f;
-                _label = Mathf.FloorToInt(_timer * 4f).ToString();
+                _label = GetFrameLabel(4f, 2f);
                 _lookDirection = _moveDirection;
                 break;
             case State.Move:
                 _lookDirection = _moveDirection;
                 break;
+            case State.OpenChest | State.Cutscene:
+                _timer += Time.fixedDeltaTime;
+                _label = "0";
+                if (_timer > 1f)
+                {
+                    _state = State.None;
+                    _lookDirection = Vector2.down;
+                }
+                break;
+            case State.Blink | State.Cutscene:
+                _timer += Time.fixedDeltaTime;
+                _label = GetFrameLabel(8f, 4f);
+                if (_timer > 1f)
+                {
+                    _state = State.None;
+                    _lookDirection = Vector2.down;
+                }
+                break;
         }
 
-        if (_moveDirection.x < 0)
+        if (!HasState(State.Cutscene))
         {
-            _category = "Left";
+            if (_lookDirection.x < 0)
+            {
+                _category = "Left";
+            }
+            else if (_lookDirection.x > 0)
+            {
+                _category = "Right";
+            }
+            else if (_lookDirection.y > 0)
+            {
+                _category = "Up";
+            }
+            else if (_lookDirection.y < 0)
+            {
+                _category = "Down";
+            }
         }
-        else if (_moveDirection.x > 0)
+        else
         {
-            _category = "Right";
-        }
-        else if (_moveDirection.y > 0)
-        {
-            _category = "Up";
-        }
-        else if (_moveDirection.y < 0)
-        {
-            _category = "Down";
+            _category = GetCurrentFlagName(1);
         }
         
         _spriteResolver.SetCategoryAndLabel(_category, _label);
+    }
+
+    private string GetFrameLabel(float animSpeed, float frames)
+    {
+        return Mathf.FloorToInt((_timer * animSpeed) % frames).ToString();
     }
 
     private void OnInteract(InputAction.CallbackContext ctx)
@@ -234,11 +280,5 @@ public class PlayerController : MonoBehaviour
         
         if (PlayerData.Instance.hasScepter)
             LevelSetup.Instance.Interact(this, _lookDirection);
-    }
-    
-    private IEnumerator Wait()
-    {
-        yield return new WaitForSeconds(1f);
-        _state = State.None;
     }
 }

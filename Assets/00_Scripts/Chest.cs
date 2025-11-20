@@ -77,7 +77,7 @@ public class Chest : Interactable
                 Debug.Log("No item inside");
                 break;
             case Item.Rod:
-                player.SetState(PlayerController.State.Cutscene);
+                player.SetState(PlayerController.State.OpenChest);
                 player.DisableFreeMove();
                 _animatedItem = Instantiate(items[(int)itemInside], transform).transform;
                 StartCoroutine(ItemAnimation());
@@ -98,6 +98,7 @@ public class Chest : Interactable
             timer -= Time.deltaTime;
             yield return null;
         }
+        Destroy(_animatedItem.gameObject);
     }
 
     private void UpdateSprite()

@@ -39,8 +39,12 @@ public class LevelSetup : Interactable {
         var tile = tileMap.GetTile(position);
         
         foreach (var data in dataFromTiles) {
-            if (dataFromTiles[data.Key].tileType is not TilesData.TileType.Void) continue;
-            tileMap.SetTile(position, dataFromTiles[data.Key].tiles[0]);
+            if (dataFromTiles[data.Key].tileType is not TilesData.TileType.Void)
+                continue;
+            if (!IsVoid(position + Vector3Int.up))
+                tileMap.SetTile(position, dataFromTiles[data.Key].tiles[2]);
+            else
+                tileMap.SetTile(position, dataFromTiles[data.Key].tiles[0]);
             break;
         }
         
