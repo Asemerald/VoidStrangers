@@ -12,6 +12,8 @@ public class ButtonManager : MonoBehaviour
     private int currentPageDepth = 1 ;
     private VisualElement currentButtonContainer = null;
     
+    PlayerControls controls = null;
+    
     [SerializeField] private bool debug;
     private void Awake()
     {
@@ -21,6 +23,8 @@ public class ButtonManager : MonoBehaviour
         {
             button.RegisterCallback<ClickEvent>(evt => OnClick(button.name));
         }
+
+        controls = new PlayerControls();
     }
 
     private void Start()
@@ -30,45 +34,32 @@ public class ButtonManager : MonoBehaviour
         UpdateButtonSelected();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        //HandleKeyboardInput();
-    }
-
-    private void HandleKeyboardInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            ClosePauseMenu();
-        }
-
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            if (debug) Debug.Log("RightArrow ");
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            if (debug) Debug.Log("LeftArrow ");
-        }
+        controls.Enable();
         
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        controls.UI.Navigate.performed += evt =>
         {
-            if (debug) Debug.Log("UpArrow ");
-            UpdateButtonSelected(-1);
-        }
+            float y = evt.ReadValue<Vector2>().y;
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            if (debug) Debug.Log("DownArrow ");
-            UpdateButtonSelected(+1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            if (y > 0.5f)
+                UpdateButtonSelected(-1);   
+            else if (y < -0.5f)
+                UpdateButtonSelected(+1);  
+        };
+        
+        controls.UI.Submit.started += evt =>
         {
             OnClick(currentButtonContainer[currentButtonIndex].name);
-        }
+        };
+        
     }
+
+    private void OnDisable()
+    {
+        controls.Disable();
+    }
+
 
     private void OnClick(string buttonName)
     {
@@ -138,19 +129,30 @@ public class ButtonManager : MonoBehaviour
 
     void UpdateButtonImage(string buttonName)
     {
-        if(previousTabName !="")
+        if (previousTabName != "")
+        {
             _document.rootVisualElement.Q<VisualElement>(previousTabName).Q<VisualElement>("Middle").Q<VisualElement>("RightSide")[0].RemoveFromClassList("slidefade");
-        
+        }
+
         var rightSide = _document.rootVisualElement.Q<VisualElement>(currentTabName).Q<VisualElement>("Middle").Q<VisualElement>("RightSide")[0];
         rightSide.RemoveFromClassList("GraphicsButton");
         rightSide.RemoveFromClassList("AudioButton");
-        rightSide.RemoveFromClassList("BackButton");
+        rightSide.RemoveFromClassList("BackSettingsButton");
         rightSide.RemoveFromClassList("ResumeButton");
         rightSide.RemoveFromClassList("SettingsButton");
         rightSide.RemoveFromClassList("QuitButton");
+        rightSide.RemoveFromClassList("slidefade");
         
-        rightSide.AddToClassList(buttonName);
-        rightSide.AddToClassList("slidefade");
+        rightSide.MarkDirtyRepaint();
+
+        rightSide.schedule.Execute((sched) =>
+        {
+
+            rightSide.AddToClassList(buttonName);
+            rightSide.MarkDirtyRepaint();
+            rightSide.AddToClassList("slidefade");
+        }).StartingIn(10);
+
     }
 
     void ClosePauseMenu()

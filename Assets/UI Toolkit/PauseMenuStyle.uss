@@ -88,7 +88,7 @@
     --image: url("project://database/Assets/01_Art/Sprites/Menu/spr_menu_audio_3.png?fileID=2800000&guid=03abd273c803ace4d87a959a0ce8ffad&type=3#spr_menu_audio_3");
 }
 
-.image.BackButton {
+.image.BackSettingsButton {
     transition-property: opacity;
     transition-duration: 1s;
     --image: url("project://database/Assets/01_Art/Sprites/Menu/spr_menu_back_3.png?fileID=2800000&guid=da9fc32d71641124abe247dd9bf8af17&type=3#spr_menu_back_3");
