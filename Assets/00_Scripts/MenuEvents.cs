@@ -1,3 +1,5 @@
+using System;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,7 +8,9 @@ public class ButtonManager : MonoBehaviour
     private UIDocument _document;
     private string currentTabName = "Main-Tab";
     private string previousTabName = "";
+    private int currentButtonIndex = 0;
     private int currentPageDepth = 1 ;
+    private VisualElement currentButtonContainer = null;
     [SerializeField] private bool debug;
     private void Awake()
     {
@@ -14,11 +18,58 @@ public class ButtonManager : MonoBehaviour
 
         foreach (var button in _document.rootVisualElement.Query<Button>().ToList())
         {
-            button.RegisterCallback<ClickEvent>(evt => OnClick(evt, button.name));
+            button.RegisterCallback<ClickEvent>(evt => OnClick(button.name));
         }
     }
 
-    private void OnClick(ClickEvent evt, string buttonName)
+    private void Start()
+    {
+        currentButtonContainer = _document.rootVisualElement.Q<VisualElement>(currentTabName).Q<VisualElement>("Middle").Q<VisualElement>("LeftSide");
+        
+        UpdateButtonSelected();
+    }
+
+    private void Update()
+    {
+        //HandleKeyboardInput();
+    }
+
+    private void HandleKeyboardInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ClosePauseMenu();
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            if (debug) Debug.Log("RightArrow ");
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            if (debug) Debug.Log("LeftArrow ");
+        }
+        
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (debug) Debug.Log("UpArrow ");
+            UpdateButtonSelected(-1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (debug) Debug.Log("DownArrow ");
+            UpdateButtonSelected(+1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            OnClick(currentButtonContainer[currentButtonIndex].name);
+        }
+    }
+
+    private void OnClick(string buttonName)
     {
         if(debug)
             Debug.Log(buttonName+" clicked!");
@@ -76,6 +127,9 @@ public class ButtonManager : MonoBehaviour
         _document.rootVisualElement.Q(previousTabName).style.display = DisplayStyle.None;
         _document.rootVisualElement.Q(currentTabName).style.display = DisplayStyle.Flex;
 
+        currentButtonContainer = _document.rootVisualElement.Q<VisualElement>(currentTabName).Q<VisualElement>("Middle").Q<VisualElement>("LeftSide");
+        UpdateButtonSelected(-currentButtonIndex);
+
         currentPageDepth += pageDepthUpdate;
         
         UpdatePageClass();
@@ -99,5 +153,26 @@ public class ButtonManager : MonoBehaviour
             pageContainer.RemoveFromClassList($"page-{i}");
 
         pageContainer.AddToClassList($"page-{currentPageDepth}");
+    }
+    
+    private void UpdateButtonSelected(int buttonIndexChange = 0)
+    {
+        if (currentButtonContainer == null || currentButtonIndex + buttonIndexChange < 0 || currentButtonIndex + buttonIndexChange > currentButtonContainer.childCount - 1) 
+            return;
+        
+        //currentButtonContainer[currentButtonIndex].RemoveFromClassList(".button.selected");
+        currentButtonContainer[currentButtonIndex].style.color = default;
+
+        currentButtonIndex += buttonIndexChange;
+        
+        currentButtonContainer[currentButtonIndex].style.color = new Color(255, 255, 255, 255);
+        
+        Debug.Log(currentButtonContainer[currentButtonIndex].ClassListContains(".selected"));
+        
+        if(debug)
+            Debug.Log(currentButtonContainer[currentButtonIndex].name);
+        
+        UpdateButtonImage(currentButtonContainer[currentButtonIndex].name);
+        
     }
 }
