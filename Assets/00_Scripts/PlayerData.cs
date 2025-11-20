@@ -19,8 +19,6 @@ namespace _00_Scripts {
         private void Awake() {
             if(Instance == null) Instance = this;
             else Destroy(this);
-
-            hasScepter = true;
         }
 
         //Health Methods
