@@ -24,6 +24,7 @@ public class Chest : Interactable
     {
         None = 0,
         Rod = 1,
+        Bug = 2,
     }
 
     [SerializeField] private Type chestCategory;
@@ -84,13 +85,20 @@ public class Chest : Interactable
                 itemInside = Item.None;
                 PlayerData.Instance.SetHasScepter(true);
                 break;
+            case Item.Bug:
+                player.SetState(PlayerController.State.Cutscene);
+                _animatedItem = Instantiate(items[(int)itemInside], transform).transform;
+                StartCoroutine(ItemAnimation());
+                itemInside = Item.None;
+                PlayerData.Instance.AddBugAmount(1);
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
 
-    private IEnumerator ItemAnimation()
-    {
+    private IEnumerator ItemAnimation() {
+        _animatedItem.localPosition = new Vector3(0, 0, -1);
         var timer = 1f;
         while (timer > 0f)
         {

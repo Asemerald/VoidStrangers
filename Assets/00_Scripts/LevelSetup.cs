@@ -7,15 +7,21 @@ using UnityEngine.Tilemaps;
 
 public class LevelSetup : Interactable {
     public static LevelSetup Instance { get; private set; }
+
+    [Header("Levels")] 
+    [SerializeField] private Transform tileGrid;
+    [SerializeField] private LevelData[] levels;
     
     [Header("Tiles")]
-    [SerializeField] private Tilemap tileMap;
     [SerializeField] private List<TilesData> tilesData;
-    
-    [Header("Gem")]
     [SerializeField] private Transform gem;
-
+    
+    private Tilemap tileMap;
+    private Transform currentLoadedGem;
+    
     private bool gemPickedUp = false;
+    private int currentLevel = 0;
+    private List<GameObject> levelObjects = new List<GameObject>();
 
     private Dictionary<TileBase, TilesData> dataFromTiles =  new Dictionary<TileBase, TilesData>();
     
@@ -28,13 +34,47 @@ public class LevelSetup : Interactable {
                 dataFromTiles.Add(tile, tileData);
             }
         }
+        
+        LoadLevel(0);
     }
 
+    private void LoadLevel(int level) {
+        if (tileMap != null) {
+            Destroy(tileMap.gameObject);
+            tileMap = null;
+        }
+        
+        foreach (var obj in levelObjects) {
+            Destroy(obj.gameObject);
+        }
+        
+        levelObjects.Clear();
+        gemPickedUp = false;
+        if(currentLoadedGem != null)
+            Destroy(currentLoadedGem.gameObject);
+
+
+        currentLevel = level;
+
+        var player = FindAnyObjectByType<PlayerController>();
+        player.transform.position = levels[currentLevel].playerPosition;
+        
+        tileMap = Instantiate(levels[level].tileMap, tileGrid);
+        if (levels[level].hasGem) {
+            currentLoadedGem = Instantiate(gem, levels[level].gemPosition, Quaternion.identity);
+        }
+
+        foreach (var obj in levels[level].objetcs) {
+            var o = Instantiate(obj.objectToSpawn, obj.position, Quaternion.identity);
+            levelObjects.Add(o);
+        }
+    }
+    
     private void GetTile(Vector2Int position) {
         Debug.Log(tileMap.GetTile(new Vector3Int(position.x, position.y, 0)));
     }
 
-    public TileBase PickUpTile(Vector3Int position)
+    void PickUpTile(Vector3Int position)
     {
         var tile = tileMap.GetTile(position);
         
@@ -46,14 +86,13 @@ public class LevelSetup : Interactable {
         
         PlayerData.Instance.SetPickedUpTile(tile);
 
-        if (!gem || gem.position != position || gemPickedUp) return tile;
+        if (!currentLoadedGem || currentLoadedGem.position != position || gemPickedUp) return;
         PlayerData.Instance.AddGemAmount(1);
         gemPickedUp = true;
-
-        return tile;
+        currentLoadedGem.gameObject.SetActive(false);
     }
 
-    public void PlaceTile(Vector3Int position) {
+    void PlaceTile(Vector3Int position) {
         var tile = PlayerData.Instance.pickedUpTile;
         tileMap.SetTile(position, tile);
         PlayerData.Instance.SetPickedUpTile(null);
@@ -69,7 +108,8 @@ public class LevelSetup : Interactable {
         }
 
         if (IsStairs(floorPos) || IsStairs(ceilPos)) {
-            //Do something
+            LoadLevel(levels[currentLevel].loadLevel);
+            return false;
         }
         
         

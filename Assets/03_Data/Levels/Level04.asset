@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85b14aca87914b3faeb1157f6f1d5810, type: 3}
+  m_Name: Level04
+  m_EditorClassIdentifier: Assembly-CSharp::_00_Scripts.LevelData
+  tileMap: {fileID: 4764969863190750076, guid: 37f10771575f6ca4585109b93db7235f, type: 3}
+  loadLevel: 0
+  playerPosition: {x: -5, y: 0, z: 0}
+  objetcs: []
+  hasGem: 0
+  gemPosition: {x: 0, y: 0, z: 0}
