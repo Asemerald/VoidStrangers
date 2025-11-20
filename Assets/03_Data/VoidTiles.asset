@@ -18,6 +18,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e30d76e333ca6d14493e11c38eb77511, type: 2}
   - {fileID: 11400000, guid: 4ec3f3bd4eb2eed4abd38c5b6333956d, type: 2}
   - {fileID: 11400000, guid: 21e016f8773190c4db0638bb78a624e5, type: 2}
+  - {fileID: 11400000, guid: e30d76e333ca6d14493e11c38eb77511, type: 2}
   - {fileID: 11400000, guid: 72da793dc90b5f4498a4707bdd981616, type: 2}
   walkable: 1
   tileType: 2

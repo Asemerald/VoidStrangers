@@ -32,4 +32,16 @@ public class AudioManager : MonoBehaviour
         }
         _audioSource.PlayOneShot(clip);
     }
+
+    public static void PlayMusic(AudioClip clip)
+    {
+        if (_audioSource == null)
+        {
+            Debug.LogWarning("AudioSource component is missing.");
+            return;
+        }
+        _audioSource.clip = clip;
+        _audioSource.loop = true;
+        _audioSource.Play();
+    }
 }
