@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     private State _state = State.Cutscene | State.Blink;
     private Vector3 _moveDirection;
     private Vector2 _lookDirection;
+    private Vector3 _previousPosition;
     
     // Animation
     private SpriteResolver _spriteResolver;
@@ -109,14 +110,17 @@ public class PlayerController : MonoBehaviour
 
     public void SetState(State state)
     {
+        _timer = 0f;
         _state = state;
         switch (_state)
         {
-            case State.Cutscene:
-                break;
             case State.OpenChest:
             case State.Blink:
+            case State.Falling:
                 _state |= State.Cutscene;
+                break;
+            case State.Edging:
+                _previousPosition = transform.position;
                 break;
         }
     }
@@ -156,9 +160,23 @@ public class PlayerController : MonoBehaviour
     {
         if (freeMove || HasState(State.Cutscene))
             return;
-        
+
         if (ctx.started)
-            _moveDirection = new Vector3(direction.x, direction.y, 0);
+        {
+            if (!HasState(State.Edging))
+            {
+                _moveDirection = new Vector3(direction.x, direction.y, 0);
+            }
+            else
+            {
+                if (_lookDirection + direction == Vector2.zero)
+                {
+                    transform.position = _previousPosition;
+                    SetState(State.None);
+                }
+                return;
+            }
+        }
 
         _state = State.Move;
     }
@@ -177,8 +195,11 @@ public class PlayerController : MonoBehaviour
             case State.Move:
                 if(LevelSetup.Instance.CanMove(this, transform.position + _moveDirection))
                     transform.position += _moveDirection;
-                
-                _state = State.None;
+                if (!HasState(State.Edging))
+                    _state = State.None;
+                break;
+            case State.Edging:
+                transform.position += _moveDirection * (0.666666f * Time.fixedDeltaTime);
                 break;
         }
     }
@@ -201,7 +222,6 @@ public class PlayerController : MonoBehaviour
                 break;
             case State.FreeMove:
                 _timer += Time.fixedDeltaTime;
-                _timer %= 0.5f;
                 _label = GetFrameLabel(4f, 2f);
                 _lookDirection = _moveDirection;
                 break;
@@ -224,6 +244,30 @@ public class PlayerController : MonoBehaviour
                 {
                     _state = State.None;
                     _lookDirection = Vector2.down;
+                }
+                break;
+            case State.Edging:
+                _timer += Time.fixedDeltaTime;
+                _label = GetFrameLabel(16f, 2f);
+                if (_timer > 1.5f)
+                {
+                    SetState(State.Falling);
+                }
+                break;
+            case State.Falling | State.Cutscene:
+                _timer += Time.fixedDeltaTime;
+                _label = GetFrameLabel(6f, 12f);
+                if (_timer > 2f)
+                {
+                    var level = LevelSetup.Instance.ReloadLevel();
+                    PlayerData.Instance.ResetPickedUpTile();
+                    PlayerData.Instance.SubtractBugAmount(1);
+                    if (level == 1)
+                    {
+                        PlayerData.Instance.SetHasScepter(false);
+                        freeMove = true;
+                    }
+                    _state = State.Blink | State.Cutscene;
                 }
                 break;
         }
@@ -262,7 +306,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnInteract(InputAction.CallbackContext ctx)
     {
-        if (_state == State.Cutscene)
+        if (HasState(State.Cutscene) || HasState(State.Edging))
             return;
         
         var objects = FindObjectsByType<Collider2D>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);

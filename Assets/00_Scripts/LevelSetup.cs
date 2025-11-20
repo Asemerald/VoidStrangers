@@ -69,6 +69,12 @@ public class LevelSetup : Interactable {
             levelObjects.Add(o);
         }
     }
+
+    public int ReloadLevel()
+    {
+        LoadLevel(currentLevel);
+        return currentLevel;
+    }
     
     private void GetTile(Vector2Int position) {
         Debug.Log(tileMap.GetTile(new Vector3Int(position.x, position.y, 0)));
@@ -110,7 +116,7 @@ public class LevelSetup : Interactable {
             break;
         }
         
-        PlayerData.Instance.SetPickedUpTile(null);
+        PlayerData.Instance.ResetPickedUpTile();
     }
     
     public bool CanMove(PlayerController player, Vector3 position) {
@@ -118,7 +124,8 @@ public class LevelSetup : Interactable {
         var ceilPos = Vector3Int.CeilToInt(position);
 
         if (IsVoid(floorPos) || IsVoid(ceilPos)) {
-            player.SetState(PlayerController.State.Edging);
+            if (PlayerData.Instance.hasScepter)
+                player.SetState(PlayerController.State.Edging);
             return false;
         }
 
