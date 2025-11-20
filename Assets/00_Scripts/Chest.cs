@@ -86,7 +86,7 @@ public class Chest : Interactable
                 PlayerData.Instance.SetHasScepter(true);
                 break;
             case Item.Bug:
-                player.SetState(PlayerController.State.Cutscene);
+                player.SetState(PlayerController.State.OpenChest);
                 _animatedItem = Instantiate(items[(int)itemInside], transform).transform;
                 StartCoroutine(ItemAnimation());
                 itemInside = Item.None;

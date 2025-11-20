@@ -85,6 +85,8 @@ public class LevelSetup : Interactable {
                 tileMap.SetTile(position, dataFromTiles[data.Key].tiles[2]);
             else
                 tileMap.SetTile(position, dataFromTiles[data.Key].tiles[0]);
+            if (IsVoid(position + Vector3Int.down))
+                tileMap.SetTile(position + Vector3Int.down, dataFromTiles[data.Key].tiles[0]);
             break;
         }
         
@@ -99,13 +101,21 @@ public class LevelSetup : Interactable {
     void PlaceTile(Vector3Int position) {
         var tile = PlayerData.Instance.pickedUpTile;
         tileMap.SetTile(position, tile);
+        
+        foreach (var data in dataFromTiles) {
+            if (dataFromTiles[data.Key].tileType is not TilesData.TileType.Void)
+                continue;
+            if (IsVoid(position + Vector3Int.down))
+                tileMap.SetTile(position + Vector3Int.down, dataFromTiles[data.Key].tiles[2]);
+            break;
+        }
+        
         PlayerData.Instance.SetPickedUpTile(null);
     }
     
     public bool CanMove(Vector3 position) {
         var floorPos = Vector3Int.FloorToInt(position);
         var ceilPos = Vector3Int.CeilToInt(position);
-        
 
         if (IsVoid(floorPos) || IsVoid(ceilPos)) {
             //Do something
@@ -115,7 +125,9 @@ public class LevelSetup : Interactable {
             LoadLevel(levels[currentLevel].loadLevel);
             return false;
         }
-        
+
+        if (!tileMap.GetTile(ceilPos) || !tileMap.GetTile(floorPos))
+            return true;
         
         return dataFromTiles[tileMap.GetTile(ceilPos)].walkable && dataFromTiles[tileMap.GetTile(floorPos)].walkable;
     }
@@ -124,13 +136,7 @@ public class LevelSetup : Interactable {
     {
         var fx = Mathf.FloorToInt(player.transform.position.x + position.x);
         var fy = Mathf.FloorToInt(player.transform.position.y + position.y);
-        var fz = Mathf.FloorToInt(0);
-        
-        var cx = Mathf.CeilToInt(player.transform.position.x + position.x);
-        var cy = Mathf.CeilToInt(player.transform.position.y + position.y);
-        var cz = Mathf.CeilToInt(0);
-
-        var floorBlock = new Vector3Int(fx, fy, fz);
+        var floorBlock = new Vector3Int(fx, fy, 0);
         
         if (IsPaper(floorBlock))
         {
@@ -138,13 +144,13 @@ public class LevelSetup : Interactable {
             return;
         }
         
-        if (IsFloor(floorBlock) && !PlayerData.Instance.pickedUpTile)
+        if (IsFloor(floorBlock) && !IsVoid(floorBlock) && !PlayerData.Instance.pickedUpTile)
         {
             PickUpTile(floorBlock);
             return;
         }
         
-        if (IsVoid(floorBlock))
+        if (IsVoid(floorBlock) && PlayerData.Instance.pickedUpTile)
         {
             PlaceTile(floorBlock);
             return;
@@ -158,19 +164,28 @@ public class LevelSetup : Interactable {
     }
     
     private bool IsFloor(Vector3Int position) {
+        if (!tileMap.GetTile(position))
+            return false;
         return dataFromTiles[tileMap.GetTile(position)].walkable;
     }
 
-    private bool IsVoid(Vector3Int position) {
+    private bool IsVoid(Vector3Int position)
+    {
+        if (!tileMap.GetTile(position))
+            return true;
         return dataFromTiles[tileMap.GetTile(position)].tileType is TilesData.TileType.Void;
     }
 
     private bool IsStairs(Vector3Int position) {
+        if (!tileMap.GetTile(position))
+            return false;
         return dataFromTiles[tileMap.GetTile(position)].tileType is TilesData.TileType.Stair;
     }
 
     private bool IsPaper(Vector3Int position)
     {
+        if (!tileMap.GetTile(position))
+            return false;
         return dataFromTiles[tileMap.GetTile(position)].tileType is TilesData.TileType.Paper;
     }
 }
