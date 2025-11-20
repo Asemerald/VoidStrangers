@@ -113,12 +113,13 @@ public class LevelSetup : Interactable {
         PlayerData.Instance.SetPickedUpTile(null);
     }
     
-    public bool CanMove(Vector3 position) {
+    public bool CanMove(PlayerController player, Vector3 position) {
         var floorPos = Vector3Int.FloorToInt(position);
         var ceilPos = Vector3Int.CeilToInt(position);
 
         if (IsVoid(floorPos) || IsVoid(ceilPos)) {
-            //Do something
+            player.SetState(PlayerController.State.Edging);
+            return false;
         }
 
         if (IsStairs(floorPos) || IsStairs(ceilPos)) {

@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
         Cutscene = 4,
         Blink = 8,
         OpenChest = 16,
+        Edging = 32,
+        Falling = 64,
     }
     
     [SerializeField] private float speed = 3f;
@@ -167,13 +169,13 @@ public class PlayerController : MonoBehaviour
         {
             case State.FreeMove:
                 var deltaPosition = _moveDirection * (speed * Time.fixedDeltaTime);
-                if (LevelSetup.Instance.CanMove(transform.position + new Vector3(deltaPosition.x, deltaPosition.y, 0))) 
+                if (LevelSetup.Instance.CanMove(this, transform.position + new Vector3(deltaPosition.x, deltaPosition.y, 0))) 
                     transform.position += new Vector3(deltaPosition.x, deltaPosition.y, 0);
                 else
                     transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), 0);
                 break;
             case State.Move:
-                if(LevelSetup.Instance.CanMove(transform.position + _moveDirection))
+                if(LevelSetup.Instance.CanMove(this, transform.position + _moveDirection))
                     transform.position += _moveDirection;
                 
                 _state = State.None;
