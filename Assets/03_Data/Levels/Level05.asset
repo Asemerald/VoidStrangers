@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_00_Scripts.LevelData
   tileMap: {fileID: 5363892211624653940, guid: bb2521e334503fd448f45cbfbb5d56b2, type: 3}
   loadLevel: 5
-  playerPosition: {x: -5, y: 0, z: 0}
+  playerPosition: {x: -1, y: 1, z: 0}
   objetcs:
   - objectToSpawn: {fileID: 3353602195013953332, guid: 0fc72d9f8b801194ca56ce7f38917a15, type: 3}
     position: {x: -2, y: -2, z: -1}
