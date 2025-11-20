@@ -27,7 +27,7 @@ public class LevelSetup : MonoBehaviour {
         Debug.Log(tileMap.GetTile(new Vector3Int(position.x, position.y, 0)));
     }
 
-    public TileBase GetTile(Vector3Int position) {
+    public TileBase PickUpTile(Vector3Int position) {
         TileBase tile = null;
         
         if (dataFromTiles[tileMap.GetTile(position)].walkable) {
@@ -41,6 +41,14 @@ public class LevelSetup : MonoBehaviour {
         }
         
         return tile;
+    }
+
+    public bool CanPlaceTile(Vector3Int position, ref TileBase tile) {
+        if (dataFromTiles[tileMap.GetTile(position)].tileType is not TilesData.TileType.Void) return false;
+        
+        tileMap.SetTile(position, tile);
+        tile = null;
+        return true;
     }
     
     public bool CanMove(Vector3 position) {
