@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using _00_Scripts;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class LevelSetup : MonoBehaviour {
+public class LevelSetup : Interactable {
     public static LevelSetup Instance { get; private set; }
     
     [Header("Tiles")]
@@ -33,10 +34,9 @@ public class LevelSetup : MonoBehaviour {
         Debug.Log(tileMap.GetTile(new Vector3Int(position.x, position.y, 0)));
     }
 
-    public TileBase PickUpTile(Vector3Int position) {
+    public TileBase PickUpTile(Vector3Int position)
+    {
         var tile = tileMap.GetTile(position);
-
-        if (!dataFromTiles[tileMap.GetTile(position)].walkable) return null;
         
         foreach (var data in dataFromTiles) {
             if (dataFromTiles[data.Key].tileType is not TilesData.TileType.Void) continue;
@@ -46,19 +46,17 @@ public class LevelSetup : MonoBehaviour {
         
         PlayerData.Instance.SetPickedUpTile(tile);
 
-        if (gem.position != position || gemPickedUp) return tile;
+        if (!gem || gem.position != position || gemPickedUp) return tile;
         PlayerData.Instance.AddGemAmount(1);
         gemPickedUp = true;
 
         return tile;
     }
 
-    public bool CanPlaceTile(Vector3Int position, ref TileBase tile) {
-        if (dataFromTiles[tileMap.GetTile(position)].tileType is not TilesData.TileType.Void) return false;
-        
+    public void PlaceTile(Vector3Int position) {
+        var tile = PlayerData.Instance.pickedUpTile;
         tileMap.SetTile(position, tile);
-        tile = null;
-        return true;
+        PlayerData.Instance.SetPickedUpTile(null);
     }
     
     public bool CanMove(Vector3 position) {
@@ -82,20 +80,45 @@ public class LevelSetup : MonoBehaviour {
         return false;
     }
 
-    public void Interact(Vector3 position)
+    public override void Interact(PlayerController player, Vector2 position)
     {
-        var fx = Mathf.FloorToInt(position.x);
-        var fy = Mathf.FloorToInt(position.y);
-        var fz = Mathf.FloorToInt(position.z);
+        var fx = Mathf.FloorToInt(player.transform.position.x + position.x);
+        var fy = Mathf.FloorToInt(player.transform.position.y + position.y);
+        var fz = Mathf.FloorToInt(0);
         
-        var cx = Mathf.CeilToInt(position.x);
-        var cy = Mathf.CeilToInt(position.y);
-        var cz = Mathf.CeilToInt(position.z);
+        var cx = Mathf.CeilToInt(player.transform.position.x + position.x);
+        var cy = Mathf.CeilToInt(player.transform.position.y + position.y);
+        var cz = Mathf.CeilToInt(0);
 
-        if (IsPaper(new Vector3Int(fx, fy, fz)))
+        var floorBlock = new Vector3Int(fx, fy, fz);
+        
+        if (IsPaper(floorBlock))
         {
             //Do something
+            return;
         }
+        
+        if (IsFloor(floorBlock) && !PlayerData.Instance.pickedUpTile)
+        {
+            PickUpTile(floorBlock);
+            return;
+        }
+        
+        if (IsVoid(floorBlock))
+        {
+            PlaceTile(floorBlock);
+            return;
+        }
+
+        if (IsStairs(floorBlock))
+        {
+            //Do something
+            return;
+        }
+    }
+    
+    private bool IsFloor(Vector3Int position) {
+        return dataFromTiles[tileMap.GetTile(position)].walkable;
     }
 
     private bool IsVoid(Vector3Int position) {
