@@ -29,7 +29,7 @@ public class Chest : Interactable
 
     [SerializeField] private Type chestCategory;
     [SerializeField] private Item itemInside;
-    [SerializeField] private GameObject[] items;
+    [SerializeField] private GameObject items;
 
     private Transform _animatedItem;
     
@@ -80,14 +80,16 @@ public class Chest : Interactable
             case Item.Rod:
                 player.SetState(PlayerController.State.Cutscene);
                 player.DisableFreeMove();
-                _animatedItem = Instantiate(items[(int)itemInside], transform).transform;
+                _animatedItem = Instantiate(items, transform).transform;
+                _animatedItem.localPosition = new Vector3(0.5f, 0, -1);
                 StartCoroutine(ItemAnimation());
                 itemInside = Item.None;
                 PlayerData.Instance.SetHasScepter(true);
                 break;
             case Item.Bug:
                 player.SetState(PlayerController.State.Cutscene);
-                _animatedItem = Instantiate(items[(int)itemInside], transform).transform;
+                _animatedItem = Instantiate(items, transform).transform;
+                _animatedItem.localPosition = new Vector3(0, 0, -1);
                 StartCoroutine(ItemAnimation());
                 itemInside = Item.None;
                 PlayerData.Instance.AddBugAmount(1);
@@ -98,7 +100,7 @@ public class Chest : Interactable
     }
 
     private IEnumerator ItemAnimation() {
-        _animatedItem.localPosition = new Vector3(0, 0, -1);
+        
         var timer = 1f;
         while (timer > 0f)
         {

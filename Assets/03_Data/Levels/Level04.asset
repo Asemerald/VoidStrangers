@@ -13,8 +13,14 @@ MonoBehaviour:
   m_Name: Level04
   m_EditorClassIdentifier: Assembly-CSharp::_00_Scripts.LevelData
   tileMap: {fileID: 4764969863190750076, guid: 37f10771575f6ca4585109b93db7235f, type: 3}
-  loadLevel: 0
+  loadLevel: 4
   playerPosition: {x: -5, y: 0, z: 0}
-  objetcs: []
+  objetcs:
+  - objectToSpawn: {fileID: 5133791235452758904, guid: d82310450a6e162448df9c7fb9b78847, type: 3}
+    position: {x: 1, y: 2, z: -1}
+    tyle: 5
+  - objectToSpawn: {fileID: 3353602195013953332, guid: 0fc72d9f8b801194ca56ce7f38917a15, type: 3}
+    position: {x: 4, y: 1, z: -1}
+    tyle: 4
   hasGem: 0
   gemPosition: {x: 0, y: 0, z: 0}

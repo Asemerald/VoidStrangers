@@ -37,10 +37,14 @@ public class PlayerController : MonoBehaviour
     private PlayerControls _controls;
     private readonly Dictionary<InputAction, Action<InputAction.CallbackContext>> _handlers = new();
     
+    //Rigidbody
+    private Rigidbody2D rb;
+    
     private void Awake()
     {
         _controls = new PlayerControls();
         _spriteResolver = GetComponentInChildren<SpriteResolver>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void OnEnable()
@@ -150,13 +154,13 @@ public class PlayerController : MonoBehaviour
         {
             case State.FreeMove:
                 var deltaPosition = _moveDirection * (speed * Time.fixedDeltaTime);
-                if (LevelSetup.Instance.CanMove(transform.position + new Vector3(deltaPosition.x, deltaPosition.y, 0))) 
-                    transform.position += new Vector3(deltaPosition.x, deltaPosition.y, 0);
+                if (LevelSetup.Instance.CanMove(transform.position + new Vector3(deltaPosition.x, deltaPosition.y, 0), _moveDirection)) 
+                    rb.MovePosition(transform.position + new Vector3(deltaPosition.x, deltaPosition.y, 0));
                 else
                     transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), 0);
                 break;
             case State.Move:
-                if(LevelSetup.Instance.CanMove(transform.position + _moveDirection))
+                if(LevelSetup.Instance.CanMove(transform.position + _moveDirection, _moveDirection))
                     transform.position += _moveDirection;
                 
                 _state = State.None;

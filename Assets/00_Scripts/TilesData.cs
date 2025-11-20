@@ -13,6 +13,9 @@ namespace _00_Scripts {
             Stair,
             Void,
             Paper,
+            Chest,
+            Rock,
+            DoubleChest
         }
         
         public TileType tileType;

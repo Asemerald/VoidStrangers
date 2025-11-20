@@ -22,6 +22,7 @@ public class LevelSetup : Interactable {
     private bool gemPickedUp = false;
     private int currentLevel = 0;
     private List<GameObject> levelObjects = new List<GameObject>();
+    private List<Transform> rocks = new List<Transform>();
 
     private Dictionary<TileBase, TilesData> dataFromTiles =  new Dictionary<TileBase, TilesData>();
     
@@ -48,11 +49,12 @@ public class LevelSetup : Interactable {
             Destroy(obj.gameObject);
         }
         
+        rocks.Clear();
         levelObjects.Clear();
         gemPickedUp = false;
         if(currentLoadedGem != null)
             Destroy(currentLoadedGem.gameObject);
-
+        
 
         currentLevel = level;
 
@@ -60,13 +62,37 @@ public class LevelSetup : Interactable {
         player.transform.position = levels[currentLevel].playerPosition;
         
         tileMap = Instantiate(levels[level].tileMap, tileGrid);
-        if (levels[level].hasGem) {
+        if (levels[level].hasGem) { //Spawn Gem
             currentLoadedGem = Instantiate(gem, levels[level].gemPosition, Quaternion.identity);
         }
 
-        foreach (var obj in levels[level].objetcs) {
+        foreach (var obj in levels[level].objetcs) { //Spawn Objects
             var o = Instantiate(obj.objectToSpawn, obj.position, Quaternion.identity);
             levelObjects.Add(o);
+            if(obj.tyle is TilesData.TileType.Rock)
+                rocks.Add(o.transform);
+            
+            if (obj.tyle is TilesData.TileType.None) continue; //Check pour changer la tile pour correspondre a l'objet
+            foreach (var data in dataFromTiles) {
+                if (obj.tyle is TilesData.TileType.DoubleChest) {
+                    if (dataFromTiles[data.Key].tileType is TilesData.TileType.Chest) {
+                        var doubleIntPos = Vector3Int.RoundToInt(obj.position);
+                        doubleIntPos.z = 0;
+                        tileMap.SetTile(doubleIntPos, dataFromTiles[data.Key].tiles[0]);
+                        doubleIntPos.x += 1;
+                        tileMap.SetTile(doubleIntPos, dataFromTiles[data.Key].tiles[0]);
+                        break;
+                    }
+                }
+                
+                if (dataFromTiles[data.Key].tileType != obj.tyle) continue;
+                
+                var intPos = Vector3Int.RoundToInt(obj.position);
+                intPos.z = 0;
+                tileMap.SetTile(intPos, dataFromTiles[data.Key].tiles[0]);
+                break;
+                
+            }
         }
     }
     
@@ -98,24 +124,106 @@ public class LevelSetup : Interactable {
         PlayerData.Instance.SetPickedUpTile(null);
     }
     
-    public bool CanMove(Vector3 position) {
-        var floorPos = Vector3Int.FloorToInt(position);
-        var ceilPos = Vector3Int.CeilToInt(position);
+    public bool CanMove(Vector3 position, Vector3 dir) {
+        var intPos = Vector3Int.zero;
         
-
-        if (IsVoid(floorPos) || IsVoid(ceilPos)) {
+        switch (dir) {
+            //Straight
+            case { y: > 0, x: 0 }:
+                intPos.x = Mathf.RoundToInt(position.x);
+                intPos.y = Mathf.CeilToInt(position.y);
+                break;
+            case { y: < 0, x: 0 }:
+                intPos.x = Mathf.RoundToInt(position.x);
+                intPos.y = Mathf.FloorToInt(position.y);
+                break;
+            case { x: > 0, y: 0 }:
+                intPos.x = Mathf.CeilToInt(position.x);
+                intPos.y = Mathf.RoundToInt(position.y);
+                break;
+            case { x: < 0, y: 0 }:
+                intPos.x = Mathf.FloorToInt(position.x);
+                intPos.y = Mathf.RoundToInt(position.y);
+                break;
+            //Diagonal
+            case { y: > 0, x: > 0 }:
+                intPos.x = Mathf.CeilToInt(position.x);
+                intPos.y = Mathf.CeilToInt(position.y);
+                break;
+            case { y: < 0, x: < 0 }:
+                intPos.x = Mathf.FloorToInt(position.x);
+                intPos.y = Mathf.FloorToInt(position.y);
+                break;
+            case { x: > 0, y: < 0 }:
+                intPos.x = Mathf.CeilToInt(position.x);
+                intPos.y = Mathf.FloorToInt(position.y);
+                break;
+            case { x: < 0, y: > 0 }:
+                intPos.x = Mathf.FloorToInt(position.x);
+                intPos.y = Mathf.CeilToInt(position.y);
+                break;
+        }
+        intPos.z = 0;
+        
+        if (IsVoid(intPos)) {
             //Do something
         }
 
-        if (IsStairs(floorPos) || IsStairs(ceilPos)) {
+        if (IsStairs(intPos)) {
             LoadLevel(levels[currentLevel].loadLevel);
             return false;
         }
+
+        if (dataFromTiles[tileMap.GetTile(intPos)].tileType is TilesData.TileType.Rock) {
+            switch (dir) {
+                //Straight
+                case { y: > 0, x: 0 }: //Up
+                    if (dataFromTiles[tileMap.GetTile(intPos + Vector3Int.up)].walkable) {
+                        MoveRock(intPos, Vector3Int.up);
+                        return false;
+                    }
+                    break;
+                case { y: < 0, x: 0 }: //Down
+                    if (dataFromTiles[tileMap.GetTile(intPos + Vector3Int.down)].walkable) {
+                        MoveRock(intPos, Vector3Int.down);
+                        return false;
+                    }
+                    break;
+                case { x: > 0, y: 0 }: //Right
+                    if (dataFromTiles[tileMap.GetTile(intPos + Vector3Int.right)].walkable) {
+                        MoveRock(intPos, Vector3Int.right);
+                        return false;
+                    }
+                    break;
+                case { x: < 0, y: 0 }: //Left
+                    if (dataFromTiles[tileMap.GetTile(intPos + Vector3Int.left)].walkable) {
+                        MoveRock(intPos, Vector3Int.left);
+                        return false;
+                    }
+                    break;
+            }
+        }
         
-        
-        return dataFromTiles[tileMap.GetTile(ceilPos)].walkable && dataFromTiles[tileMap.GetTile(floorPos)].walkable;
+        return dataFromTiles[tileMap.GetTile(intPos)].walkable;
     }
 
+    void MoveRock(Vector3Int pos, Vector3Int dir) {
+        tileMap.SetTile(pos, tileMap.GetTile(pos + dir));
+        foreach (var data in dataFromTiles) {
+            if (dataFromTiles[data.Key].tileType is not TilesData.TileType.Rock) continue;
+            tileMap.SetTile(pos + dir, dataFromTiles[data.Key].tiles[0]);
+            break;
+        }
+
+        pos.z = -1;
+        
+        foreach (var rock in rocks) {
+            if (rock.position != pos) continue;
+            rock.position = pos + dir;
+            break;
+        }
+    }
+    
     public override void Interact(PlayerController player, Vector2 position)
     {
         var fx = Mathf.FloorToInt(player.transform.position.x + position.x);

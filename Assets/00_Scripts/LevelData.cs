@@ -23,5 +23,6 @@ namespace _00_Scripts {
     public struct Objects {
         public GameObject objectToSpawn;
         public Vector3 position;
+        public TilesData.TileType tyle;
     }
 }

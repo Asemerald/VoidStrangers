@@ -170,9 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   chestCategory: 0
   itemInside: 1
-  items:
-  - {fileID: 0}
-  - {fileID: 3077154288973011242, guid: 0b11b539977d68949b8a538f926a0af7, type: 3}
+  items: {fileID: 3077154288973011242, guid: 0b11b539977d68949b8a538f926a0af7, type: 3}
 --- !u!61 &5790975438280248016
 BoxCollider2D:
   m_ObjectHideFlags: 0
