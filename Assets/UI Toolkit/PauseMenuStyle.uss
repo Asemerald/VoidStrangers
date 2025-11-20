@@ -21,11 +21,7 @@
     font-size: 100px;
 }
 
-.button:hover {
-    color: rgb(255, 255, 255);
-}
-
-.button:active {
+.selected {
     color: rgb(255, 255, 255);
 }
 
