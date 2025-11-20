@@ -72,12 +72,8 @@ public class LevelSetup : Interactable {
             //Do something
         }
         
-        if (position.normalized != Vector3.zero) {
-            if(position.normalized == Vector3.down || position.normalized == Vector3.up || position.normalized == Vector3.right || position.normalized == Vector3.left)
-                return dataFromTiles[tileMap.GetTile(ceilPos)].walkable && dataFromTiles[tileMap.GetTile(floorPos)].walkable;
-        }
-              
-        return false;
+        
+        return dataFromTiles[tileMap.GetTile(ceilPos)].walkable && dataFromTiles[tileMap.GetTile(floorPos)].walkable;
     }
 
     public override void Interact(PlayerController player, Vector2 position)
