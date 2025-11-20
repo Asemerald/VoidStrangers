@@ -65,3 +65,56 @@
 .page-3 > #page2 {
     background-image: url("project://database/Assets/01_Art/Sprites/Menu/icons/spr_menu_page_icon_a_8.png?fileID=2800000&guid=752703dbb6fc8634dbcd8c16a0ee4e76&type=3#spr_menu_page_icon_a_8");
 }
+
+.image {
+    opacity: 0;
+    right: -10%;
+    transition-property: all;
+    transition-duration: 0s;
+    background-image: var(--image);
+    --image: url("project://database/Assets/01_Art/Sprites/Menu/spr_menu_burdens_3.png?fileID=2800000&guid=02512fefa6458b5439ac9037f25f6c50&type=3#spr_menu_burdens_3");
+    height: auto;
+}
+
+.image.GraphicsButton {
+    transition-property: opacity;
+    transition-duration: 1s;
+    --image: url("project://database/Assets/01_Art/Sprites/Menu/spr_menu_graphics_3.png?fileID=2800000&guid=6f67b747d6a2ada46bfb25edda9c2e41&type=3#spr_menu_graphics_3");
+}
+
+.image.AudioButton {
+    transition-property: opacity;
+    transition-duration: 1s;
+    --image: url("project://database/Assets/01_Art/Sprites/Menu/spr_menu_audio_3.png?fileID=2800000&guid=03abd273c803ace4d87a959a0ce8ffad&type=3#spr_menu_audio_3");
+}
+
+.image.BackButton {
+    transition-property: opacity;
+    transition-duration: 1s;
+    --image: url("project://database/Assets/01_Art/Sprites/Menu/spr_menu_back_3.png?fileID=2800000&guid=da9fc32d71641124abe247dd9bf8af17&type=3#spr_menu_back_3");
+}
+
+.image.ResumeButton {
+    transition-property: opacity;
+    transition-duration: 1s;
+    --image: url("project://database/Assets/01_Art/Sprites/Menu/spr_menu_continue_3.png?fileID=2800000&guid=1bdf4719703d38f4287c167f288eb5f6&type=3#spr_menu_continue_3");
+}
+
+.image.QuitButton {
+    transition-property: opacity;
+    transition-duration: 1s;
+    --image: url("project://database/Assets/01_Art/Sprites/Menu/spr_menu_exit_001_3.png?fileID=2800000&guid=7031903e9f978ee418da7fdb0fadd560&type=3#spr_menu_exit_001_3");
+}
+
+.image.SettingsButton {
+    transition-property: opacity;
+    transition-duration: 1s;
+    --image: url("project://database/Assets/01_Art/Sprites/Menu/spr_menu_settings_3.png?fileID=2800000&guid=dea5647578d513947bd77d1e7911596e&type=3#spr_menu_settings_3");
+}
+
+.slidefade {
+    opacity: 1;
+    right: 0;
+    transition-property: opacity, right;
+    transition-duration: 1s, 1s;
+}
