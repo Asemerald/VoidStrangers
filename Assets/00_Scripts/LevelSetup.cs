@@ -27,6 +27,22 @@ public class LevelSetup : MonoBehaviour {
         Debug.Log(tileMap.GetTile(new Vector3Int(position.x, position.y, 0)));
     }
 
+    public TileBase GetTile(Vector3Int position) {
+        TileBase tile = null;
+        
+        if (dataFromTiles[tileMap.GetTile(position)].walkable) {
+            tile = tileMap.GetTile(position);
+            TileBase voidTile = null;
+            foreach (var data in dataFromTiles) {
+                if (dataFromTiles[data.Key].tileType is TilesData.TileType.Void)
+                    voidTile = dataFromTiles[data.Key].tiles[0];
+            }
+            tileMap.SetTile(position, voidTile);
+        }
+        
+        return tile;
+    }
+    
     public bool CanMove(Vector3 position) {
         var fx = Mathf.FloorToInt(position.x);
         var fy = Mathf.FloorToInt(position.y);
