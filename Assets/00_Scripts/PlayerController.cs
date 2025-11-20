@@ -200,15 +200,16 @@ public class PlayerController : MonoBehaviour
 
     private void OnInteract(InputAction.CallbackContext ctx)
     {
-        var objects = FindObjectsByType<Transform>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+        var objects = FindObjectsByType<Collider2D>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
         var position = new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
         foreach (var obj in objects)
         {
             Vector2 objPosition = obj.transform.position;
-            if (objPosition != position + _lookDirection)
-                continue;
-            if (obj.TryGetComponent(out Interactable interactable))
-                interactable.Interact();
+            Vector2 objSize = obj.bounds.size;
+            for (var i = 0; i < objSize.x; i++)
+                if (objPosition + Vector2.right * i == position + _lookDirection)
+                    if (obj.TryGetComponent(out Interactable interactable))
+                        interactable.Interact();
         }
     }
 }
