@@ -7,9 +7,15 @@ using UnityEngine.Tilemaps;
 public class LevelSetup : MonoBehaviour {
     public static LevelSetup Instance { get; private set; }
     
+    [Header("Tiles")]
     [SerializeField] private Tilemap tileMap;
     [SerializeField] private List<TilesData> tilesData;
     
+    [Header("Gem")]
+    [SerializeField] private Transform gem;
+
+    private bool gemPickedUp = false;
+
     private Dictionary<TileBase, TilesData> dataFromTiles =  new Dictionary<TileBase, TilesData>();
     
     private void Start() {
@@ -28,18 +34,22 @@ public class LevelSetup : MonoBehaviour {
     }
 
     public TileBase PickUpTile(Vector3Int position) {
-        TileBase tile = null;
+        var tile = tileMap.GetTile(position);
+
+        if (!dataFromTiles[tileMap.GetTile(position)].walkable) return null;
         
-        if (dataFromTiles[tileMap.GetTile(position)].walkable) {
-            tile = tileMap.GetTile(position);
-            TileBase voidTile = null;
-            foreach (var data in dataFromTiles) {
-                if (dataFromTiles[data.Key].tileType is TilesData.TileType.Void)
-                    voidTile = dataFromTiles[data.Key].tiles[0];
-            }
-            tileMap.SetTile(position, voidTile);
+        foreach (var data in dataFromTiles) {
+            if (dataFromTiles[data.Key].tileType is not TilesData.TileType.Void) continue;
+            tileMap.SetTile(position, dataFromTiles[data.Key].tiles[0]);
+            break;
         }
         
+        PlayerData.Instance.SetPickedUpTile(tile);
+
+        if (gem.position != position || gemPickedUp) return tile;
+        PlayerData.Instance.AddGemAmount(1);
+        gemPickedUp = true;
+
         return tile;
     }
 
