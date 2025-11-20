@@ -3366,23 +3366,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &708795997 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6997443341828934127, guid: 620d451b14129244b906ea2a9c7134df, type: 3}
-  m_PrefabInstance: {fileID: 1278120191}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &708796001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 708795997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6e84a06dceae3349945dd4086d8319b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
 --- !u!1 &786069487
 GameObject:
   m_ObjectHideFlags: 0
@@ -4962,52 +4945,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1101711553
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1101711554}
-  - component: {fileID: 1101711555}
-  m_Layer: 0
-  m_Name: MusicManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1101711554
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1101711553}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2108657203}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1101711555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1101711553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9703a39e327e85d4d94ac2a0cadd7ef1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MusicManager
-  mainMenuMusic: {fileID: 0}
-  gameplayMusic: {fileID: 8300000, guid: 19cf683131e541b469eaf3332a4d2ded, type: 3}
 --- !u!1001 &1278120191
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5063,10 +5000,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6997443341828934127, guid: 620d451b14129244b906ea2a9c7134df, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 708796001}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 620d451b14129244b906ea2a9c7134df, type: 3}
 --- !u!1 &1845047396
 GameObject:
@@ -5248,37 +5182,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 2986468168612348606, guid: c3ecc7a950d599c44993ac3f93fffdab, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1101711554}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8155842315974053986, guid: c3ecc7a950d599c44993ac3f93fffdab, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2108657204}
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3ecc7a950d599c44993ac3f93fffdab, type: 3}
---- !u!1 &2108657202 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8155842315974053986, guid: c3ecc7a950d599c44993ac3f93fffdab, type: 3}
-  m_PrefabInstance: {fileID: 2108657201}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2108657203 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2986468168612348606, guid: c3ecc7a950d599c44993ac3f93fffdab, type: 3}
-  m_PrefabInstance: {fileID: 2108657201}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2108657204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2108657202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e35e28af68174fa4948101ec723d97e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_00_Scripts.GameManager
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
