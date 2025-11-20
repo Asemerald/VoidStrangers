@@ -62,34 +62,23 @@ public class LevelSetup : MonoBehaviour {
     }
     
     public bool CanMove(Vector3 position) {
-        var fx = Mathf.FloorToInt(position.x);
-        var fy = Mathf.FloorToInt(position.y);
-        var fz = Mathf.FloorToInt(position.z);
+        var floorPos = Vector3Int.FloorToInt(position);
+        var ceilPos = Vector3Int.CeilToInt(position);
         
-        var cx = Mathf.CeilToInt(position.x);
-        var cy = Mathf.CeilToInt(position.y);
-        var cz = Mathf.CeilToInt(position.z);
 
-        if (IsVoid(new Vector3Int(fx,fy,fz))) {
+        if (IsVoid(floorPos) || IsVoid(ceilPos)) {
             //Do something
         }
 
-        if (IsStairs(new Vector3Int(fx,fy,fz))) {
+        if (IsStairs(floorPos) || IsStairs(ceilPos)) {
             //Do something
         }
-
-        if (dataFromTiles[tileMap.GetTile(new Vector3Int(fx, fy, fz))].walkable) {
-            if(!dataFromTiles[tileMap.GetTile(new Vector3Int(cx, cy, cz))].walkable) return false;
-            
-            return true;
-        }
         
-        if (dataFromTiles[tileMap.GetTile(new Vector3Int(cx, cy, cz))].walkable) {
-            if(!dataFromTiles[tileMap.GetTile(new Vector3Int(fx, fy, fz))].walkable) return false;
-            
-            return true;
+        if (position.normalized != Vector3.zero) {
+            if(position.normalized == Vector3.down || position.normalized == Vector3.up || position.normalized == Vector3.right || position.normalized == Vector3.left)
+                return dataFromTiles[tileMap.GetTile(ceilPos)].walkable && dataFromTiles[tileMap.GetTile(floorPos)].walkable;
         }
-        
+              
         return false;
     }
 
