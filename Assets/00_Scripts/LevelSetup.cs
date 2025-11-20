@@ -36,10 +36,11 @@ public class LevelSetup : Interactable {
             }
         }
         
-        LoadLevel(0);
+        LoadLevel(6);
     }
 
     private void LoadLevel(int level) {
+        #region Reset
         if (tileMap != null) {
             Destroy(tileMap.gameObject);
             tileMap = null;
@@ -55,7 +56,8 @@ public class LevelSetup : Interactable {
         if(currentLoadedGem != null)
             Destroy(currentLoadedGem.gameObject);
         
-
+        #endregion
+        
         currentLevel = level;
 
         var player = FindAnyObjectByType<PlayerController>();
@@ -66,10 +68,11 @@ public class LevelSetup : Interactable {
             currentLoadedGem = Instantiate(gem, levels[level].gemPosition, Quaternion.identity);
         }
 
+        #region SpawnObjects
         foreach (var obj in levels[level].objetcs) { //Spawn Objects
             var o = Instantiate(obj.objectToSpawn, obj.position, Quaternion.identity);
             levelObjects.Add(o);
-            if(obj.tyle is TilesData.TileType.Rock)
+            if(obj.tyle is TilesData.TileType.Rock or TilesData.TileType.RockStairs)
                 rocks.Add(o.transform);
             
             if (obj.tyle is TilesData.TileType.None) continue; //Check pour changer la tile pour correspondre a l'objet
@@ -90,10 +93,12 @@ public class LevelSetup : Interactable {
                 var intPos = Vector3Int.RoundToInt(obj.position);
                 intPos.z = 0;
                 tileMap.SetTile(intPos, dataFromTiles[data.Key].tiles[0]);
+                Debug.Log("Tyle type is " + obj.tyle);
                 break;
                 
             }
         }
+        #endregion
     }
     
     private void GetTile(Vector2Int position) {
@@ -174,41 +179,76 @@ public class LevelSetup : Interactable {
             return false;
         }
 
-        if (dataFromTiles[tileMap.GetTile(intPos)].tileType is TilesData.TileType.Rock) {
-            switch (dir) {
-                //Straight
-                case { y: > 0, x: 0 }: //Up
-                    if (dataFromTiles[tileMap.GetTile(intPos + Vector3Int.up)].walkable) {
-                        MoveRock(intPos, Vector3Int.up);
-                        return false;
-                    }
-                    break;
-                case { y: < 0, x: 0 }: //Down
-                    if (dataFromTiles[tileMap.GetTile(intPos + Vector3Int.down)].walkable) {
-                        MoveRock(intPos, Vector3Int.down);
-                        return false;
-                    }
-                    break;
-                case { x: > 0, y: 0 }: //Right
-                    if (dataFromTiles[tileMap.GetTile(intPos + Vector3Int.right)].walkable) {
-                        MoveRock(intPos, Vector3Int.right);
-                        return false;
-                    }
-                    break;
-                case { x: < 0, y: 0 }: //Left
-                    if (dataFromTiles[tileMap.GetTile(intPos + Vector3Int.left)].walkable) {
-                        MoveRock(intPos, Vector3Int.left);
-                        return false;
-                    }
-                    break;
-            }
+        switch (dataFromTiles[tileMap.GetTile(intPos)].tileType) {
+            case TilesData.TileType.Rock:
+                switch (dir) {
+                    case { y: > 0, x: 0 }: //Up
+                        if (CheckForMoveable(intPos, Vector3Int.up))
+                            return false;
+                        break;
+                    case { y: < 0, x: 0 }: //Down
+                        if (CheckForMoveable(intPos, Vector3Int.down))
+                            return false;
+                        break;
+                    case { x: > 0, y: 0 }: //Right
+                        if (CheckForMoveable(intPos, Vector3Int.right))
+                            return false;
+                        break;
+                    case { x: < 0, y: 0 }: //Left
+                        if (CheckForMoveable(intPos, Vector3Int.left))
+                            return false;
+                        break;
+                }
+                break;
+            case TilesData.TileType.RockStairs:
+                switch (dir) {
+                    case { y: > 0, x: 0 }: //Up
+                        if (CheckForMoveable(intPos, Vector3Int.up, true))
+                            return false;
+                        break;
+                    case { y: < 0, x: 0 }: //Down
+                        if (CheckForMoveable(intPos, Vector3Int.down, true))
+                            return false;
+                        break;
+                    case { x: > 0, y: 0 }: //Right
+                        if (CheckForMoveable(intPos, Vector3Int.right, true))
+                            return false;
+                        break;
+                    case { x: < 0, y: 0 }: //Left
+                        if (CheckForMoveable(intPos, Vector3Int.left, true))
+                            return false;
+                        break;
+                }
+                break;
         }
         
         return dataFromTiles[tileMap.GetTile(intPos)].walkable;
     }
 
-    void MoveRock(Vector3Int pos, Vector3Int dir) {
-        tileMap.SetTile(pos, tileMap.GetTile(pos + dir));
+    bool CheckForMoveable(Vector3Int pos, Vector3Int dir, bool stairs = false) {
+        if (dataFromTiles[tileMap.GetTile(pos + dir)].tileType is TilesData.TileType.Void) {
+            DestroyRock(pos, Vector3Int.up, stairs);
+            return true;
+        }
+                    
+        if (dataFromTiles[tileMap.GetTile(pos + dir)].walkable) {
+            MoveRock(pos, dir, stairs);
+            return true;
+        }
+        
+        return false;
+    }
+    
+    void MoveRock(Vector3Int pos, Vector3Int dir, bool stairs) {
+        if (stairs) {
+            foreach (var data in dataFromTiles) {
+                if (dataFromTiles[data.Key].tileType is not TilesData.TileType.Stair) continue;
+                tileMap.SetTile(pos, dataFromTiles[data.Key].tiles[0]);
+                break;
+            }
+        }
+        else
+            tileMap.SetTile(pos, tileMap.GetTile(pos + dir));
         foreach (var data in dataFromTiles) {
             if (dataFromTiles[data.Key].tileType is not TilesData.TileType.Rock) continue;
             tileMap.SetTile(pos + dir, dataFromTiles[data.Key].tiles[0]);
@@ -222,6 +262,37 @@ public class LevelSetup : Interactable {
             rock.position = pos + dir;
             break;
         }
+        
+        Debug.Log("Moved");
+        Debug.Log(stairs);
+    }
+
+    void DestroyRock(Vector3Int pos, Vector3Int dir, bool stairs) {
+        if (stairs) {
+            foreach (var data in dataFromTiles) {
+                if (dataFromTiles[data.Key].tileType is not TilesData.TileType.Stair) continue;
+                tileMap.SetTile(pos, dataFromTiles[data.Key].tiles[0]);
+                break;
+            }
+        }
+        else {
+            foreach (var data in dataFromTiles) {
+                if (!dataFromTiles[data.Key].walkable) continue;
+                tileMap.SetTile(pos, dataFromTiles[data.Key].tiles[0]);
+                break;
+            }
+        }
+
+        pos.z = -1;
+        
+        foreach (var rock in rocks) {
+            if (rock.position != pos) continue;
+            Destroy(rock.gameObject);
+            rocks.Remove(rock);
+            break;
+        }
+        Debug.Log("Destroyed");
+        Debug.Log(stairs);
     }
     
     public override void Interact(PlayerController player, Vector2 position)
