@@ -91,10 +91,16 @@ public class Chest : Interactable
 
     private IEnumerator ItemAnimation()
     {
-        var timer = 1f;
+        var timer = 1.5f;
+        _animatedItem.position += Vector3.down;
+        while (timer > 1f)
+        {
+            _animatedItem.position += Vector3.up * (Time.deltaTime * 2f);
+            timer -= Time.deltaTime;
+            yield return null;
+        }
         while (timer > 0f)
         {
-            _animatedItem.position += Vector3.up * Time.deltaTime;
             timer -= Time.deltaTime;
             yield return null;
         }

@@ -209,7 +209,7 @@ public class PlayerController : MonoBehaviour
             case State.OpenChest | State.Cutscene:
                 _timer += Time.fixedDeltaTime;
                 _label = "0";
-                if (_timer > 1f)
+                if (_timer > 1.5f)
                 {
                     _state = State.None;
                     _lookDirection = Vector2.down;
