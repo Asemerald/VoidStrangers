@@ -11,6 +11,7 @@ public class ButtonManager : MonoBehaviour
     private int currentButtonIndex = 0;
     private int currentPageDepth = 1 ;
     private VisualElement currentButtonContainer = null;
+    
     [SerializeField] private bool debug;
     private void Awake()
     {
@@ -137,8 +138,19 @@ public class ButtonManager : MonoBehaviour
 
     void UpdateButtonImage(string buttonName)
     {
-        if(debug)
-            Debug.Log("WIP : Devrait changer l'image de droite");
+        if(previousTabName !="")
+            _document.rootVisualElement.Q<VisualElement>(previousTabName).Q<VisualElement>("Middle").Q<VisualElement>("RightSide")[0].RemoveFromClassList("slidefade");
+        
+        var rightSide = _document.rootVisualElement.Q<VisualElement>(currentTabName).Q<VisualElement>("Middle").Q<VisualElement>("RightSide")[0];
+        rightSide.RemoveFromClassList("GraphicsButton");
+        rightSide.RemoveFromClassList("AudioButton");
+        rightSide.RemoveFromClassList("BackButton");
+        rightSide.RemoveFromClassList("ResumeButton");
+        rightSide.RemoveFromClassList("SettingsButton");
+        rightSide.RemoveFromClassList("QuitButton");
+        
+        rightSide.AddToClassList(buttonName);
+        rightSide.AddToClassList("slidefade");
     }
 
     void ClosePauseMenu()
@@ -160,14 +172,11 @@ public class ButtonManager : MonoBehaviour
         if (currentButtonContainer == null || currentButtonIndex + buttonIndexChange < 0 || currentButtonIndex + buttonIndexChange > currentButtonContainer.childCount - 1) 
             return;
         
-        //currentButtonContainer[currentButtonIndex].RemoveFromClassList(".button.selected");
-        currentButtonContainer[currentButtonIndex].style.color = default;
+        currentButtonContainer[currentButtonIndex].RemoveFromClassList("selected");
 
         currentButtonIndex += buttonIndexChange;
         
-        currentButtonContainer[currentButtonIndex].style.color = new Color(255, 255, 255, 255);
-        
-        Debug.Log(currentButtonContainer[currentButtonIndex].ClassListContains(".selected"));
+        currentButtonContainer[currentButtonIndex].AddToClassList("selected");
         
         if(debug)
             Debug.Log(currentButtonContainer[currentButtonIndex].name);
