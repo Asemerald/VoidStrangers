@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -7,19 +8,20 @@ using UnityEngine.U2D.Animation;
 
 public class PlayerController : MonoBehaviour
 {
-    private enum State
+    public enum State
     {
         None = 0,
         FreeMove = 1,
         Move = 2,
+        Cutscene = 4,
     }
     
     [SerializeField] private float speed = 3f;
     [SerializeField] private Sprite sprite;
+    [SerializeField] private bool freeMove = true;
 
     // Movement
     private State _state = State.None;
-    [SerializeField] private bool _freeMove = true;
     private Vector3 _moveDirection;
     private Vector2 _lookDirection;
     
@@ -94,13 +96,24 @@ public class PlayerController : MonoBehaviour
 
     public void DisableFreeMove()
     {
-        //TODO Add _freeMove = false; here once function to get the staff is implemented
+        freeMove = false;
         transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), 0);
+    }
+
+    public void SetState(State state)
+    {
+        _state = state;
+        switch (_state)
+        {
+            case State.Cutscene:
+                StartCoroutine(Wait());
+                break;
+        }
     }
     
     private void OnMove(InputAction.CallbackContext ctx)
     {
-        if (!_freeMove)
+        if (!freeMove)
             return;
         
         var input = ctx.ReadValue<Vector2>();
@@ -120,7 +133,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnMoveTile(InputAction.CallbackContext ctx, Vector2 direction)
     {
-        if (_freeMove)
+        if (freeMove)
             return;
         
         if (ctx.started)
@@ -144,7 +157,6 @@ public class PlayerController : MonoBehaviour
                 if(LevelSetup.Instance.CanMove(transform.position + _moveDirection))
                     transform.position += _moveDirection;
                 
-                DisableFreeMove(); //TODO Remove this once this function is called from outside in a logical place
                 _state = State.None;
                 break;
         }
@@ -155,7 +167,7 @@ public class PlayerController : MonoBehaviour
         switch (_state)
         {
             case State.None:
-                if (!_freeMove)
+                if (!freeMove)
                 {
                     _timer += Time.fixedDeltaTime;
                     _timer %= 1f;
@@ -200,6 +212,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnInteract(InputAction.CallbackContext ctx)
     {
+        if (_state == State.Cutscene)
+            return;
+        
         var objects = FindObjectsByType<Collider2D>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
         var position = new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
         foreach (var obj in objects)
@@ -209,7 +224,13 @@ public class PlayerController : MonoBehaviour
             for (var i = 0; i < objSize.x; i++)
                 if (objPosition + Vector2.right * i == position + _lookDirection)
                     if (obj.TryGetComponent(out Interactable interactable))
-                        interactable.Interact(_lookDirection);
+                        interactable.Interact(this, _lookDirection);
         }
+    }
+    
+    private IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(1f);
+        _state = State.None;
     }
 }
