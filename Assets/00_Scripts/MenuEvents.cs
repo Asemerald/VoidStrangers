@@ -6,6 +6,7 @@ public class ButtonManager : MonoBehaviour
     private UIDocument _document;
     private string currentTabName = "Main-Tab";
     private string previousTabName = "";
+    private int currentPageDepth = 1 ;
     [SerializeField] private bool debug;
     private void Awake()
     {
@@ -39,19 +40,19 @@ public class ButtonManager : MonoBehaviour
                 break;
             
             case "BackSettingsButton":
-                OpenTab("Main-Tab");
+                OpenTab("Main-Tab",-1);
                 break;
             
             case "SettingsButton":
-                OpenTab("Settings-Tab");
+                OpenTab("Settings-Tab",1);
                 break;
             
             case "GraphicsButton":
-                OpenTab("Graphics-Tab");
+                OpenTab("Graphics-Tab",1);
                 break;
             
             case "AudioButton":
-                OpenTab("Audio-Tab");
+                OpenTab("Audio-Tab",1);
                 break;
           
         }
@@ -62,10 +63,10 @@ public class ButtonManager : MonoBehaviour
         if (previousTabName == "")
             return;
         
-        OpenTab(previousTabName);
+        OpenTab(previousTabName,-1);
     }
 
-    void OpenTab(string tabName)
+    void OpenTab(string tabName, int pageDepthUpdate = 0)
     {
         if (_document.rootVisualElement.Q(tabName) == null)
             return;
@@ -74,7 +75,10 @@ public class ButtonManager : MonoBehaviour
         
         _document.rootVisualElement.Q(previousTabName).style.display = DisplayStyle.None;
         _document.rootVisualElement.Q(currentTabName).style.display = DisplayStyle.Flex;
+
+        currentPageDepth += pageDepthUpdate;
         
+        UpdatePageClass();
     }
 
     void UpdateButtonImage(string buttonName)
@@ -85,7 +89,15 @@ public class ButtonManager : MonoBehaviour
 
     void ClosePauseMenu()
     {
-        if(debug)
-            Debug.Log("WIP : Devrait fermer le menu pause");
+        _document.rootVisualElement.Q(currentTabName).style.display = DisplayStyle.None;
+    }
+    
+    private void UpdatePageClass()
+    {
+        VisualElement pageContainer = _document.rootVisualElement.Q("PageCounter");
+        for (int i = 1; i <= 3; i++)
+            pageContainer.RemoveFromClassList($"page-{i}");
+
+        pageContainer.AddToClassList($"page-{currentPageDepth}");
     }
 }
