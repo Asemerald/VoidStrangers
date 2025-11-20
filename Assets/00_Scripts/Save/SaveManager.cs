@@ -48,11 +48,11 @@ namespace _00_Scripts.Save
         
         private void CreateNewSaveData()
         {
-            CurrentSaveData = SaveData.CreateDefault();
-            SaveSaveData();
+            CurrentSaveData = Save.SaveData.CreateDefault();
+            SaveData();
         }
         
-        public static void SaveSaveData()
+        public static void SaveData()
         {
             string json = JsonUtility.ToJson(CurrentSaveData, true);
             System.IO.File.WriteAllText(_saveFilePath, json);
