@@ -45,8 +45,11 @@ public class Chest : Interactable
         UpdateSprite();
     }
 
-    public override void Interact()
+    public override void Interact(Vector2 direction)
     {
+        if (direction != Vector2.up)
+            return;
+        
         _state = State.Open;
         _label = ((int)_state).ToString();
         UpdateSprite();
