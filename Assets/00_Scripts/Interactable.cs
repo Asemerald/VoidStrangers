@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    public virtual bool Interact(PlayerController player, Vector2 direction)
+    public virtual int Interact(PlayerController player, Vector2 direction)
     {
-        return false;
+        return 0;
     }
 }

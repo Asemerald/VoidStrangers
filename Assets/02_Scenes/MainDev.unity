@@ -370,7 +370,8 @@ MonoBehaviour:
   fxPrefab: {fileID: 2508714861711017434, guid: ecd952b799ec58b4287960888b06deb7, type: 3}
   freeMove: 0
   fallClip: {fileID: 8300000, guid: 4af3dfe80937def408fe973c50259ce8, type: 3}
-  batonClip: {fileID: 8300000, guid: 16f5c4eb79892114ca48ca6873c6b0b3, type: 3}
+  tilePlaceClip: {fileID: 8300000, guid: ecdcbf202886b044f8767674ed29243f, type: 3}
+  tileStoreClip: {fileID: 8300000, guid: a6d0f49fee84a0946a8f41dadafc3ff1, type: 3}
   damageClip: {fileID: 8300000, guid: 84ef6394fa982854c82d3ad017b30f0b, type: 3}
 --- !u!4 &736270540
 Transform:

@@ -346,7 +346,7 @@ public class LevelSetup : Interactable {
         Debug.Log(stairs);
     }
     
-    public override bool Interact(PlayerController player, Vector2 position)
+    public override int Interact(PlayerController player, Vector2 position)
     {
         var fx = Mathf.FloorToInt(player.transform.position.x + position.x);
         var fy = Mathf.FloorToInt(player.transform.position.y + position.y);
@@ -354,25 +354,25 @@ public class LevelSetup : Interactable {
         
         if (IsPaper(floorBlock)) {
             //Do something
-            return false;
+            return 0;
         }
         
         if (IsFloor(floorBlock) && !IsVoid(floorBlock) && !PlayerData.Instance.pickedUpTile) {
             PickUpTile(floorBlock);
-            return true;
+            return 1;
         }
         
         if (IsVoid(floorBlock) && PlayerData.Instance.pickedUpTile) {
             PlaceTile(floorBlock);
-            return true;
+            return 2;
         }
 
         if (IsStairs(floorBlock)) {
             //Do something
-            return false;
+            return 0;
         }
 
-        return false;
+        return 0;
     }
     
     private bool IsFloor(Vector3Int position) {

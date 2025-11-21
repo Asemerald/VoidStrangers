@@ -48,13 +48,13 @@ public class PlayerController : MonoBehaviour
     private PlayerControls _controls;
     private readonly Dictionary<InputAction, Action<InputAction.CallbackContext>> _handlers = new();
     
-    //Rigidbody
+    // Rigidbody
     private Rigidbody2D _rb;
     
     [Header("Audio")]
     [SerializeField] private AudioClip fallClip;
-
-    [SerializeField] private AudioClip batonClip;
+    [SerializeField] private AudioClip tilePlaceClip;
+    [SerializeField] private AudioClip tileStoreClip;
 
     [SerializeField]
     private AudioClip damageClip;
@@ -136,6 +136,7 @@ public class PlayerController : MonoBehaviour
             case State.OpenChest:
             case State.Blink:
             case State.Falling:
+                AudioManager.PlaySound(fallClip);
                 _state |= State.Cutscene;
                 break;
             case State.Edging:
@@ -217,9 +218,6 @@ public class PlayerController : MonoBehaviour
     {
         if (freeMove || HasState(State.Cutscene))
             return;
-        
-        Debug.Log("Context: " + ctx.started + " " + ctx.performed + " " + ctx.canceled);
-        Debug.Log("State: " + _state);
         
         if (HasState(State.Edging))
         {
@@ -322,7 +320,6 @@ public class PlayerController : MonoBehaviour
                 _label = GetFrameLabel(6f, 12f);
                 if (_timer > 2f)
                 {
-                    AudioManager.PlaySound(fallClip);
                     var level = LevelSetup.Instance.ReloadLevel();
                     PlayerData.Instance.ResetPickedUpTile();
                     PlayerData.Instance.SubtractBugAmount(1);
@@ -356,7 +353,7 @@ public class PlayerController : MonoBehaviour
                     return;
                 }
                 // FX
-                var swipeLabel = GetFrameLabel(20f, 10f);
+                var swipeLabel = GetFrameLabel(40f, 20f);
                 var sparkleLabel = GetFrameLabel(16f, 8f);
                 _fx["Swipe"].SetCategoryAndLabel("Swipe", swipeLabel);
                 _fx["Sparkle"].SetCategoryAndLabel("Sparkle", sparkleLabel);
@@ -430,9 +427,12 @@ public class PlayerController : MonoBehaviour
 
         if (PlayerData.Instance.hasScepter)
         {
-            if (LevelSetup.Instance.Interact(this, _lookDirection))
-                SetState(State.Attack);
-            AudioManager.PlaySound(batonClip);
+            var result = LevelSetup.Instance.Interact(this, _lookDirection);
+            if (result == 0)
+                return;
+            
+            SetState(State.Attack);
+            AudioManager.PlaySound(result == 1 ? tileStoreClip : tilePlaceClip);
         }
     }
 

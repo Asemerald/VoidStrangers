@@ -59,16 +59,16 @@ public class Chest : Interactable
         UpdateSprite();
     }
 
-    public override bool Interact(PlayerController player, Vector2 direction)
+    public override int Interact(PlayerController player, Vector2 direction)
     {
         if (direction != Vector2.up)
-            return false;
+            return 0;
         
         _state = State.Open;
         _label = ((int)_state).ToString();
         UpdateSprite();
         ObtainItem(player);
-        return true;
+        return 1;
     }
 
     private void ObtainItem(PlayerController player)
