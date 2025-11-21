@@ -23,7 +23,7 @@ public class MusicManager : MonoBehaviour
 
     private void Start()
     {
-        PlayGameplayMusic(SaveManager.CurrentSaveData.LastLevelCompleted);
+        PlayMusic(levelMusic[SaveManager.CurrentSaveData.LastLevelCompleted]);
     }
 
     public void PlayMainMenuMusic()
