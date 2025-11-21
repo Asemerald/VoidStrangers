@@ -21,10 +21,12 @@ public class PlayerController : MonoBehaviour
         OpenChest = 16,
         Edging = 32,
         Falling = 64,
+        Attack = 128,
     }
     
     [SerializeField] private float speed = 3f;
     [SerializeField] private Sprite sprite;
+    [SerializeField] private SpriteResolver fxPrefab;
     [SerializeField] private bool freeMove = true;
 
     // Movement
@@ -38,19 +40,22 @@ public class PlayerController : MonoBehaviour
     private string _category;
     private string _label;
     private float _timer;
+    private Dictionary<string, SpriteResolver> _fx;
+    
     
     // Input
     private PlayerControls _controls;
     private readonly Dictionary<InputAction, Action<InputAction.CallbackContext>> _handlers = new();
     
     //Rigidbody
-    private Rigidbody2D rb;
+    private Rigidbody2D _rb;
     
     private void Awake()
     {
         _controls = new PlayerControls();
         _spriteResolver = GetComponentInChildren<SpriteResolver>();
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
+        _fx = new Dictionary<string, SpriteResolver>();
     }
 
     private void OnEnable()
@@ -125,6 +130,26 @@ public class PlayerController : MonoBehaviour
                 break;
             case State.Edging:
                 _previousPosition = transform.position;
+                _fx.Add("Sweat", Instantiate(fxPrefab, transform.position + new Vector3(0.5f, 0.5f, 0f), Quaternion.identity, transform));
+                break;
+            case State.Attack:
+                _state |= State.Cutscene;
+                Vector3 v3LookDirection = _lookDirection;
+                _fx.Add("Rod", Instantiate(fxPrefab, transform.position + v3LookDirection, Quaternion.identity, transform));
+                _fx["Rod"].GetComponent<SpriteRenderer>().sortingOrder = 4;
+                var swipeAngle = 0f;
+                if (_lookDirection.y > 0)
+                    swipeAngle = 180f;
+                else if (_lookDirection.x < 0)
+                    swipeAngle = 270f;
+                else if (_lookDirection.x > 0)
+                    swipeAngle = 90f;
+                var swipeRotation = new Vector3(0f, 0f, swipeAngle);
+                _fx.Add("Swipe", Instantiate(fxPrefab, 
+                    transform.position + v3LookDirection + new Vector3(-0.5f * v3LookDirection.x, -0.5f * v3LookDirection.y, 0f), Quaternion.identity, transform));
+                _fx["Swipe"].transform.localEulerAngles = swipeRotation;
+                _fx.Add("Sparkle", Instantiate(fxPrefab, transform.position + v3LookDirection, Quaternion.identity, transform));
+                _fx["Sparkle"].GetComponent<SpriteRenderer>().sortingOrder = 5;
                 break;
         }
     }
@@ -176,6 +201,7 @@ public class PlayerController : MonoBehaviour
                 if (_lookDirection + direction == Vector2.zero)
                 {
                     transform.position = _previousPosition;
+                    ClearFX();
                     SetState(State.None);
                 }
                 return;
@@ -193,7 +219,7 @@ public class PlayerController : MonoBehaviour
                 var deltaPosition = _moveDirection * (speed * Time.fixedDeltaTime);
                 LevelSetup.Instance.CanMove(this, transform.position + new Vector3(deltaPosition.x, deltaPosition.y, 0),
                     _moveDirection, ref deltaPosition);
-                rb.MovePosition(transform.position + new Vector3(deltaPosition.x, deltaPosition.y, 0));
+                _rb.MovePosition(transform.position + new Vector3(deltaPosition.x, deltaPosition.y, 0));
                 break;
             case State.Move:
                 var zeroPosition = Vector3.zero;
@@ -251,12 +277,18 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             case State.Edging:
+                // Player
                 _timer += Time.fixedDeltaTime;
                 _label = GetFrameLabel(16f, 2f);
                 if (_timer > 1.5f)
                 {
                     SetState(State.Falling);
+                    ClearFX();
+                    return;
                 }
+                // FX
+                var fxLabel = GetFrameLabel(15f, 5f);
+                _fx["Sweat"].SetCategoryAndLabel("Sweat", fxLabel);
                 break;
             case State.Falling | State.Cutscene:
                 _timer += Time.fixedDeltaTime;
@@ -274,9 +306,25 @@ public class PlayerController : MonoBehaviour
                     _state = State.Blink | State.Cutscene;
                 }
                 break;
+            case State.Attack | State.Cutscene:
+                // Player
+                _timer += Time.fixedDeltaTime;
+                _label = GetFrameLabel(4f, 2f);
+                if (_timer > 0.5f)
+                {
+                    _state = State.None;
+                    ClearFX();
+                    return;
+                }
+                // FX
+                var swipeLabel = GetFrameLabel(20f, 10f);
+                var sparkleLabel = GetFrameLabel(16f, 8f);
+                _fx["Swipe"].SetCategoryAndLabel("Swipe", swipeLabel);
+                _fx["Sparkle"].SetCategoryAndLabel("Sparkle", sparkleLabel);
+                break;
         }
 
-        if (!HasState(State.Cutscene))
+        if (!HasState(State.Cutscene) || HasState(State.Attack))
         {
             if (_lookDirection.x < 0)
             {
@@ -299,6 +347,12 @@ public class PlayerController : MonoBehaviour
         {
             _category = GetCurrentFlagName(1);
         }
+
+        if (HasState(State.Attack))
+        {
+            _label = "a" + _label;
+            _fx["Rod"].SetCategoryAndLabel("Rod", _category);
+        }
         
         _spriteResolver.SetCategoryAndLabel(_category, _label);
     }
@@ -306,6 +360,13 @@ public class PlayerController : MonoBehaviour
     private string GetFrameLabel(float animSpeed, float frames)
     {
         return Mathf.FloorToInt((_timer * animSpeed) % frames).ToString();
+    }
+
+    private void ClearFX()
+    {
+        foreach (var fx in _fx)
+            Destroy(fx.Value.gameObject);
+        _fx.Clear();
     }
 
     private void OnInteract(InputAction.CallbackContext ctx)
@@ -327,8 +388,11 @@ public class PlayerController : MonoBehaviour
                         return;
                     }
         }
-        
+
         if (PlayerData.Instance.hasScepter)
-            LevelSetup.Instance.Interact(this, _lookDirection);
+        {
+            if (LevelSetup.Instance.Interact(this, _lookDirection))
+                SetState(State.Attack);
+        }
     }
 }

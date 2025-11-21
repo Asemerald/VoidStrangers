@@ -197,6 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   speed: 3
   sprite: {fileID: 21300000, guid: 5282df80883dd27428b2106d57cff352, type: 3}
+  fxPrefab: {fileID: 2508714861711017434, guid: ecd952b799ec58b4287960888b06deb7, type: 3}
   freeMove: 1
 --- !u!4 &736270540
 Transform:
