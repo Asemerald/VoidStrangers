@@ -189,6 +189,7 @@ public class LevelSetup : Interactable {
             LoadLevel(levels[currentLevel].loadLevel);
             // Save the level completion
             SaveManager.CurrentSaveData.LastLevelCompleted = currentLevel;
+            
             SaveManager.SaveGame();
             
             // Play Next Level Music
