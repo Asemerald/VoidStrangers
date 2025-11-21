@@ -2,6 +2,7 @@ using System;
 using _00_Scripts;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 
 public class MenuEvents : MonoBehaviour
@@ -45,6 +46,11 @@ public class MenuEvents : MonoBehaviour
         UpdateButtonSelected();
     }
 
+    private void Update()
+    {
+        UpdateHUD();
+    }
+
     private void OnEnable()
     {
         controls.Enable();
@@ -77,7 +83,6 @@ public class MenuEvents : MonoBehaviour
         _document.rootVisualElement.Q("BottomSide").style.display = DisplayStyle.Flex;
         _document.rootVisualElement.Q("HUD").style.display = DisplayStyle.None;
     }
-
 
     private void OnClick(string buttonName)
     {
@@ -205,6 +210,47 @@ public class MenuEvents : MonoBehaviour
             Debug.Log(currentButtonContainer[currentButtonIndex].name);
         
         UpdateButtonImage(currentButtonContainer[currentButtonIndex].name);
+        
+    }
+
+    void UpdateHUD()
+    {
+        VisualElement hud = _document.rootVisualElement.Q<VisualElement>("HUD");
+        
+        hud.Q<Label>("LVL-Amount").text = "B0"+(LevelSetup.Instance.CurrentLevelIndex+1).ToString("D2");
+
+        if (PlayerData.Instance.bugAmount >= 0)
+        {
+            hud.Q<Label>("BEE-Amount").text = PlayerData.Instance.bugAmount.ToString("D2");
+            hud.Q<Label>("HP-Amount").text  = "HP"+PlayerData.Instance.healthPoints.ToString("D2");
+        }
+        else
+        {
+            hud.Q<Label>("BEE-Amount").text ="00";
+            hud.Q<Label>("HP-Amount").text  = "VOID";
+        }
+        
+        
+        
+
+        if (PlayerData.Instance.hasScepter && !hud.Q<VisualElement>("Sceptre").ClassListContains("sceptre"))
+        {
+            hud.Q<VisualElement>("Sceptre").AddToClassList("sceptre");
+            Debug.Log(hud.Q<VisualElement>("Sceptre").ClassListContains("sceptre"));
+        }
+        else
+        {
+            if (PlayerData.Instance.pickedUpTile)
+            {
+                hud.Q<VisualElement>("Sceptre").AddToClassList("sceptreGround");
+            }
+            else
+            {
+                hud.Q<VisualElement>("Sceptre").RemoveFromClassList("sceptreGround");
+            }
+        }
+        
+        
         
     }
 }

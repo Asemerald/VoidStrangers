@@ -9,6 +9,8 @@ using UnityEngine.Tilemaps;
 public class LevelSetup : Interactable {
     public static LevelSetup Instance { get; private set; }
 
+    public int CurrentLevelIndex => currentLevel;
+
     [Header("Levels")] 
     [SerializeField] private Transform tileGrid;
     [SerializeField] private LevelData[] levels;
@@ -187,6 +189,7 @@ public class LevelSetup : Interactable {
             LoadLevel(levels[currentLevel].loadLevel);
             // Save the level completion
             SaveManager.CurrentSaveData.LastLevelCompleted = currentLevel;
+            
             SaveManager.SaveGame();
             
             // Play Next Level Music
