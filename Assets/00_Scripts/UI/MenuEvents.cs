@@ -10,7 +10,8 @@ public class MenuEvents : MonoBehaviour
     public static MenuEvents Instance { get; private set; }
     
     private UIDocument _document;
-    private string currentTabName = "Main-Tab";
+    bool gameStarted = false;
+    private string currentTabName = "Menu";
     private string previousTabName = "";
     private int currentButtonIndex = 0;
     private int currentPageDepth = 1 ;
@@ -42,6 +43,9 @@ public class MenuEvents : MonoBehaviour
     private void Start()
     {
         currentButtonContainer = _document.rootVisualElement.Q<VisualElement>(currentTabName).Q<VisualElement>("Middle").Q<VisualElement>("LeftSide");
+        
+        OpenTab("Menu");
+        GameManager.Instance.playerController.DisableActionMap();
         
         UpdateButtonSelected();
     }
@@ -79,8 +83,13 @@ public class MenuEvents : MonoBehaviour
 
     public void OpenPauseMenu()
     {
+        OnEnable();
         OpenTab("Main-Tab");
-        _document.rootVisualElement.Q("BottomSide").style.display = DisplayStyle.Flex;
+        if (gameStarted)
+        {
+            _document.rootVisualElement.Q("BottomSide").style.display = DisplayStyle.Flex;
+        }
+
         _document.rootVisualElement.Q("HUD").style.display = DisplayStyle.None;
     }
 
@@ -92,9 +101,11 @@ public class MenuEvents : MonoBehaviour
         UpdateButtonImage(buttonName);
         
         switch (buttonName)
-        {
+        { 
             case "ResumeButton":
                 ClosePauseMenu();
+                if(!gameStarted)
+                    gameStarted = true;
                 break;
             
             case "QuitButton":
@@ -102,11 +113,16 @@ public class MenuEvents : MonoBehaviour
                 break;
             
             case "BackButton":
-                PreviousTab();
+                if(gameStarted)
+                    OpenTab("Main-Tab",-2);
+                else
+                {
+                    OpenTab("Menu");
+                }
                 break;
             
             case "BackSettingsButton":
-                OpenTab("Main-Tab",-1);
+                OpenTab(previousTabName,-1);
                 break;
             
             case "SettingsButton":
@@ -142,10 +158,12 @@ public class MenuEvents : MonoBehaviour
         _document.rootVisualElement.Q(previousTabName).style.display = DisplayStyle.None;
         _document.rootVisualElement.Q(currentTabName).style.display = DisplayStyle.Flex;
         
-        UpdateButtonSelected(-currentButtonIndex);
+        currentButtonContainer[currentButtonIndex].RemoveFromClassList("selected");
         currentButtonContainer = _document.rootVisualElement.Q<VisualElement>(currentTabName).Q<VisualElement>("Middle").Q<VisualElement>("LeftSide");
+        UpdateButtonSelected(-currentButtonIndex);
         
-        currentPageDepth += pageDepthUpdate;
+        if(gameStarted)
+            currentPageDepth += pageDepthUpdate;
         
         UpdatePageClass();
     }
@@ -183,6 +201,7 @@ public class MenuEvents : MonoBehaviour
         _document.rootVisualElement.Q(currentTabName).style.display = DisplayStyle.None;
         _document.rootVisualElement.Q("BottomSide").style.display = DisplayStyle.None;
         _document.rootVisualElement.Q("HUD").style.display = DisplayStyle.Flex;
+        OnDisable();
         GameManager.Instance.playerController.EnableActionMap();
     }
     
@@ -229,9 +248,6 @@ public class MenuEvents : MonoBehaviour
             hud.Q<Label>("BEE-Amount").text ="00";
             hud.Q<Label>("HP-Amount").text  = "VOID";
         }
-        
-        
-        
 
         if (PlayerData.Instance.hasScepter && !hud.Q<VisualElement>("Sceptre").ClassListContains("sceptre"))
         {
@@ -242,10 +258,19 @@ public class MenuEvents : MonoBehaviour
         {
             if (PlayerData.Instance.pickedUpTile)
             {
-                hud.Q<VisualElement>("Sceptre").AddToClassList("sceptreGround");
+                
+                if (PlayerData.Instance.pickedUpTile.name == "spr_stairs_0")
+                {
+                    hud.Q<VisualElement>("Sceptre").AddToClassList("sceptreStairs");
+                }
+                else
+                {
+                    hud.Q<VisualElement>("Sceptre").AddToClassList("sceptreGround");
+                }
             }
             else
             {
+                hud.Q<VisualElement>("Sceptre").RemoveFromClassList("sceptreStairs");
                 hud.Q<VisualElement>("Sceptre").RemoveFromClassList("sceptreGround");
             }
         }
