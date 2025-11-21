@@ -21,7 +21,10 @@ namespace _00_Scripts {
             if (Instance == null)
                 Instance = this;
             else Destroy(this);
-            
+        }
+
+        private void Start()
+        {
             PlayerData.Instance.healthPoints = SaveManager.CurrentSaveData.HealthPoints;
             PlayerData.Instance.hasScepter = SaveManager.CurrentSaveData.HasScepter;
             PlayerData.Instance.bugAmount = SaveManager.CurrentSaveData.BugAmount;

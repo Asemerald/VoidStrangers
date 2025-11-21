@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level16
   m_EditorClassIdentifier: Assembly-CSharp::_00_Scripts.LevelData
   tileMap: {fileID: 1600083190492197335, guid: a5a86f43d0e43d74c9581c88f7ec749d, type: 3}
-  loadLevel: 16
+  loadLevel: 17
   playerPosition: {x: 4, y: -3, z: 0}
   objetcs:
   - objectToSpawn: {fileID: 5133791235452758904, guid: d82310450a6e162448df9c7fb9b78847, type: 3}

@@ -207,7 +207,8 @@ public class LevelSetup : Interactable {
                 deltaPosition.x = 0f;
         }
 
-        if (IsEnemy(intPos)) {
+        if (IsEnemy(intPos) ||IsEnemy(intPos - intDir)) {
+            Debug.LogWarning("Ennemy Tile");
             ReloadLevel();
             return false;
         }
