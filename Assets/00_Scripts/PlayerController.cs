@@ -68,6 +68,10 @@ public class PlayerController : MonoBehaviour
         _spriteResolver = GetComponentInChildren<SpriteResolver>();
         _rb = GetComponent<Rigidbody2D>();
         _fx = new Dictionary<string, SpriteResolver>();
+    }
+
+    private void Start()
+    {
         freeMove = SaveManager.CurrentSaveData.FreeMove;
     }
 

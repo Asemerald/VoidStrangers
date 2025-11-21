@@ -26,6 +26,7 @@ namespace _00_Scripts.Save
             saveData.IsFullScreen = true;
             saveData.ScreenResolution = ScreenResolution.R_1600x900;
             saveData.LastLevelCompleted = 0;
+            saveData.HasScepter = false;
             return saveData;
         }
     }

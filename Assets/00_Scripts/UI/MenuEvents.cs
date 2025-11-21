@@ -108,8 +108,11 @@ public class MenuEvents : MonoBehaviour
         { 
             case "ResumeButton":
                 ClosePauseMenu();
-                if(!gameStarted)
+                if (!gameStarted)
+                {
                     gameStarted = true;
+                    GameManager.Instance.playerController.EnableActionMap();
+                }
                 break;
             
             case "QuitButton":
