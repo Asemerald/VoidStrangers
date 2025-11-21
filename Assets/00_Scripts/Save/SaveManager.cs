@@ -24,6 +24,10 @@ namespace _00_Scripts.Save
             
             _saveFilePath = System.IO.Path.Combine(Application.persistentDataPath, SaveFileName);
             
+#if UNITY_EDITOR
+            DeleteSaveData();
+#endif
+            
             LoadOrCreateSaveData();
         }
 
