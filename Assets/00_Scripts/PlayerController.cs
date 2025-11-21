@@ -246,15 +246,15 @@ public class PlayerController : MonoBehaviour
                 _rb.MovePosition(transform.position + new Vector3(deltaPosition.x, deltaPosition.y, 0));
                 break;
             case State.Move:
-                TurnManager.TriggerTurn();
                 var zeroPosition = Vector3.zero;
                 if (LevelSetup.Instance.CanMove(transform.position + _moveDirection, _moveDirection, ref zeroPosition))
                     transform.position += _moveDirection;
                 if (!HasState(State.Edging))
                     _state = State.None;
+                TurnManager.TriggerTurn();
                 break;
             case State.Edging:
-                transform.position += _moveDirection * (0.666666f * Time.fixedDeltaTime);
+                transform.position += _moveDirection * (Time.fixedDeltaTime);
                 break;
         }
     }
@@ -305,7 +305,7 @@ public class PlayerController : MonoBehaviour
                 // Player
                 _timer += Time.fixedDeltaTime;
                 _label = GetFrameLabel(16f, 2f);
-                if (_timer > 1.5f)
+                if (_timer > 1f)
                 {
                     SetState(State.Falling);
                     ClearFX();
@@ -432,6 +432,7 @@ public class PlayerController : MonoBehaviour
                 return;
             
             SetState(State.Attack);
+            TurnManager.TriggerTurn();
             AudioManager.PlaySound(result == 1 ? tileStoreClip : tilePlaceClip);
         }
     }

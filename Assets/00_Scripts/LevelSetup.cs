@@ -101,7 +101,6 @@ public class LevelSetup : Interactable {
                 var intPos = Vector3Int.RoundToInt(obj.position);
                 intPos.z = 0;
                 tileMap.SetTile(intPos, dataFromTiles[data.Key].tiles[0]);
-                Debug.Log("Tyle type is " + obj.tyle);
                 break;
                 
             }
