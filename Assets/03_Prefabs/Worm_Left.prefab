@@ -107,6 +107,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   moveDir: 0
   currentDir: 1
+  spriteDirOne:
+  - {fileID: 21300000, guid: b4629bab5f5bca24fb240a8faafb436f, type: 3}
+  - {fileID: 21300000, guid: 69860c1b15273d641b283c5b7867a3a2, type: 3}
+  spriteDirTwo:
+  - {fileID: 21300000, guid: d45821d05ea332f4aa1db77a04d812f4, type: 3}
+  - {fileID: 21300000, guid: ec2b10e488ed18946a3420e70268bdb9, type: 3}
 --- !u!114 &4238021147010306676
 MonoBehaviour:
   m_ObjectHideFlags: 0

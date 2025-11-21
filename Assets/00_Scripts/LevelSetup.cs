@@ -38,6 +38,8 @@ public class LevelSetup : Interactable {
                 dataFromTiles.Add(tile, tileData);
             }
         }
+
+        PlayerData.Instance.SetHasScepter(true);
         
         // Load last level using the SaveData, if he completed the game, load level 0
         var lastLevel = SaveManager.CurrentSaveData.LastLevelCompleted;
@@ -207,7 +209,8 @@ public class LevelSetup : Interactable {
                 deltaPosition.x = 0f;
         }
 
-        if (IsEnemy(intPos)) {
+        if (IsEnemy(intPos) ||IsEnemy(intPos - intDir)) {
+            Debug.LogWarning("Ennemy Tile");
             ReloadLevel();
             return false;
         }

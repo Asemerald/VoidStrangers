@@ -105,3 +105,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   moveDir: 1
   currentDir: 3
+  spriteDirOne:
+  - {fileID: 21300000, guid: 600f570cf88e1304da4ffaa6f2a9947a, type: 3}
+  - {fileID: 21300000, guid: 4608c2362010bd64b82c069d7608a941, type: 3}
+  spriteDirTwo:
+  - {fileID: 21300000, guid: 8126d4876ac0211449fe6e64df714c71, type: 3}
+  - {fileID: 21300000, guid: 7730164992bb46f4aaa0be7a73ba7d4b, type: 3}

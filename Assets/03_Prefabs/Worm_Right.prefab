@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 5324279927430269888}
   - component: {fileID: 3609775422366057308}
   - component: {fileID: 6738782147766047123}
-  - component: {fileID: 9191413188664610993}
-  - component: {fileID: 6519178048879650869}
   m_Layer: 0
   m_Name: Worm_Right
   m_TagString: Untagged
@@ -107,33 +105,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   moveDir: 0
   currentDir: 0
---- !u!114 &9191413188664610993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8113146146471121369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
-  m_Library: []
-  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 215a8b761412c37489e4dc0d7e74de7b, type: 3}
---- !u!114 &6519178048879650869
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8113146146471121369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
-  m_CategoryHash: 0.00000051912593
-  m_labelHash: 0.00000040954276
-  m_SpriteKey: 0
-  m_SpriteHash: 459259000
+  spriteDirOne:
+  - {fileID: 21300000, guid: b4629bab5f5bca24fb240a8faafb436f, type: 3}
+  - {fileID: 21300000, guid: 69860c1b15273d641b283c5b7867a3a2, type: 3}
+  spriteDirTwo:
+  - {fileID: 21300000, guid: d45821d05ea332f4aa1db77a04d812f4, type: 3}
+  - {fileID: 21300000, guid: ec2b10e488ed18946a3420e70268bdb9, type: 3}
