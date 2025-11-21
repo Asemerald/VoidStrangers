@@ -178,6 +178,7 @@ public class PlayerController : MonoBehaviour
         if (ctx.performed)
         {
             _moveDirection = input;
+            TurnManager.TriggerTurn();
         }
 
         if (ctx.canceled)
