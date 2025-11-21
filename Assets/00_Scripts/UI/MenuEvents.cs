@@ -75,6 +75,7 @@ public class MenuEvents : MonoBehaviour
     {
         OpenTab("Main-Tab");
         _document.rootVisualElement.Q("BottomSide").style.display = DisplayStyle.Flex;
+        _document.rootVisualElement.Q("HUD").style.display = DisplayStyle.None;
     }
 
 
@@ -176,6 +177,7 @@ public class MenuEvents : MonoBehaviour
     {
         _document.rootVisualElement.Q(currentTabName).style.display = DisplayStyle.None;
         _document.rootVisualElement.Q("BottomSide").style.display = DisplayStyle.None;
+        _document.rootVisualElement.Q("HUD").style.display = DisplayStyle.Flex;
         GameManager.Instance.playerController.EnableActionMap();
     }
     
