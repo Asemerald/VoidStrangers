@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     private string _label;
     private float _timer;
     private Dictionary<string, SpriteResolver> _fx;
-    
+    private bool _rodMoved;
     
     // Input
     private PlayerControls _controls;
@@ -140,16 +140,34 @@ public class PlayerController : MonoBehaviour
                 _fx.Add("Rod", Instantiate(fxPrefab, transform.position + v3LookDirection, Quaternion.identity, transform));
                 _fx["Rod"].GetComponent<SpriteRenderer>().sortingOrder = 4;
                 var swipeAngle = 0f;
+                var swipeMirrored = false;
+                var swipeShift = new Vector3(0.5f, 0.5f, 0f);
                 if (_lookDirection.y > 0)
+                {
                     swipeAngle = 180f;
+                    swipeShift.x = 0f;
+                }
+                else if (_lookDirection.y < 0)
+                {
+                    swipeShift.x = 1f;
+                }
                 else if (_lookDirection.x < 0)
-                    swipeAngle = 270f;
+                {
+                    swipeAngle = -90f;
+                    swipeShift.y = 0f;
+                }
                 else if (_lookDirection.x > 0)
-                    swipeAngle = 90f;
+                {
+                    swipeAngle = -90f;
+                    swipeShift.y = 0f;
+                    swipeMirrored = true;
+                }
                 var swipeRotation = new Vector3(0f, 0f, swipeAngle);
-                _fx.Add("Swipe", Instantiate(fxPrefab, 
-                    transform.position + v3LookDirection + new Vector3(-0.5f * v3LookDirection.x, -0.5f * v3LookDirection.y, 0f), Quaternion.identity, transform));
-                _fx["Swipe"].transform.localEulerAngles = swipeRotation;
+                _fx.Add("Swipe", Instantiate(fxPrefab, transform.position + swipeShift, Quaternion.Euler(swipeRotation), transform));
+                var swipeRenderer = _fx["Swipe"].GetComponent<SpriteRenderer>();
+                swipeRenderer.sortingOrder = 1;
+                if (swipeMirrored)
+                    swipeRenderer.flipY = true;
                 _fx.Add("Sparkle", Instantiate(fxPrefab, transform.position + v3LookDirection, Quaternion.identity, transform));
                 _fx["Sparkle"].GetComponent<SpriteRenderer>().sortingOrder = 5;
                 break;
@@ -311,11 +329,22 @@ public class PlayerController : MonoBehaviour
             case State.Attack | State.Cutscene:
                 // Player
                 _timer += Time.fixedDeltaTime;
-                _label = GetFrameLabel(4f, 2f);
-                if (_timer > 0.5f)
+                _label = GetFrameLabel(8f, 2f);
+                if (_label == "1" && !_rodMoved)
+                {
+                    _rodMoved = true;
+                    _fx["Rod"].transform.position += new Vector3(_lookDirection.x / 16f, _lookDirection.y / 16f, 0f);
+                }
+                if (_label == "0" && _rodMoved)
+                {
+                    _rodMoved = false;
+                    _fx["Rod"].transform.position -= new Vector3(_lookDirection.x / 16f, _lookDirection.y / 16f, 0f);
+                }
+                if (_timer > 0.375f)
                 {
                     _state = State.None;
                     ClearFX();
+                    _rodMoved = false;
                     return;
                 }
                 // FX
