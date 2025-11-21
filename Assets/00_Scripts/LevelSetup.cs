@@ -19,7 +19,7 @@ public class LevelSetup : Interactable {
     [SerializeField] private List<TilesData> tilesData;
     [SerializeField] private Transform gem;
     
-    private Tilemap tileMap;
+    public Tilemap tileMap { get; private set; }
     private Transform currentLoadedGem;
     
     private bool gemPickedUp = false;
@@ -27,7 +27,7 @@ public class LevelSetup : Interactable {
     private List<GameObject> levelObjects = new List<GameObject>();
     private List<Transform> rocks = new List<Transform>();
 
-    private Dictionary<TileBase, TilesData> dataFromTiles =  new Dictionary<TileBase, TilesData>();
+    public Dictionary<TileBase, TilesData> dataFromTiles =  new Dictionary<TileBase, TilesData>();
     
     private void Start() {
         if(Instance == null) Instance = this;
@@ -157,8 +157,36 @@ public class LevelSetup : Interactable {
         
         PlayerData.Instance.ResetPickedUpTile();
     }
+
+    public bool CanEnemyMove(Vector3 position, Vector3 dir) {
+        var intPos = Vector3Int.zero;
+        intPos.x = dir.x > 0 ? Mathf.CeilToInt(position.x) : Mathf.FloorToInt(position.x);
+        intPos.y = dir.y > 0 ? Mathf.CeilToInt(position.y) : Mathf.FloorToInt(position.y);
+        intPos.z = 0;
+
+        if (!IsFloor(intPos)) {
+            intPos.x = Mathf.RoundToInt(position.x);
+            intPos.y = Mathf.CeilToInt(position.y);
+        
+            intPos.x = Mathf.CeilToInt(position.x);
+            intPos.y = Mathf.RoundToInt(position.y);
+        }
+        
+        if (IsVoid(intPos)) {
+            return false;
+        }
+
+        if (IsStairs(intPos)) {
+            return false;
+        }
+
+        if (!tileMap.GetTile(intPos))
+            return false;
+        
+        return IsFloor(intPos);
+    }
     
-    public bool CanMove(PlayerController player, Vector3 position, Vector3 dir, ref Vector3 deltaPosition) {
+    public bool CanMove(Vector3 position, Vector3 dir, ref Vector3 deltaPosition) {
         var intPos = Vector3Int.zero;
         intPos.x = dir.x > 0 ? Mathf.CeilToInt(position.x) : Mathf.FloorToInt(position.x);
         intPos.y = dir.y > 0 ? Mathf.CeilToInt(position.y) : Mathf.FloorToInt(position.y);
@@ -178,10 +206,15 @@ public class LevelSetup : Interactable {
             if (!IsFloor(intPos) || !IsFloor(intPos + Vector3Int.left))
                 deltaPosition.x = 0f;
         }
+
+        if (IsEnemy(intPos)) {
+            ReloadLevel();
+            return false;
+        }
         
         if (IsVoid(intPos)) {
             if (PlayerData.Instance.hasScepter)
-                player.SetState(PlayerController.State.Edging);
+                PlayerController.Instance.SetState(PlayerController.State.Edging);
             return false;
         }
 
@@ -208,6 +241,10 @@ public class LevelSetup : Interactable {
         
         var tileIsRockStairs = dataFromTiles[tileMap.GetTile(intPos)].tileType == TilesData.TileType.RockStairs;
         return !CheckForMoveable(intPos, intDir, tileIsRockStairs) && IsFloor(intPos);
+    }
+
+    private bool IsEnemy(Vector3Int pos) {
+        return tileMap.GetTile(pos) && !IsVoid(pos) && dataFromTiles[tileMap.GetTile(pos)].walkable && dataFromTiles[tileMap.GetTile(pos)].tileType is TilesData.TileType.Enemy;
     }
 
     private bool CheckForMoveable(Vector3Int pos, Vector3Int dir, bool stairs = false) {
@@ -314,26 +351,22 @@ public class LevelSetup : Interactable {
         var fy = Mathf.FloorToInt(player.transform.position.y + position.y);
         var floorBlock = new Vector3Int(fx, fy, 0);
         
-        if (IsPaper(floorBlock))
-        {
+        if (IsPaper(floorBlock)) {
             //Do something
             return false;
         }
         
-        if (IsFloor(floorBlock) && !IsVoid(floorBlock) && !PlayerData.Instance.pickedUpTile)
-        {
+        if (IsFloor(floorBlock) && !IsVoid(floorBlock) && !PlayerData.Instance.pickedUpTile) {
             PickUpTile(floorBlock);
             return true;
         }
         
-        if (IsVoid(floorBlock) && PlayerData.Instance.pickedUpTile)
-        {
+        if (IsVoid(floorBlock) && PlayerData.Instance.pickedUpTile) {
             PlaceTile(floorBlock);
             return true;
         }
 
-        if (IsStairs(floorBlock))
-        {
+        if (IsStairs(floorBlock)) {
             //Do something
             return false;
         }
@@ -341,13 +374,11 @@ public class LevelSetup : Interactable {
         return false;
     }
     
-    private bool IsFloor(Vector3Int position)
-    {
+    private bool IsFloor(Vector3Int position) {
         return tileMap.GetTile(position) && !IsVoid(position) && dataFromTiles[tileMap.GetTile(position)].walkable;
     }
 
-    private bool IsVoid(Vector3Int position)
-    {
+    private bool IsVoid(Vector3Int position) {
         if (!tileMap.GetTile(position))
             return true;
         return dataFromTiles[tileMap.GetTile(position)].tileType is TilesData.TileType.Void;

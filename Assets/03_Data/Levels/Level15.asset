@@ -15,6 +15,12 @@ MonoBehaviour:
   tileMap: {fileID: 3204959575175135487, guid: ffec2d2368fea2e49a69db2fa2a83e05, type: 3}
   loadLevel: 15
   playerPosition: {x: -6, y: 1, z: 0}
-  objetcs: []
+  objetcs:
+  - objectToSpawn: {fileID: 7804868711951751947, guid: e31d4f38e0137d34eb09f2b878ed01e3, type: 3}
+    position: {x: 2, y: 1, z: 0}
+    tyle: 8
+  - objectToSpawn: {fileID: 7804868711951751947, guid: e31d4f38e0137d34eb09f2b878ed01e3, type: 3}
+    position: {x: -2, y: 1, z: 0}
+    tyle: 8
   hasGem: 1
   gemPosition: {x: 2, y: 2, z: 0}

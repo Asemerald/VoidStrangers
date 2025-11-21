@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
         Attack = 128,
     }
     
+    public static PlayerController Instance{get; private set;}
+    
     [SerializeField] private float speed = 3f;
     [SerializeField] private Sprite sprite;
     [SerializeField] private SpriteResolver fxPrefab;
@@ -52,6 +54,9 @@ public class PlayerController : MonoBehaviour
     
     private void Awake()
     {
+        if(Instance ==  null)
+            Instance = this;
+        
         _controls = new PlayerControls();
         _spriteResolver = GetComponentInChildren<SpriteResolver>();
         _rb = GetComponent<Rigidbody2D>();
@@ -196,7 +201,6 @@ public class PlayerController : MonoBehaviour
         if (ctx.performed)
         {
             _moveDirection = input;
-            TurnManager.TriggerTurn();
         }
 
         if (ctx.canceled)
@@ -238,16 +242,18 @@ public class PlayerController : MonoBehaviour
         {
             case State.FreeMove:
                 var deltaPosition = _moveDirection * (speed * Time.fixedDeltaTime);
-                LevelSetup.Instance.CanMove(this, transform.position + new Vector3(deltaPosition.x, deltaPosition.y, 0),
+                LevelSetup.Instance.CanMove(transform.position + new Vector3(deltaPosition.x, deltaPosition.y, 0),
                     _moveDirection, ref deltaPosition);
                 _rb.MovePosition(transform.position + new Vector3(deltaPosition.x, deltaPosition.y, 0));
                 break;
             case State.Move:
                 var zeroPosition = Vector3.zero;
-                if (LevelSetup.Instance.CanMove(this, transform.position + _moveDirection, _moveDirection, ref zeroPosition))
+                if (LevelSetup.Instance.CanMove(transform.position + _moveDirection, _moveDirection, ref zeroPosition))
                     transform.position += _moveDirection;
                 if (!HasState(State.Edging))
                     _state = State.None;
+                
+                TurnManager.TriggerTurn();
                 break;
             case State.Edging:
                 transform.position += _moveDirection * (0.666666f * Time.fixedDeltaTime);

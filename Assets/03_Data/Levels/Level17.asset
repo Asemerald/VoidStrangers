@@ -19,5 +19,11 @@ MonoBehaviour:
   - objectToSpawn: {fileID: 5133791235452758904, guid: d82310450a6e162448df9c7fb9b78847, type: 3}
     position: {x: -4, y: -1, z: -1}
     tyle: 5
+  - objectToSpawn: {fileID: 6659049292491461836, guid: 6bf9cb24c57ac73428b5bec871d4a293, type: 3}
+    position: {x: 1, y: -3, z: -1}
+    tyle: 8
+  - objectToSpawn: {fileID: 7804868711951751947, guid: e31d4f38e0137d34eb09f2b878ed01e3, type: 3}
+    position: {x: -3, y: 2, z: -1}
+    tyle: 8
   hasGem: 0
   gemPosition: {x: 0, y: 2, z: 0}

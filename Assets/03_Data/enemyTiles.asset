@@ -10,13 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46f449ffd5574ded8f97190dd98e3c97, type: 3}
-  m_Name: StairsTiles
+  m_Name: enemyTiles
   m_EditorClassIdentifier: Assembly-CSharp::_00_Scripts.TileData
   tiles:
-  - {fileID: 11400000, guid: b45e270f6e94c2249a261edabba82be1, type: 2}
-  - {fileID: 11400000, guid: 237746029ae35a74b9258e04606181e4, type: 2}
-  - {fileID: 11400000, guid: 0d976de28da303945b312109490cefd2, type: 2}
-  - {fileID: 11400000, guid: 4e8387cf187ab7b4a975859c483e93ce, type: 2}
-  - {fileID: 11400000, guid: c4779e07500522a4d9748e2150cc2236, type: 2}
+  - {fileID: 11400000, guid: a37df95bc7b6af34e9ef5723cfd175d0, type: 2}
   walkable: 1
-  tileType: 1
+  tileType: 8

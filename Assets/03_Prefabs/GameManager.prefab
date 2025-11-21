@@ -73,6 +73,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a6d06eb7505793a4babbd70b312d3ec8, type: 2}
   - {fileID: 11400000, guid: e662fdf7667dc424cbd3356e81e96d3c, type: 2}
   - {fileID: 11400000, guid: 9fa1da48bd83ca04b83dbf5470ebac05, type: 2}
+  - {fileID: 11400000, guid: 01761208d0b803e40bbbc2b5999fbf26, type: 2}
   gem: {fileID: 163906654934116108, guid: 7e39296b80113ed4699663d8c4dfb9b7, type: 3}
 --- !u!1 &5389648030439592059
 GameObject:
@@ -225,6 +226,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2036566608434397176}
+  - component: {fileID: 1856520440332473734}
   m_Layer: 0
   m_Name: TurnManager
   m_TagString: Untagged
@@ -247,6 +249,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2986468168612348606}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1856520440332473734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7533422463317544787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8753b2f714129c43834c5b097a71851, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurnManager
 --- !u!1 &8155842315974053986
 GameObject:
   m_ObjectHideFlags: 0

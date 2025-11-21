@@ -236,6 +236,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6570904290843960589, guid: c3ecc7a950d599c44993ac3f93fffdab, type: 3}
+      propertyPath: level1Music
+      value: 
+      objectReference: {fileID: 8300000, guid: 19cf683131e541b469eaf3332a4d2ded, type: 3}
+    - target: {fileID: 6570904290843960589, guid: c3ecc7a950d599c44993ac3f93fffdab, type: 3}
+      propertyPath: level2Music
+      value: 
+      objectReference: {fileID: 8300000, guid: c444c3fea40d93245bca3075dbd5fced, type: 3}
+    - target: {fileID: 6570904290843960589, guid: c3ecc7a950d599c44993ac3f93fffdab, type: 3}
+      propertyPath: level3Music
+      value: 
+      objectReference: {fileID: 8300000, guid: a77fbf37f82b65840a3f1e8afd3fbfcd, type: 3}
+    - target: {fileID: 6570904290843960589, guid: c3ecc7a950d599c44993ac3f93fffdab, type: 3}
+      propertyPath: level4Music
+      value: 
+      objectReference: {fileID: 8300000, guid: 942852f982cd1ca469a8695fae14ad1b, type: 3}
+    - target: {fileID: 6570904290843960589, guid: c3ecc7a950d599c44993ac3f93fffdab, type: 3}
+      propertyPath: level5Music
+      value: 
+      objectReference: {fileID: 8300000, guid: 97a13cb264497ff46a6d37c058a784f4, type: 3}
+    - target: {fileID: 6570904290843960589, guid: c3ecc7a950d599c44993ac3f93fffdab, type: 3}
+      propertyPath: level6Music
+      value: 
+      objectReference: {fileID: 8300000, guid: c8ddb3cadc1029048bcd3254ee613435, type: 3}
+    - target: {fileID: 6570904290843960589, guid: c3ecc7a950d599c44993ac3f93fffdab, type: 3}
+      propertyPath: level7Music
+      value: 
+      objectReference: {fileID: 8300000, guid: b3a06596eccbb3d4e8bc2f98991a9bb6, type: 3}
+    - target: {fileID: 6570904290843960589, guid: c3ecc7a950d599c44993ac3f93fffdab, type: 3}
+      propertyPath: level8Music
+      value: 
+      objectReference: {fileID: 8300000, guid: 25e8ec36f9153c74c91dd0441f31d1a2, type: 3}
+    - target: {fileID: 6570904290843960589, guid: c3ecc7a950d599c44993ac3f93fffdab, type: 3}
+      propertyPath: level9Music
+      value: 
+      objectReference: {fileID: 8300000, guid: 00465ae6419ecd447908d947709b2a34, type: 3}
+    - target: {fileID: 6570904290843960589, guid: c3ecc7a950d599c44993ac3f93fffdab, type: 3}
+      propertyPath: mainMenuMusic
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8155842315974053986, guid: c3ecc7a950d599c44993ac3f93fffdab, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -328,7 +368,7 @@ MonoBehaviour:
   speed: 3
   sprite: {fileID: 21300000, guid: 5282df80883dd27428b2106d57cff352, type: 3}
   fxPrefab: {fileID: 2508714861711017434, guid: ecd952b799ec58b4287960888b06deb7, type: 3}
-  freeMove: 1
+  freeMove: 0
 --- !u!4 &736270540
 Transform:
   m_ObjectHideFlags: 0
@@ -824,7 +864,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 5282df80883dd27428b2106d57cff352, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
