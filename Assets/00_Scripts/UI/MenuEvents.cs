@@ -83,6 +83,7 @@ public class MenuEvents : MonoBehaviour
 
     public void OpenPauseMenu()
     {
+        OnEnable();
         OpenTab("Main-Tab");
         if (gameStarted)
         {
@@ -200,6 +201,7 @@ public class MenuEvents : MonoBehaviour
         _document.rootVisualElement.Q(currentTabName).style.display = DisplayStyle.None;
         _document.rootVisualElement.Q("BottomSide").style.display = DisplayStyle.None;
         _document.rootVisualElement.Q("HUD").style.display = DisplayStyle.Flex;
+        OnDisable();
         GameManager.Instance.playerController.EnableActionMap();
     }
     
