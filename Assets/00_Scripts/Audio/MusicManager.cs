@@ -1,4 +1,6 @@
 using System;
+using _00_Scripts.Save;
+using UnityEditor.Overlays;
 using UnityEngine;
 
 public class MusicManager : MonoBehaviour
@@ -8,8 +10,6 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioClip mainMenuMusic;
     [SerializeField] private AudioClip[] levelMusic;
     
-    
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -20,7 +20,12 @@ public class MusicManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
-    
+
+    private void Start()
+    {
+        PlayGameplayMusic(SaveManager.CurrentSaveData.LastLevelCompleted);
+    }
+
     public void PlayMainMenuMusic()
     {
         PlayMusic(mainMenuMusic);
@@ -30,7 +35,8 @@ public class MusicManager : MonoBehaviour
     {
         if (levelId >= 0 && levelId < levelMusic.Length)
         {
-            PlayMusic(levelMusic[levelId]);
+            if (levelId == 0 || levelMusic[levelId] != levelMusic[levelId - 1])
+                PlayMusic(levelMusic[levelId]);
         }
         else
         {

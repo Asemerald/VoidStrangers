@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace _00_Scripts.Save
 {
@@ -12,6 +13,8 @@ namespace _00_Scripts.Save
         
         public static SaveData CurrentSaveData { get; private set; }
 
+        private PlayerControls _controls;
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -23,28 +26,37 @@ namespace _00_Scripts.Save
             DontDestroyOnLoad(this.gameObject);
             
             _saveFilePath = System.IO.Path.Combine(Application.persistentDataPath, SaveFileName);
-            
-#if UNITY_EDITOR
-            DeleteSaveData();
-#endif
-            
+
             LoadOrCreateSaveData();
+            
+            _controls = new PlayerControls();
         }
 
-        private void Update()
+        private void OnEnable()
         {
-            if (Input.GetKeyDown(KeyCode.F5))
-            {
-                SaveGame();
-                Debug.Log("Game Saved!");
-            }
-            else if (Input.GetKeyDown(KeyCode.F9))
-            {
-                DeleteSaveData();
-                Debug.Log("Save Data Deleted!");
-            }
+            _controls.Enable();
+            _controls.UI.Save.started += OnSaveGame;
+            _controls.UI.DeleteSave.started += OnDeleteSave;
+        }
+        
+        private void OnDisable()
+        {
+            _controls.UI.Save.started -= OnSaveGame;
+            _controls.UI.DeleteSave.started -= OnDeleteSave;
+            _controls.Disable();
         }
 
+        private void OnSaveGame(InputAction.CallbackContext ctx)
+        {
+            SaveGame();
+            Debug.Log("Game Saved!");
+        }
+
+        private void OnDeleteSave(InputAction.CallbackContext ctx)
+        {
+            DeleteSaveData();
+            Debug.Log("Save Data Deleted!");
+        }
 
         private void LoadOrCreateSaveData()
         {

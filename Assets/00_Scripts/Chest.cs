@@ -86,6 +86,7 @@ public class Chest : Interactable
                 StartCoroutine(ItemAnimation());
                 itemInside = Item.None;
                 PlayerData.Instance.SetHasScepter(true);
+                MusicManager.Instance.PlayGameplayMusic(2);
                 break;
             case Item.Bug:
                 player.SetState(PlayerController.State.OpenChest);
