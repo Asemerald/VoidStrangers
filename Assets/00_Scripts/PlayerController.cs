@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using _00_Scripts;
+using _00_Scripts.Save;
+using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
@@ -61,6 +63,7 @@ public class PlayerController : MonoBehaviour
         _spriteResolver = GetComponentInChildren<SpriteResolver>();
         _rb = GetComponent<Rigidbody2D>();
         _fx = new Dictionary<string, SpriteResolver>();
+        freeMove = SaveManager.CurrentSaveData.FreeMove;
     }
 
     private void OnEnable()
@@ -121,6 +124,7 @@ public class PlayerController : MonoBehaviour
     public void DisableFreeMove()
     {
         freeMove = false;
+        SaveManager.CurrentSaveData.FreeMove = false;
         transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), 0);
     }
 
@@ -231,9 +235,9 @@ public class PlayerController : MonoBehaviour
                 }
                 return;
             }
+            
+            _state = State.Move;
         }
-
-        _state = State.Move;
     }
 
     private void HandleMovement()
