@@ -75,16 +75,6 @@ public class PlayerController : MonoBehaviour
         freeMove = SaveManager.CurrentSaveData.FreeMove;
     }
 
-    private void OnEnable()
-    {
-        EnableActionMap();
-    }
-
-    private void OnDisable()
-    {
-        DisableActionMap();
-    }
-
     private void FixedUpdate()
     {
         HandleSpriteChange();
@@ -95,29 +85,29 @@ public class PlayerController : MonoBehaviour
     {
         _controls.Enable();
         
-        _controls.Player.Move.started += OnMove;
         _controls.Player.Move.performed += OnMove;
         _controls.Player.Move.canceled += OnMove;
 
         _controls.Player.Interact.started += OnInteract;
         _controls.Player.Pause.started += OnPause;
         
-        AddHandler(_controls.Player.MoveLeft, Vector2.left);
-        AddHandler(_controls.Player.MoveRight, Vector2.right);
-        AddHandler(_controls.Player.MoveUp, Vector2.up);
-        AddHandler(_controls.Player.MoveDown, Vector2.down);
+        AddMoveTileHandler(_controls.Player.MoveLeft, Vector2.left);
+        AddMoveTileHandler(_controls.Player.MoveRight, Vector2.right);
+        AddMoveTileHandler(_controls.Player.MoveUp, Vector2.up);
+        AddMoveTileHandler(_controls.Player.MoveDown, Vector2.down);
     }
     
-    private void AddHandler(InputAction action, Vector2 dir)
+    private void AddMoveTileHandler(InputAction action, Vector2 dir)
     {
-        var handler = new Action<InputAction.CallbackContext>(ctx => OnMoveTile(ctx, dir));
+        if (_handlers.TryGetValue(action, out var oldHandler))
+            action.started -= oldHandler;
+        Action<InputAction.CallbackContext> handler = ctx => OnMoveTile(ctx, dir);
         _handlers[action] = handler;
         action.started += handler;
     }
 
     public void DisableActionMap()
     {
-        _controls.Player.Move.started -= OnMove;
         _controls.Player.Move.performed -= OnMove;
         _controls.Player.Move.canceled -= OnMove;
         
@@ -227,24 +217,22 @@ public class PlayerController : MonoBehaviour
     {
         if (freeMove || HasState(State.Cutscene))
             return;
-
-        if (ctx.started)
+        
+        Debug.Log("Context: " + ctx.started + " " + ctx.performed + " " + ctx.canceled);
+        Debug.Log("State: " + _state);
+        
+        if (HasState(State.Edging))
         {
-            if (!HasState(State.Edging))
-            {
-                _moveDirection = new Vector3(direction.x, direction.y, 0);
-            }
-            else
-            {
-                if (_lookDirection + direction == Vector2.zero)
-                {
-                    transform.position = _previousPosition;
-                    ClearFX();
-                    SetState(State.None);
-                }
+            if (_lookDirection + direction != Vector2.zero)
                 return;
-            }
             
+            transform.position = _previousPosition;
+            ClearFX();
+            SetState(State.None);
+        }
+        else
+        {
+            _moveDirection = new Vector3(direction.x, direction.y, 0);
             _state = State.Move;
         }
     }
