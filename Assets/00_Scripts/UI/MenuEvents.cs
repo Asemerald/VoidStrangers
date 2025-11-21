@@ -1,10 +1,13 @@
 using System;
+using _00_Scripts;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ButtonManager : MonoBehaviour
+public class MenuEvents : MonoBehaviour
 {
+    public static MenuEvents Instance { get; private set; }
+    
     private UIDocument _document;
     private string currentTabName = "Main-Tab";
     private string previousTabName = "";
@@ -17,6 +20,14 @@ public class ButtonManager : MonoBehaviour
     [SerializeField] private bool debug;
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(this.gameObject);
+        
         _document = GetComponent<UIDocument>();
 
         foreach (var button in _document.rootVisualElement.Query<Button>().ToList())
@@ -58,6 +69,12 @@ public class ButtonManager : MonoBehaviour
     private void OnDisable()
     {
         controls.Disable();
+    }
+
+    public void OpenPauseMenu()
+    {
+        OpenTab("Main-Tab");
+        _document.rootVisualElement.Q("BottomSide").style.display = DisplayStyle.Flex;
     }
 
 
@@ -118,10 +135,10 @@ public class ButtonManager : MonoBehaviour
         
         _document.rootVisualElement.Q(previousTabName).style.display = DisplayStyle.None;
         _document.rootVisualElement.Q(currentTabName).style.display = DisplayStyle.Flex;
-
-        currentButtonContainer = _document.rootVisualElement.Q<VisualElement>(currentTabName).Q<VisualElement>("Middle").Q<VisualElement>("LeftSide");
+        
         UpdateButtonSelected(-currentButtonIndex);
-
+        currentButtonContainer = _document.rootVisualElement.Q<VisualElement>(currentTabName).Q<VisualElement>("Middle").Q<VisualElement>("LeftSide");
+        
         currentPageDepth += pageDepthUpdate;
         
         UpdatePageClass();
@@ -158,6 +175,8 @@ public class ButtonManager : MonoBehaviour
     void ClosePauseMenu()
     {
         _document.rootVisualElement.Q(currentTabName).style.display = DisplayStyle.None;
+        _document.rootVisualElement.Q("BottomSide").style.display = DisplayStyle.None;
+        GameManager.Instance.playerController.EnableActionMap();
     }
     
     private void UpdatePageClass()
@@ -173,9 +192,9 @@ public class ButtonManager : MonoBehaviour
     {
         if (currentButtonContainer == null || currentButtonIndex + buttonIndexChange < 0 || currentButtonIndex + buttonIndexChange > currentButtonContainer.childCount - 1) 
             return;
-        
-        currentButtonContainer[currentButtonIndex].RemoveFromClassList("selected");
 
+        currentButtonContainer[currentButtonIndex].RemoveFromClassList("selected");
+        
         currentButtonIndex += buttonIndexChange;
         
         currentButtonContainer[currentButtonIndex].AddToClassList("selected");
