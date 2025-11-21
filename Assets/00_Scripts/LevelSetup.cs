@@ -36,7 +36,7 @@ public class LevelSetup : Interactable {
             }
         }
         
-        LoadLevel(0);
+        LoadLevel(7);
     }
 
     private void LoadLevel(int level) {
@@ -274,8 +274,36 @@ public class LevelSetup : Interactable {
                 break;
             }
         }
-        else
+        else {
+            if (dataFromTiles[tileMap.GetTile(pos + dir)].tileType is TilesData.TileType.Stair) {
+                foreach (var data in dataFromTiles) {
+                    if (dataFromTiles[data.Key].walkable &&
+                        dataFromTiles[data.Key].tileType is not TilesData.TileType.Stair) {
+                        tileMap.SetTile(pos, dataFromTiles[data.Key].tiles[0]);
+                        break;
+                    }
+                }
+                
+                foreach (var dat in dataFromTiles) {
+                    if (dataFromTiles[dat.Key].tileType is not TilesData.TileType.RockStairs) continue;
+                    tileMap.SetTile(pos + dir, dataFromTiles[dat.Key].tiles[0]);
+                    break;
+                }
+
+                pos.z = -1;
+        
+                foreach (var rock in rocks) {
+                    if (rock.position != pos) continue;
+                    rock.position = pos + dir;
+                    break;
+                }
+                
+                return;
+            }
+            
             tileMap.SetTile(pos, tileMap.GetTile(pos + dir));
+        }
+        
         foreach (var data in dataFromTiles) {
             if (dataFromTiles[data.Key].tileType is not TilesData.TileType.Rock) continue;
             tileMap.SetTile(pos + dir, dataFromTiles[data.Key].tiles[0]);
