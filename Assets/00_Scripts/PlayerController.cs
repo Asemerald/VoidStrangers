@@ -1,9 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using _00_Scripts;
+using _00_Scripts.Save;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using UnityEngine.U2D.Animation;
 
@@ -52,6 +51,14 @@ public class PlayerController : MonoBehaviour
     //Rigidbody
     private Rigidbody2D _rb;
     
+    [Header("Audio")]
+    [SerializeField] private AudioClip fallClip;
+
+    [SerializeField] private AudioClip batonClip;
+
+    [SerializeField]
+    private AudioClip damageClip;
+    
     private void Awake()
     {
         if(Instance ==  null)
@@ -61,6 +68,7 @@ public class PlayerController : MonoBehaviour
         _spriteResolver = GetComponentInChildren<SpriteResolver>();
         _rb = GetComponent<Rigidbody2D>();
         _fx = new Dictionary<string, SpriteResolver>();
+        freeMove = SaveManager.CurrentSaveData.FreeMove;
     }
 
     private void OnEnable()
@@ -121,6 +129,7 @@ public class PlayerController : MonoBehaviour
     public void DisableFreeMove()
     {
         freeMove = false;
+        SaveManager.CurrentSaveData.FreeMove = false;
         transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), 0);
     }
 
@@ -231,9 +240,9 @@ public class PlayerController : MonoBehaviour
                 }
                 return;
             }
+            
+            _state = State.Move;
         }
-
-        _state = State.Move;
     }
 
     private void HandleMovement()
@@ -321,6 +330,7 @@ public class PlayerController : MonoBehaviour
                 _label = GetFrameLabel(6f, 12f);
                 if (_timer > 2f)
                 {
+                    AudioManager.PlaySound(fallClip);
                     var level = LevelSetup.Instance.ReloadLevel();
                     PlayerData.Instance.ResetPickedUpTile();
                     PlayerData.Instance.SubtractBugAmount(1);
@@ -430,6 +440,7 @@ public class PlayerController : MonoBehaviour
         {
             if (LevelSetup.Instance.Interact(this, _lookDirection))
                 SetState(State.Attack);
+            AudioManager.PlaySound(batonClip);
         }
     }
 

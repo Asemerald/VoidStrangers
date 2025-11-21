@@ -369,6 +369,9 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 5282df80883dd27428b2106d57cff352, type: 3}
   fxPrefab: {fileID: 2508714861711017434, guid: ecd952b799ec58b4287960888b06deb7, type: 3}
   freeMove: 0
+  fallClip: {fileID: 8300000, guid: 4af3dfe80937def408fe973c50259ce8, type: 3}
+  batonClip: {fileID: 8300000, guid: 16f5c4eb79892114ca48ca6873c6b0b3, type: 3}
+  damageClip: {fileID: 8300000, guid: 84ef6394fa982854c82d3ad017b30f0b, type: 3}
 --- !u!4 &736270540
 Transform:
   m_ObjectHideFlags: 0
@@ -551,8 +554,8 @@ Camera:
   m_GameObject: {fileID: 751182171}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

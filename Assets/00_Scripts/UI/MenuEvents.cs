@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 public class MenuEvents : MonoBehaviour
 {
@@ -42,6 +43,9 @@ public class MenuEvents : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        
         currentButtonContainer = _document.rootVisualElement.Q<VisualElement>(currentTabName).Q<VisualElement>("Middle").Q<VisualElement>("LeftSide");
         
         OpenTab("Menu");
@@ -136,7 +140,23 @@ public class MenuEvents : MonoBehaviour
             case "AudioButton":
                 OpenTab("Audio-Tab",1);
                 break;
-          
+            
+            case "Fullscreen":
+                _document.rootVisualElement.Q<VisualElement>(currentTabName).Q<VisualElement>("Middle").Q<VisualElement>("RightSide").Q<VisualElement>("FullscreenLabels").Q<Label>("FullScreenOFF").ToggleInClassList("selected");
+                _document.rootVisualElement.Q<VisualElement>(currentTabName).Q<VisualElement>("Middle").Q<VisualElement>("RightSide").Q<VisualElement>("FullscreenLabels").Q<Label>("FullScreenON").ToggleInClassList("selected");
+                _document.rootVisualElement.Q<VisualElement>(currentTabName).Q<VisualElement>("Middle").Q<VisualElement>("RightSide").Q<Toggle>("FullScreenToggle").value = _document.rootVisualElement.Q<VisualElement>(currentTabName).Q<VisualElement>("Middle").Q<VisualElement>("RightSide").Q<VisualElement>("FullscreenLabels").Q<Label>("FullScreenON").ClassListContains("selected");
+                break;
+            
+            case "Resolution":
+                string text = _document.rootVisualElement.Q<VisualElement>(currentTabName)
+                    .Q<VisualElement>("Middle").Q<VisualElement>("RightSide")
+                    .Q<Label>("ResolutionLabel")
+                    .text;
+                
+                _document.rootVisualElement.Q<VisualElement>(currentTabName)
+                    .Q<VisualElement>("Middle").Q<VisualElement>("RightSide").Q<Label>("ResolutionLabel").text = 
+                    text == "1920x1080"? "1366x768" : "1920x1080";
+                break;
         }
     }
 

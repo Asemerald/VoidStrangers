@@ -1,6 +1,4 @@
-using System;
 using _00_Scripts.Save;
-using UnityEditor.Overlays;
 using UnityEngine;
 
 public class MusicManager : MonoBehaviour
@@ -23,7 +21,7 @@ public class MusicManager : MonoBehaviour
 
     private void Start()
     {
-        PlayGameplayMusic(SaveManager.CurrentSaveData.LastLevelCompleted);
+        PlayMusic(levelMusic[SaveManager.CurrentSaveData.LastLevelCompleted]);
     }
 
     public void PlayMainMenuMusic()
