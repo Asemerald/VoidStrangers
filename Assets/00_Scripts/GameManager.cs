@@ -25,7 +25,7 @@ namespace _00_Scripts
 
         private void Start()
         {
-            MusicManager.Instance.PlayGameplayMusic();
+            MusicManager.Instance.PlayGameplayMusic(level);
         }
     }
 }

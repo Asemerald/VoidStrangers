@@ -9,6 +9,8 @@ namespace _00_Scripts.Save
         public bool IsFullScreen;
         public ScreenResolution ScreenResolution;
         
+        public int LastLevelCompleted;
+        
         public static SaveData CreateDefault()
         {
             SaveData saveData = new SaveData();
