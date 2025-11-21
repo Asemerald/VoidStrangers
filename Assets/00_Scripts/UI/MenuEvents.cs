@@ -71,6 +71,14 @@ public class MenuEvents : MonoBehaviour
                 UpdateButtonSelected(-1);   
             else if (y < -0.5f)
                 UpdateButtonSelected(+1);  
+			
+			float x = evt.ReadValue<Vector2>().x;
+
+			if(currentButtonContainer[currentButtonIndex].name =="Master"){
+			if (x > 0.5f)
+                UpdateVolume(+1);   
+            else if (x < -0.5f)
+                 UpdateVolume(-1); }
         };
         
         controls.UI.Submit.started += evt =>
@@ -156,6 +164,7 @@ public class MenuEvents : MonoBehaviour
                 _document.rootVisualElement.Q<VisualElement>(currentTabName)
                     .Q<VisualElement>("Middle").Q<VisualElement>("RightSide").Q<Label>("ResolutionLabel").text = 
                     text == "1920x1080"? "1366x768" : "1920x1080";
+
                 break;
         }
     }
@@ -215,6 +224,11 @@ public class MenuEvents : MonoBehaviour
         }).StartingIn(10);
 
     }
+
+	void UpdateVolume(int i){
+		if((_document.rootVisualElement.Q<SliderInt>("SliderInt").value+i)>-1 && (_document.rootVisualElement.Q<SliderInt>("SliderInt").value+i)<11 ){
+	_document.rootVisualElement.Q<SliderInt>("SliderInt").value += i;}
+	}
 
     void ClosePauseMenu()
     {

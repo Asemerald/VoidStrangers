@@ -32,64 +32,59 @@ public class SettingMenu : MonoBehaviour
             ApplySettings();
         });
         
-        _document.rootVisualElement.Q<Foldout>("Resolution")?.RegisterValueChangedCallback(evt =>
-        {
-            SaveData saveData = SaveManager.CurrentSaveData;
-            ScreenResolution[] resolutions = (ScreenResolution[])System.Enum.GetValues(typeof(ScreenResolution));
-            int currentIndex = System.Array.IndexOf(resolutions, saveData.ScreenResolution);
-            int nextIndex = (currentIndex + 1) % resolutions.Length;
-            saveData.ScreenResolution = resolutions[nextIndex];
-            _document.rootVisualElement.Q<Foldout>("Resolution").text = saveData.ScreenResolution.ToString();
-            SaveManager.SaveGame();
-            ApplySettings();
-        });
+        var resolutionLabel = _document.rootVisualElement
+            .Q<VisualElement>("Graphics-Tab")
+            .Q<VisualElement>("Middle")
+            .Q<VisualElement>("RightSide")
+            .Q<Label>("ResolutionLabel");
+
+        resolutionLabel.RegisterCallback<ClickEvent>(evt =>
+{
+    SaveData saveData = SaveManager.CurrentSaveData;
+
+    if (saveData.ScreenResolution == ScreenResolution.R_1920x1080)
+    {
+        saveData.ScreenResolution = ScreenResolution.R_1366x768;
+        resolutionLabel.text = "1366x768";
+        Screen.SetResolution(1366, 768, FullScreenMode.FullScreenWindow);
+    }
+    else
+    {
+        saveData.ScreenResolution = ScreenResolution.R_1920x1080;
+        resolutionLabel.text = "1920x1080";
+        Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
+    }
+
+    SaveManager.SaveGame();
+    ApplySettings();
+});
+
     }
     
     private void LoadSettings()
+{
+    SaveData saveData = SaveManager.CurrentSaveData;
+
+    _document.rootVisualElement
+        .Q<SliderInt>("SliderInt").value = saveData.MasterVolume;
+
+    _document.rootVisualElement
+        .Q<Toggle>("FullScreenToggle").value = saveData.IsFullScreen;
+
+    var label = _document.rootVisualElement
+        .Q<VisualElement>("Graphics-Tab")
+        .Q<VisualElement>("Middle")
+        .Q<VisualElement>("RightSide")
+        .Q<Label>("ResolutionLabel");
+
+    label.text = saveData.ScreenResolution switch
     {
-        SaveData saveData = SaveManager.CurrentSaveData;
-        
-        
-        SliderInt masterVolumeSlider = _document.rootVisualElement.Q<SliderInt>("SliderInt");
-        if (masterVolumeSlider != null)
-        {
-            masterVolumeSlider.value = saveData.MasterVolume;
-            masterVolumeSlider.RegisterValueChangedCallback(evt =>
-            {
-                saveData.MasterVolume = (int)evt.newValue;
-                SaveManager.SaveGame();
-            });
-        }
+        ScreenResolution.R_1920x1080 => "1920x1080",
+        ScreenResolution.R_1366x768 => "1366x768",
+        _ => "1920x1080"
+    };
+}
 
-        Toggle fullScreenToggle = _document.rootVisualElement.Q<Toggle>("FullScreenToggle");
-        if (fullScreenToggle != null)
-        {
-            fullScreenToggle.value = saveData.IsFullScreen;
-            fullScreenToggle.RegisterValueChangedCallback(evt =>
-            {
-                saveData.IsFullScreen = evt.newValue;
-                SaveManager.SaveGame();
-            });
-        }
-
-        Foldout resolutionDropdown = _document.rootVisualElement.Q<Foldout>("Resolution");
-        if (resolutionDropdown != null)
-        {
-            resolutionDropdown.value = false; 
-            resolutionDropdown.text = saveData.ScreenResolution.ToString();
-            resolutionDropdown.RegisterValueChangedCallback(evt =>
-            {
-                // Handle resolution change logic here
-                // For simplicity, we just cycle through the enum values
-                ScreenResolution[] resolutions = (ScreenResolution[])System.Enum.GetValues(typeof(ScreenResolution));
-                int currentIndex = System.Array.IndexOf(resolutions, saveData.ScreenResolution);
-                int nextIndex = (currentIndex + 1) % resolutions.Length;
-                saveData.ScreenResolution = resolutions[nextIndex];
-                resolutionDropdown.text = saveData.ScreenResolution.ToString();
-                SaveManager.SaveGame();
-            });
-        }
-    }
     
     private void ApplySettings()
     {
