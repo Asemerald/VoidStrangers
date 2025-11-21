@@ -38,13 +38,18 @@
     <ui:VisualElement name="Graphics-Tab" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/01_Art/Sprites/VoidRod/spr_voidrod_icon/spr_voidrod_icon_0.png?fileID=2800000&amp;guid=f15936f753711114aacc4255d9844d31&amp;type=3#spr_voidrod_icon_0&quot;); background-color: rgb(34, 34, 34); justify-content: center; flex-direction: column; align-items: center; align-self: stretch; padding-right: 180px; padding-left: 180px; padding-top: 100px; padding-bottom: 20px; display: none; visibility: visible;">
         <ui:VisualElement name="Middle" style="flex-grow: 1; width: 100%; height: 100%; flex-direction: row;">
             <ui:VisualElement name="LeftSide" style="flex-grow: 1; flex-direction: column; width: 50%; height: 100%; justify-content: center; align-items: flex-end; align-self: auto; padding-right: 70px; padding-left: 150px; padding-top: 0; padding-bottom: 30px;">
-                <ui:Label text="FULLSCREEN" class="button" />
-                <ui:Label text="RESOLUTION&#10;" class="button" />
+                <ui:Label text="FULLSCREEN" name="Fullscreen" class="button" />
+                <ui:Label text="RESOLUTION&#10;" name="Resolution" class="button" />
                 <ui:Button text="BACK" name="BackButton" class="button" style="align-items: center; align-self: flex-end; font-size: 100px;" />
             </ui:VisualElement>
             <ui:VisualElement name="RightSide" style="flex-grow: 1; position: relative; right: 0; align-self: center; height: 100%; width: 50%; padding-right: 0; padding-left: 221px; padding-top: 0; padding-bottom: 30px; flex-direction: column; align-items: stretch; justify-content: space-evenly;">
-                <ui:Toggle name="FullScreenToggle" style="scale: 3 3 3; position: absolute; top: 325px; left: auto; -unity-background-image-tint-color: rgb(255, 255, 255);" />
-                <ui:Foldout text="1920x1080&#10;" name="Resolution" style="background-color: rgb(255, 255, 255); scale: 3 3 3; position: absolute; bottom: 480px;" />
+                <ui:VisualElement name="FullscreenLabels" style="flex-grow: 1; flex-direction: row; height: 375px; width: 322px; position: absolute; align-self: flex-end; align-items: flex-start; justify-content: center; top: 151px; left: 213px;">
+                    <ui:Label text="ON" name="FullScreenON" class="button selected" style="top: -125px;" />
+                    <ui:Label text="OFF" name="FullScreenOFF" class="button" style="top: -125px; left: 59px;" />
+                </ui:VisualElement>
+                <ui:Toggle name="FullScreenToggle" focusable="false" toggle-on-label-click="true" style="scale: 3 3 3; position: absolute; top: 325px; left: auto; -unity-background-image-tint-color: rgb(255, 255, 255); display: none;" />
+                <ui:Foldout text="1920x1080" name="Resolution" focusable="false" toggle-on-label-click="false" style="background-color: rgb(255, 255, 255); scale: 3 3 3; position: absolute; bottom: 480px; display: none;" />
+                <ui:Label text="1920x1080" name="ResolutionLabel" class="button" style="top: 0; color: rgb(255, 255, 255); left: -124px;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
@@ -54,8 +59,8 @@
             <ui:VisualElement name="page1" enabled="true" class="page" style="flex-grow: 1; background-size: 50px 50px; display: flex; width: 0; position: relative;" />
             <ui:VisualElement name="page2" class="page" style="flex-grow: 1; background-size: 50px 50px; background-color: rgba(255, 255, 255, 0); width: 0;" />
         </ui:VisualElement>
-        <ui:Label text="0" name="Crystals" style="width: 17%; height: 38%; -unity-text-align: middle-center; font-size: 86px; white-space: nowrap; -unity-font-definition: url(&quot;project://database/Library/unity%20default%20resources?fileID=10102&amp;guid=0000000000000000e000000000000000&amp;type=0#LegacyRuntime&quot;); color: rgb(255, 255, 255); -unity-font-style: bold; right: 50%; flex-direction: row; align-self: center; align-content: flex-start; left: 40%; position: absolute; align-items: center;" />
-        <ui:Label text="1.1.3" name="Version" style="width: 20%; height: 38%; -unity-text-align: middle-center; font-size: 86px; white-space: nowrap; -unity-font-definition: url(&quot;project://database/Library/unity%20default%20resources?fileID=10102&amp;guid=0000000000000000e000000000000000&amp;type=0#LegacyRuntime&quot;); color: rgb(255, 255, 255); -unity-font-style: bold; right: -35%; flex-direction: row; align-self: center; align-content: flex-start; left: auto;" />
+        <ui:Label text="0" name="Crystals" style="width: 17%; height: 38%; -unity-text-align: middle-center; font-size: 86px; white-space: nowrap; -unity-font-definition: url(&quot;project://database/Assets/Fonts/Alkhemikal.ttf?fileID=12800000&amp;guid=3cd2174e3648f4446b134463e7850713&amp;type=3#Alkhemikal&quot;); color: rgb(255, 255, 255); -unity-font-style: normal; right: 50%; flex-direction: row; align-self: center; align-content: flex-start; left: 40%; position: absolute; align-items: center;" />
+        <ui:Label text="1.1.3" name="Version" style="width: 20%; height: 38%; -unity-text-align: middle-center; font-size: 86px; white-space: nowrap; -unity-font-definition: url(&quot;project://database/Assets/Fonts/Alkhemikal.ttf?fileID=12800000&amp;guid=3cd2174e3648f4446b134463e7850713&amp;type=3#Alkhemikal&quot;); color: rgb(255, 255, 255); -unity-font-style: normal; right: -35%; flex-direction: row; align-self: center; align-content: flex-start; left: auto;" />
     </ui:VisualElement>
     <ui:VisualElement name="HUD" style="flex-grow: 1; position: absolute; bottom: 0; height: 140px; justify-content: space-around; align-items: center; flex-direction: row; width: 100%; -unity-text-align: upper-center; align-self: center; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); display: none;">
         <ui:Label text="HP07" name="HP-Amount" class="hudtext" style="font-size: 148px; -unity-font-definition: url(&quot;project://database/Assets/Fonts/Alkhemikal.ttf?fileID=12800000&amp;guid=3cd2174e3648f4446b134463e7850713&amp;type=3#Alkhemikal&quot;); position: absolute; bottom: -12px; left: 130px; -unity-text-align: upper-right;" />
