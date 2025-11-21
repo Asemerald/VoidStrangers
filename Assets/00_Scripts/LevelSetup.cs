@@ -9,6 +9,8 @@ using UnityEngine.Tilemaps;
 public class LevelSetup : Interactable {
     public static LevelSetup Instance { get; private set; }
 
+    public int CurrentLevelIndex => currentLevel;
+
     [Header("Levels")] 
     [SerializeField] private Transform tileGrid;
     [SerializeField] private LevelData[] levels;

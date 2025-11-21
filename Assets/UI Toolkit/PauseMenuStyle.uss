@@ -118,3 +118,15 @@
     transition-property: opacity, right;
     transition-duration: 1s, 1s;
 }
+
+.sceptre {
+    background-image: url("project://database/Assets/01_Art/Sprites/VoidRod/spr_voidrod_icon/spr_voidrod_icon_1.png?fileID=2800000&guid=cf5f56daaec4b3c49ab3aee52f1db0d0&type=3#spr_voidrod_icon_1");
+}
+
+.sceptreGround {
+    background-image: url("project://database/Assets/01_Art/Sprites/VoidRod/spr_voidrod_icon/spr_voidrod_icon_2.png?fileID=2800000&guid=9d58665c61f70624da4ed1cb9f9b903e&type=3#spr_voidrod_icon_2");
+}
+
+.sceptreStairs {
+    background-image: url("project://database/Assets/01_Art/Sprites/VoidRod/spr_voidrod_icon/spr_voidrod_icon_5.png?fileID=2800000&guid=5ff0b594a78339d46bdda213992ecb99&type=3#spr_voidrod_icon_5");
+}

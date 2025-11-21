@@ -5,8 +5,8 @@ using UnityEngine.Tilemaps;
 namespace _00_Scripts {
     public class PlayerData : MonoBehaviour {
         public static PlayerData Instance { get; private set; }
-        
-        public int healthPoints { get; private set; }
+
+        public int healthPoints = 7;
         public int gemAmount { get; private set; }
         public int bugAmount { get; private set; }
         
