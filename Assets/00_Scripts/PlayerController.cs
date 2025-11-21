@@ -55,7 +55,12 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rb;
     
     [Header("Audio")]
-    [SerializeField] private AudioClip walkClip;
+    [SerializeField] private AudioClip fallClip;
+
+    [SerializeField] private AudioClip batonClip;
+
+    [SerializeField]
+    private AudioClip damageClip;
     
     private void Awake()
     {
@@ -329,6 +334,7 @@ public class PlayerController : MonoBehaviour
                 _label = GetFrameLabel(6f, 12f);
                 if (_timer > 2f)
                 {
+                    AudioManager.PlaySound(fallClip);
                     var level = LevelSetup.Instance.ReloadLevel();
                     PlayerData.Instance.ResetPickedUpTile();
                     PlayerData.Instance.SubtractBugAmount(1);
@@ -438,6 +444,7 @@ public class PlayerController : MonoBehaviour
         {
             if (LevelSetup.Instance.Interact(this, _lookDirection))
                 SetState(State.Attack);
+            AudioManager.PlaySound(batonClip);
         }
     }
 
