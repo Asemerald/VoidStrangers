@@ -366,7 +366,7 @@ Transform:
   m_GameObject: {fileID: 736270538}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: 2, z: 0}
+  m_LocalPosition: {x: -1, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -761,6 +761,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9c92336b0da111a40a9d727571017cec, type: 2}
   - {fileID: 11400000, guid: 438246212c4959345b438bfc663686ed, type: 2}
   - {fileID: 11400000, guid: db0d9bea102932046861c51f70ed8e0b, type: 2}
+  - {fileID: 11400000, guid: 24f3696df8855f845abd9cb1b5dd1898, type: 2}
+  - {fileID: 11400000, guid: 0b3e496b0a88c454eb49e382ec5c7ed7, type: 2}
+  - {fileID: 11400000, guid: f92ab0ac1d5dca849a93f7201946ca2d, type: 2}
+  - {fileID: 11400000, guid: 3eda454ce535d254fb4e098b7afd6b54, type: 2}
+  - {fileID: 11400000, guid: e928ccb25e059cd4b8c583e332c8d59f, type: 2}
+  - {fileID: 11400000, guid: 30885d96459c8d440877f3c1e638a12b, type: 2}
+  - {fileID: 11400000, guid: c261736d6fab7bd4b8804bf52ccd921a, type: 2}
+  - {fileID: 11400000, guid: cd6fa524c6037164c9132c38ca2a217c, type: 2}
+  - {fileID: 11400000, guid: d049d69e0e51b1b41ad5034899f02c5a, type: 2}
+  - {fileID: 11400000, guid: eeab86bbf50ef014a868e488bd187f8d, type: 2}
   tilesData:
   - {fileID: 11400000, guid: 9712f0f94011b89409b129de313ffd0f, type: 2}
   - {fileID: 11400000, guid: 26f0c0941d146064e94f5c06803f7466, type: 2}
