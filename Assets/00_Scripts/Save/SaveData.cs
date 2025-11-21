@@ -15,6 +15,10 @@ namespace _00_Scripts.Save
         {
             SaveData saveData = new SaveData();
             // TODO : Initialize default save data values here
+            saveData.MasterVolume = 100;
+            saveData.IsFullScreen = true;
+            saveData.ScreenResolution = ScreenResolution.R_1600x900;
+            saveData.LastLevelCompleted = 0;
             return saveData;
         }
     }

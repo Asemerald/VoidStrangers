@@ -50,6 +50,9 @@ public class PlayerController : MonoBehaviour
     //Rigidbody
     private Rigidbody2D _rb;
     
+    [Header("Audio")]
+    [SerializeField] private AudioClip walkClip;
+    
     private void Awake()
     {
         _controls = new PlayerControls();
