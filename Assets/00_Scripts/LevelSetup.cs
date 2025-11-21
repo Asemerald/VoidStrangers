@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using _00_Scripts;
+using _00_Scripts.Save;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -36,7 +37,11 @@ public class LevelSetup : Interactable {
             }
         }
         
-        LoadLevel(7);
+        // Load last level using the SaveData, if he completed the game, load level 0
+        var lastLevel = SaveManager.CurrentSaveData.LastLevelCompleted;
+        if (lastLevel >= levels.Length)
+            lastLevel = 0;
+        LoadLevel(lastLevel);
     }
 
     private void LoadLevel(int level) {
