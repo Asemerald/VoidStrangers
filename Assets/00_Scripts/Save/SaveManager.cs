@@ -24,9 +24,27 @@ namespace _00_Scripts.Save
             
             _saveFilePath = System.IO.Path.Combine(Application.persistentDataPath, SaveFileName);
             
+#if UNITY_EDITOR
+            DeleteSaveData();
+#endif
+            
             LoadOrCreateSaveData();
         }
-        
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.F5))
+            {
+                SaveGame();
+                Debug.Log("Game Saved!");
+            }
+            else if (Input.GetKeyDown(KeyCode.F9))
+            {
+                DeleteSaveData();
+                Debug.Log("Save Data Deleted!");
+            }
+        }
+
 
         private void LoadOrCreateSaveData()
         {
@@ -46,7 +64,7 @@ namespace _00_Scripts.Save
             CurrentSaveData = JsonUtility.FromJson<SaveData>(json);
         }
         
-        private void CreateNewSaveData()
+        private static void CreateNewSaveData()
         {
             CurrentSaveData = Save.SaveData.CreateDefault();
             SaveGame();
@@ -56,6 +74,20 @@ namespace _00_Scripts.Save
         {
             string json = JsonUtility.ToJson(CurrentSaveData, true);
             System.IO.File.WriteAllText(_saveFilePath, json);
+        }
+        
+        public static void DeleteSaveData()
+        {
+            if (System.IO.File.Exists(_saveFilePath))
+            {
+                System.IO.File.Delete(_saveFilePath);
+            }
+            CreateNewSaveData();
+        }
+        
+        private void OnApplicationQuit()
+        {
+            SaveGame();
         }
         
         

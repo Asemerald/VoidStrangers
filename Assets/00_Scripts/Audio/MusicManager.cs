@@ -6,7 +6,9 @@ public class MusicManager : MonoBehaviour
     public static MusicManager Instance { get; private set; }
     
     [SerializeField] private AudioClip mainMenuMusic;
-    [SerializeField] private AudioClip levelMusic;
+    [SerializeField] private AudioClip[] levelMusic;
+    
+    
 
     private void Awake()
     {
@@ -26,7 +28,15 @@ public class MusicManager : MonoBehaviour
     
     public void PlayGameplayMusic(int levelId)
     {
-        PlayMusic(levelMusic);
+        if (levelId >= 0 && levelId < levelMusic.Length)
+        {
+            PlayMusic(levelMusic[levelId]);
+        }
+        else
+        {
+            Debug.LogWarning($"No music found for level ID {levelId}. Playing default music.");
+            PlayMusic(mainMenuMusic);
+        }
     }
     
     private void PlayMusic(AudioClip clip)
