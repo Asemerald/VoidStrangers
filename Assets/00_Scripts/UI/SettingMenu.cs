@@ -35,26 +35,25 @@ public class SettingMenu : MonoBehaviour
         var resolutionLabel = _document.rootVisualElement.Q<VisualElement>("Graphics-Tab").Q<VisualElement>("Middle").Q<VisualElement>("RightSide").Q<Label>("ResolutionLabel");
 
         resolutionLabel?.RegisterValueChangedCallback(evt =>
-            {
+        {
                 SaveData saveData = SaveManager.CurrentSaveData;
 
-                if (saveData.ScreenResolution == ScreenResolution.R_1920x1080)
-            {
-                saveData.ScreenResolution = ScreenResolution.R_1366x768;
-                resolutionLabel.text = "1366x768";
-                Screen.SetResolution(1366, 768, FullScreenMode.FullScreenWindow);
+                if (saveData.ScreenResolution == ScreenResolution.R_1680x1080)
+                {
+                    saveData.ScreenResolution = ScreenResolution.R_1456x936;
+                    resolutionLabel.text = "1456x936";
+                    Screen.SetResolution(1456, 936, FullScreenMode.FullScreenWindow);
                 }
                 else
-        {
-                 saveData.ScreenResolution = ScreenResolution.R_1920x1080;
-                    resolutionLabel.text = "1920x1080";
-                    Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
-                    }
+                { 
+                    saveData.ScreenResolution = ScreenResolution.R_1680x1080;
+                    resolutionLabel.text = "1680x1080";
+                    Screen.SetResolution(1680, 1080, FullScreenMode.FullScreenWindow);
+                }
 
-    SaveManager.SaveGame();
-    ApplySettings();
-});
-
+                SaveManager.SaveGame();
+                ApplySettings();
+        });
     }
     
     private void LoadSettings()
@@ -75,9 +74,9 @@ public class SettingMenu : MonoBehaviour
 
     label.text = saveData.ScreenResolution switch
     {
-        ScreenResolution.R_1920x1080 => "1920x1080",
-        ScreenResolution.R_1366x768 => "1366x768",
-        _ => "1920x1080"
+        ScreenResolution.R_1680x1080 => "1680x1080",
+        ScreenResolution.R_1456x936 => "1456x936",
+        _ => "1680x1080"
     };
 }
 
@@ -91,19 +90,12 @@ public class SettingMenu : MonoBehaviour
         
         switch (saveData.ScreenResolution)
         {
-            case ScreenResolution.R_1920x1080:
-                Screen.SetResolution(1920, 1080, saveData.IsFullScreen);
+            case ScreenResolution.R_1680x1080:
+                Screen.SetResolution(1680, 1080, saveData.IsFullScreen);
                 break;
-            case ScreenResolution.R_1600x900:
-                Screen.SetResolution(1600, 900, saveData.IsFullScreen);
-                break;
-            case ScreenResolution.R_1366x768:
-                Screen.SetResolution(1366, 768, saveData.IsFullScreen);
-                break;
-            case ScreenResolution.R_1280x720:
-                Screen.SetResolution(1280, 720, saveData.IsFullScreen);
+            case ScreenResolution.R_1456x936:
+                Screen.SetResolution(1456, 936, saveData.IsFullScreen);
                 break;
         }
     }
-    
 }

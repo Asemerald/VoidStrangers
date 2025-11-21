@@ -250,8 +250,10 @@ public class PlayerController : MonoBehaviour
                 if (LevelSetup.Instance.CanMove(transform.position + _moveDirection, _moveDirection, ref zeroPosition))
                     transform.position += _moveDirection;
                 if (!HasState(State.Edging))
+                {
                     _state = State.None;
-                TurnManager.TriggerTurn();
+                    TurnManager.TriggerTurn();
+                }
                 break;
             case State.Edging:
                 transform.position += _moveDirection * (Time.fixedDeltaTime);

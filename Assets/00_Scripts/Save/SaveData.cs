@@ -24,7 +24,7 @@ namespace _00_Scripts.Save
             // TODO : Initialize default save data values here
             saveData.MasterVolume = 100;
             saveData.IsFullScreen = true;
-            saveData.ScreenResolution = ScreenResolution.R_1600x900;
+            saveData.ScreenResolution = ScreenResolution.R_1456x936;
             saveData.LastLevelCompleted = 0;
             saveData.HasScepter = false;
             return saveData;
@@ -33,9 +33,7 @@ namespace _00_Scripts.Save
     
     public enum ScreenResolution
     {
-        R_1920x1080,
-        R_1600x900,
-        R_1366x768,
-        R_1280x720
+        R_1680x1080,
+        R_1456x936,
     }
 }

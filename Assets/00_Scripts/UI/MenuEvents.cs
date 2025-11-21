@@ -269,7 +269,7 @@ public class MenuEvents : MonoBehaviour
         
     }
 
-    void UpdateHUD()
+    private void UpdateHUD()
     {
         VisualElement hud = _document.rootVisualElement.Q<VisualElement>("HUD");
         
@@ -282,14 +282,13 @@ public class MenuEvents : MonoBehaviour
         }
         else
         {
-            hud.Q<Label>("BEE-Amount").text ="00";
+            hud.Q<Label>("BEE-Amount").text = "00";
             hud.Q<Label>("HP-Amount").text  = "VOID";
         }
 
         if (PlayerData.Instance.hasScepter && !hud.Q<VisualElement>("Sceptre").ClassListContains("sceptre"))
         {
             hud.Q<VisualElement>("Sceptre").AddToClassList("sceptre");
-            Debug.Log(hud.Q<VisualElement>("Sceptre").ClassListContains("sceptre"));
         }
         else
         {
