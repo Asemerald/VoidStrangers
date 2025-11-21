@@ -10,17 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85b14aca87914b3faeb1157f6f1d5810, type: 3}
-  m_Name: Level05
+  m_Name: Level11
   m_EditorClassIdentifier: Assembly-CSharp::_00_Scripts.LevelData
-  tileMap: {fileID: 5363892211624653940, guid: bb2521e334503fd448f45cbfbb5d56b2, type: 3}
-  loadLevel: 5
-  playerPosition: {x: -1, y: 1, z: 0}
+  tileMap: {fileID: 4240366274421080897, guid: 9098ef91f58f49d4a8fcbde2ff7d2754, type: 3}
+  loadLevel: 11
+  playerPosition: {x: -5, y: 2, z: 0}
   objetcs:
-  - objectToSpawn: {fileID: 3353602195013953332, guid: 0fc72d9f8b801194ca56ce7f38917a15, type: 3}
-    position: {x: -2, y: -2, z: -1}
-    tyle: 4
-  - objectToSpawn: {fileID: 522276313178039398, guid: e3e5f661827024f41a9f1e8e2cf0f356, type: 3}
-    position: {x: -1, y: 3, z: -1}
+  - objectToSpawn: {fileID: 5133791235452758904, guid: d82310450a6e162448df9c7fb9b78847, type: 3}
+    position: {x: -1, y: 2, z: -1}
     tyle: 5
   hasGem: 0
   gemPosition: {x: 0, y: 0, z: 0}

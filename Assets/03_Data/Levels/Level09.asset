@@ -10,21 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85b14aca87914b3faeb1157f6f1d5810, type: 3}
-  m_Name: Level08
+  m_Name: Level09
   m_EditorClassIdentifier: Assembly-CSharp::_00_Scripts.LevelData
-  tileMap: {fileID: 786707273900562618, guid: 40c320aed3797784f80777d551d63ab3, type: 3}
-  loadLevel: 8
-  playerPosition: {x: -3, y: -2, z: 0}
+  tileMap: {fileID: 3880529084314584430, guid: cfdcf18f275c24d43959daedd7cef91a, type: 3}
+  loadLevel: 9
+  playerPosition: {x: 3, y: -2, z: 0}
   objetcs:
-  - objectToSpawn: {fileID: 5133791235452758904, guid: d82310450a6e162448df9c7fb9b78847, type: 3}
-    position: {x: -4, y: 0, z: -1}
-    tyle: 5
-  - objectToSpawn: {fileID: 5133791235452758904, guid: d82310450a6e162448df9c7fb9b78847, type: 3}
-    position: {x: -3, y: 0, z: -1}
-    tyle: 5
-  - objectToSpawn: {fileID: 5133791235452758904, guid: d82310450a6e162448df9c7fb9b78847, type: 3}
-    position: {x: -2, y: 0, z: -1}
-    tyle: 5
   - objectToSpawn: {fileID: 5133791235452758904, guid: d82310450a6e162448df9c7fb9b78847, type: 3}
     position: {x: 3, y: -1, z: -1}
     tyle: 5
@@ -32,10 +23,31 @@ MonoBehaviour:
     position: {x: 4, y: -1, z: -1}
     tyle: 5
   - objectToSpawn: {fileID: 5133791235452758904, guid: d82310450a6e162448df9c7fb9b78847, type: 3}
+    position: {x: 5, y: -1, z: -1}
+    tyle: 5
+  - objectToSpawn: {fileID: 5133791235452758904, guid: d82310450a6e162448df9c7fb9b78847, type: 3}
+    position: {x: 2, y: -2, z: -1}
+    tyle: 5
+  - objectToSpawn: {fileID: 5133791235452758904, guid: d82310450a6e162448df9c7fb9b78847, type: 3}
+    position: {x: 2, y: -3, z: -1}
+    tyle: 5
+  - objectToSpawn: {fileID: 5133791235452758904, guid: d82310450a6e162448df9c7fb9b78847, type: 3}
     position: {x: 3, y: -3, z: -1}
     tyle: 5
   - objectToSpawn: {fileID: 5133791235452758904, guid: d82310450a6e162448df9c7fb9b78847, type: 3}
-    position: {x: 4, y: -3, z: -1}
+    position: {x: -1, y: -2, z: -1}
     tyle: 5
+  - objectToSpawn: {fileID: 5133791235452758904, guid: d82310450a6e162448df9c7fb9b78847, type: 3}
+    position: {x: -6, y: -2, z: -1}
+    tyle: 5
+  - objectToSpawn: {fileID: 5133791235452758904, guid: d82310450a6e162448df9c7fb9b78847, type: 3}
+    position: {x: -5, y: -3, z: -1}
+    tyle: 5
+  - objectToSpawn: {fileID: 522276313178039398, guid: e3e5f661827024f41a9f1e8e2cf0f356, type: 3}
+    position: {x: -3, y: 1, z: -1}
+    tyle: 5
+  - objectToSpawn: {fileID: 3353602195013953332, guid: 0fc72d9f8b801194ca56ce7f38917a15, type: 3}
+    position: {x: -4, y: 2, z: -1}
+    tyle: 4
   hasGem: 0
   gemPosition: {x: 0, y: 0, z: 0}
