@@ -205,6 +205,12 @@ public class LevelSetup : Interactable {
 
         if (IsStairs(intPos)) {
             LoadLevel(levels[currentLevel].loadLevel);
+            // Save the level completion
+            SaveManager.CurrentSaveData.LastLevelCompleted = currentLevel;
+            SaveManager.SaveGame();
+            
+            // Play Next Level Music
+            MusicManager.Instance.PlayGameplayMusic(currentLevel + 1);
             return false;
         }
 

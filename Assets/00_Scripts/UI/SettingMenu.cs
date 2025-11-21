@@ -21,14 +21,14 @@ public class SettingMenu : MonoBehaviour
         _document.rootVisualElement.Q<SliderInt>("SliderInt")?.RegisterValueChangedCallback(evt =>
         {
             SaveManager.CurrentSaveData.MasterVolume = (int)evt.newValue;
-            SaveManager.SaveData();
+            SaveManager.SaveGame();
             ApplySettings();
         });
         
         _document.rootVisualElement.Q<Toggle>("FullScreenToggle")?.RegisterValueChangedCallback(evt =>
         {
             SaveManager.CurrentSaveData.IsFullScreen = evt.newValue;
-            SaveManager.SaveData();
+            SaveManager.SaveGame();
             ApplySettings();
         });
         
@@ -40,7 +40,7 @@ public class SettingMenu : MonoBehaviour
             int nextIndex = (currentIndex + 1) % resolutions.Length;
             saveData.ScreenResolution = resolutions[nextIndex];
             _document.rootVisualElement.Q<Foldout>("Resolution").text = saveData.ScreenResolution.ToString();
-            SaveManager.SaveData();
+            SaveManager.SaveGame();
             ApplySettings();
         });
     }
@@ -57,7 +57,7 @@ public class SettingMenu : MonoBehaviour
             masterVolumeSlider.RegisterValueChangedCallback(evt =>
             {
                 saveData.MasterVolume = (int)evt.newValue;
-                SaveManager.SaveData();
+                SaveManager.SaveGame();
             });
         }
 
@@ -68,7 +68,7 @@ public class SettingMenu : MonoBehaviour
             fullScreenToggle.RegisterValueChangedCallback(evt =>
             {
                 saveData.IsFullScreen = evt.newValue;
-                SaveManager.SaveData();
+                SaveManager.SaveGame();
             });
         }
 
@@ -86,7 +86,7 @@ public class SettingMenu : MonoBehaviour
                 int nextIndex = (currentIndex + 1) % resolutions.Length;
                 saveData.ScreenResolution = resolutions[nextIndex];
                 resolutionDropdown.text = saveData.ScreenResolution.ToString();
-                SaveManager.SaveData();
+                SaveManager.SaveGame();
             });
         }
     }

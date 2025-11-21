@@ -22,10 +22,7 @@ namespace _00_Scripts
 
             playerController = FindAnyObjectByType<PlayerController>();
         }
-
-        private void Start()
-        {
-            MusicManager.Instance.PlayGameplayMusic(level);
-        }
+        
+        
     }
 }
