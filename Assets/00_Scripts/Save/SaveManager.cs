@@ -84,6 +84,9 @@ namespace _00_Scripts.Save
         
         public static void SaveGame()
         {
+            CurrentSaveData.BugAmount = PlayerData.Instance.bugAmount;
+            CurrentSaveData.HealthPoints = PlayerData.Instance.healthPoints;
+            CurrentSaveData.HasScepter = PlayerData.Instance.hasScepter;
             string json = JsonUtility.ToJson(CurrentSaveData, true);
             System.IO.File.WriteAllText(_saveFilePath, json);
         }

@@ -1,4 +1,5 @@
 using System;
+using _00_Scripts.Save;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -17,8 +18,13 @@ namespace _00_Scripts {
         public int roomNumber { get; private set; }
 
         private void Awake() {
-            if(Instance == null) Instance = this;
+            if (Instance == null)
+                Instance = this;
             else Destroy(this);
+            
+            PlayerData.Instance.healthPoints = SaveManager.CurrentSaveData.HealthPoints;
+            PlayerData.Instance.hasScepter = SaveManager.CurrentSaveData.HasScepter;
+            PlayerData.Instance.bugAmount = SaveManager.CurrentSaveData.BugAmount;
         }
 
         //Health Methods

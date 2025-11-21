@@ -16,7 +16,8 @@ namespace _00_Scripts {
             Chest,
             Rock,
             DoubleChest,
-            RockStairs
+            RockStairs,
+            Enemy
         }
         
         public TileType tileType;
