@@ -191,13 +191,13 @@ public class PlayerController : MonoBehaviour
         {
             case State.FreeMove:
                 var deltaPosition = _moveDirection * (speed * Time.fixedDeltaTime);
-                if (LevelSetup.Instance.CanMove(this, transform.position + new Vector3(deltaPosition.x, deltaPosition.y, 0), _moveDirection)) 
-                    rb.MovePosition(transform.position + new Vector3(deltaPosition.x, deltaPosition.y, 0));
-                else
-                    transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), 0);
+                LevelSetup.Instance.CanMove(this, transform.position + new Vector3(deltaPosition.x, deltaPosition.y, 0),
+                    _moveDirection, ref deltaPosition);
+                rb.MovePosition(transform.position + new Vector3(deltaPosition.x, deltaPosition.y, 0));
                 break;
             case State.Move:
-                if (LevelSetup.Instance.CanMove(this, transform.position + _moveDirection, _moveDirection))
+                var zeroPosition = Vector3.zero;
+                if (LevelSetup.Instance.CanMove(this, transform.position + _moveDirection, _moveDirection, ref zeroPosition))
                     transform.position += _moveDirection;
                 if (!HasState(State.Edging))
                     _state = State.None;
