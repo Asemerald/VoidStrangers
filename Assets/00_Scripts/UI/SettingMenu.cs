@@ -32,28 +32,24 @@ public class SettingMenu : MonoBehaviour
             ApplySettings();
         });
         
-        var resolutionLabel = _document.rootVisualElement
-            .Q<VisualElement>("Graphics-Tab")
-            .Q<VisualElement>("Middle")
-            .Q<VisualElement>("RightSide")
-            .Q<Label>("ResolutionLabel");
+        var resolutionLabel = _document.rootVisualElement.Q<VisualElement>("Graphics-Tab").Q<VisualElement>("Middle").Q<VisualElement>("RightSide").Q<Label>("ResolutionLabel");
 
-        resolutionLabel.RegisterCallback<ClickEvent>(evt =>
-{
-    SaveData saveData = SaveManager.CurrentSaveData;
+        resolutionLabel?.RegisterValueChangedCallback(evt =>
+            {
+                SaveData saveData = SaveManager.CurrentSaveData;
 
-    if (saveData.ScreenResolution == ScreenResolution.R_1920x1080)
-    {
-        saveData.ScreenResolution = ScreenResolution.R_1366x768;
-        resolutionLabel.text = "1366x768";
-        Screen.SetResolution(1366, 768, FullScreenMode.FullScreenWindow);
-    }
-    else
-    {
-        saveData.ScreenResolution = ScreenResolution.R_1920x1080;
-        resolutionLabel.text = "1920x1080";
-        Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
-    }
+                if (saveData.ScreenResolution == ScreenResolution.R_1920x1080)
+            {
+                saveData.ScreenResolution = ScreenResolution.R_1366x768;
+                resolutionLabel.text = "1366x768";
+                Screen.SetResolution(1366, 768, FullScreenMode.FullScreenWindow);
+                }
+                else
+        {
+                 saveData.ScreenResolution = ScreenResolution.R_1920x1080;
+                    resolutionLabel.text = "1920x1080";
+                    Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
+                    }
 
     SaveManager.SaveGame();
     ApplySettings();
