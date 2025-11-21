@@ -49,10 +49,10 @@ namespace _00_Scripts.Save
         private void CreateNewSaveData()
         {
             CurrentSaveData = Save.SaveData.CreateDefault();
-            SaveData();
+            SaveGame();
         }
         
-        public static void SaveData()
+        public static void SaveGame()
         {
             string json = JsonUtility.ToJson(CurrentSaveData, true);
             System.IO.File.WriteAllText(_saveFilePath, json);

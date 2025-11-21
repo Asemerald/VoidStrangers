@@ -8,6 +8,8 @@ namespace _00_Scripts
     {
         public static GameManager Instance { get; private set; }
         
+        public PlayerController playerController { get; private set; }
+        
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -17,11 +19,10 @@ namespace _00_Scripts
             }
             Instance = this;
             DontDestroyOnLoad(this.gameObject);
-        }
 
-        private void Start()
-        {
-            MusicManager.Instance.PlayGameplayMusic();
+            playerController = FindAnyObjectByType<PlayerController>();
         }
+        
+        
     }
 }

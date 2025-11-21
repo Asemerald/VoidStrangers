@@ -83,6 +83,7 @@ public class PlayerController : MonoBehaviour
         _controls.Player.Move.canceled += OnMove;
 
         _controls.Player.Interact.started += OnInteract;
+        _controls.Player.Pause.started += OnPause;
         
         AddHandler(_controls.Player.MoveLeft, Vector2.left);
         AddHandler(_controls.Player.MoveRight, Vector2.right);
@@ -104,6 +105,7 @@ public class PlayerController : MonoBehaviour
         _controls.Player.Move.canceled -= OnMove;
         
         _controls.Player.Interact.started -= OnInteract;
+        _controls.Player.Pause.started -= OnPause;
         
         foreach (var kvp in _handlers)
             kvp.Key.started -= kvp.Value;
@@ -394,5 +396,11 @@ public class PlayerController : MonoBehaviour
             if (LevelSetup.Instance.Interact(this, _lookDirection))
                 SetState(State.Attack);
         }
+    }
+
+    private void OnPause(InputAction.CallbackContext ctx)
+    {
+        MenuEvents.Instance.OpenPauseMenu();
+        DisableActionMap();
     }
 }
