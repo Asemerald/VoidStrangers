@@ -218,8 +218,20 @@ public class MenuEvents : MonoBehaviour
         VisualElement hud = _document.rootVisualElement.Q<VisualElement>("HUD");
         
         hud.Q<Label>("LVL-Amount").text = "B0"+(LevelSetup.Instance.CurrentLevelIndex+1).ToString("D2");
-        hud.Q<Label>("HP-Amount").text  = PlayerData.Instance.healthPoints.ToString("D2");
-        hud.Q<Label>("BEE-Amount").text = PlayerData.Instance.bugAmount.ToString("D2");
+
+        if (PlayerData.Instance.bugAmount >= 0)
+        {
+            hud.Q<Label>("BEE-Amount").text = PlayerData.Instance.bugAmount.ToString("D2");
+            hud.Q<Label>("HP-Amount").text  = "HP"+PlayerData.Instance.healthPoints.ToString("D2");
+        }
+        else
+        {
+            hud.Q<Label>("BEE-Amount").text ="00";
+            hud.Q<Label>("HP-Amount").text  = "VOID";
+        }
+        
+        
+        
 
         if (PlayerData.Instance.hasScepter && !hud.Q<VisualElement>("Sceptre").ClassListContains("sceptre"))
         {
